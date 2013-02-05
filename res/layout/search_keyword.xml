@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" style="@style/OOScreen">
+<LinearLayout 
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+<LinearLayout style="@style/OOUniContWholePage">	
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/search_keyword_row_caption" />
+	<EditText android:id="@+id/keyword"
+		android:singleLine="true" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+	
+	
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/search_online_only_row_caption" />
+	<CheckBox android:id="@+id/online_only"		
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/search_with_photos_only_row_caption" />
+	<CheckBox android:id="@+id/with_photos_only"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+
+
+	<Button android:id="@+id/submit" android:text="@string/search_submit" style="@style/OOSubmitBtn" />
+
+
+</LinearLayout>
+</LinearLayout>
+</ScrollView>

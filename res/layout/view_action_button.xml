@@ -1,0 +1,9 @@
+<Button 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:id="@+id/action_button"     			
+	android:paddingTop="0dip"
+	android:paddingBottom="0dip"
+	android:paddingLeft="7dip"
+	android:paddingRight="7dip"
+	android:maxLines="1"		
+	android:textSize="11dip" />

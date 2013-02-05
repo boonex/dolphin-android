@@ -1,0 +1,11 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/OOUniContNoMargin" android:orientation="horizontal" android:id="@+id/layout">
+     
+	<TextView
+		android:id="@+id/text"
+		android:layout_width="fill_parent"
+		android:layout_height="40dip"
+		android:gravity="center_vertical"
+		android:textSize="20dip"
+		android:textAppearance="@style/MyDefaultTextAppearance" />
+
+</LinearLayout>

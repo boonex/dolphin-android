@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" style="@style/OOScreen">
+<LinearLayout 
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+<LinearLayout style="@style/OOUniContWholePage">	
+
+		
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/media_images_caption_image" />
+
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">
+
+	<TableRow android:gravity="center_vertical">
+
+		<ImageView android:id="@+id/media_images_image"
+			android:layout_width="100px"
+			android:layout_height="100px"			
+			android:background="#FFF"/>
+
+		<Button android:id="@+id/media_images_btn_from_camera" 
+	  		android:text="@string/media_images_from_camera"	  		
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+			
+		<Button android:id="@+id/media_images_btn_from_gallery" 
+	  		android:text="@string/media_images_from_gallery"	  		
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+
+	</TableRow>
+
+	</TableLayout>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/media_images_caption_title" />
+	<EditText android:id="@+id/media_images_title"
+		android:singleLine="true" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/media_images_caption_tags" />
+	<EditText android:id="@+id/media_images_tags"
+		android:singleLine="true" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+		
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/media_images_caption_desc" />
+	<EditText android:id="@+id/media_images_desc"
+		android:singleLine="false"
+		android:gravity="top"		
+		android:layout_width="fill_parent"
+		android:layout_height="200dip" />	
+							
+	<Button android:id="@+id/media_images_submit" 
+	  	android:text="@string/media_images_submit"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />	
+
+
+</LinearLayout>
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout style="@style/OOThumbCont" xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <com.boonex.oo.LoaderImageView style="@style/OOThumbImage" android:id="@+id/thumb_img" />
+
+	<FrameLayout style="@style/OOThumbWrapInfo" android:id="@+id/thumb_info_wrap">
+    <LinearLayout style="@style/OOThumbContInfo" android:id="@+id/thumb_info_cont">
+
+       	<TextView style="@style/OOThumbTitle" android:id="@+id/thumb_title" />
+            
+       	<TextView style="@style/OOThumbText1" android:id="@+id/thumb_text1" />
+            
+       	<TextView style="@style/OOThumbText2" android:id="@+id/thumb_text2" />            
+            
+    </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>
+
+  

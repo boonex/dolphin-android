@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	style="@style/OOScreen">
+	  
+<LinearLayout style="@style/OOUniContWholePage">
+	  
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/status_message" />
+		
+	<EditText android:id="@+id/status_message"
+		android:singleLine="true"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+				
+	<Button style="@style/OOSubmitBtn" android:id="@+id/submit" android:text="@string/status_message_update" />
+  
+</LinearLayout>
+  
+</LinearLayout>

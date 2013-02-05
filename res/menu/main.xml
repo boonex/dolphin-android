@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/main_add_site" 
+	android:title="@string/main_add_site"
+	android:icon="@drawable/ic_menu_add_site" >
+</item>
+<item android:id="@+id/main_about" 
+	android:title="@string/main_about" 
+	android:icon="@drawable/ic_menu_about" >
+</item>
+</menu>

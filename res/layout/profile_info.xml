@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	style="@style/OOScreen">
+	
+	<LinearLayout style="@style/OOThumbContInfoPage">
+    
+    	<com.boonex.oo.LoaderImageView style="@style/OOThumbImage" android:id="@+id/home_profile_thumb" />
+
+    	<LinearLayout style="@style/OOThumbContInfo">
+
+        	<TextView style="@style/OOThumbTitle" android:id="@+id/home_profile_username" />
+            
+        	<TextView style="@style/OOThumbText1" android:id="@+id/home_profile_info" />
+            
+        	<TextView style="@style/OOThumbText2" android:id="@+id/home_profile_status" />            
+            
+    	</LinearLayout>
+
+	</LinearLayout>
+	    
+    <ListView android:id="@+id/android:list" style="@style/OOListView" />	
+
+  	<TextView android:id="@+id/android:empty" style="@style/OOUniEmpty" android:text="@string/empty" />
+
+</LinearLayout>

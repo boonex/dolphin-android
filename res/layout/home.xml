@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" style="@style/OOScreen">
+
+<LinearLayout 
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:gravity="center_horizontal">
+<!-- 	
+	<LinearLayout style="@style/OOThumbContHome">
+    
+    	<com.boonex.oo.LoaderImageView style="@style/OOThumbImage" android:id="@+id/home_profile_thumb" />
+
+    	<LinearLayout style="@style/OOThumbContInfo">
+
+        	<TextView style="@style/OOThumbTitle" android:id="@+id/home_profile_username" />
+            
+        	<TextView style="@style/OOThumbText1" android:id="@+id/home_profile_info" />
+            
+        	<TextView style="@style/OOThumbText2" android:id="@+id/home_profile_status" />            
+            
+    	</LinearLayout>
+
+	</LinearLayout>
+ -->
+	<TableLayout 
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:paddingTop="10dip"
+    	android:paddingBottom="10dip"
+    	android:id="@+id/home_table" />       	
+
+</LinearLayout>
+
+</ScrollView>

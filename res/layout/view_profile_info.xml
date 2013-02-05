@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/OOProfileInfoCont" xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <TextView style="@style/OOProfileInfoTitle" android:id="@+id/profile_info_title" />
+
+	<TableLayout style="@style/OOProfileInfoData" android:id="@+id/profile_info_data" />
+    
+</LinearLayout>
+
+  

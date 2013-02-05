@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	style="@style/OOScreen">
+<LinearLayout 
+	android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+      
+    <ImageView 
+    	android:src="@drawable/about_logo"
+    	android:contentDescription="@string/title_about"
+    	android:layout_gravity="center_horizontal"
+    	android:layout_marginTop="10dip" 
+    	android:layout_width="250dip"
+    	android:layout_height="wrap_content" />
+        	
+	<LinearLayout 		
+		style="@style/OOUniCont"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="30dip"
+		android:layout_marginRight="30dip"
+		android:layout_marginBottom="30dip"
+		android:padding="20dip">        			
+		<TextView 
+			android:id="@+id/about_text"
+			android:text="@string/about_text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:textSize="14dip" 
+			android:textAppearance="@style/MyDefaultTextAppearance" 
+			android:scrollbars="vertical" />				
+	</LinearLayout>	
+	        	
+</LinearLayout>
+</ScrollView>

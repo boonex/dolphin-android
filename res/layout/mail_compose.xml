@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" style="@style/OOScreen">
+<LinearLayout 
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+<LinearLayout style="@style/OOUniContWholePage">
+
+		
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/mail_compose_recipient" />
+
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:stretchColumns="1">
+
+	<TableRow>
+
+		<EditText android:id="@+id/mail_compose_recipient"
+			android:singleLine="true" 
+			android:enabled="false"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:layout_column="1"
+			/>
+
+		<Button android:id="@+id/mail_compose_select_user" 
+	  		android:text="@string/mail_compose_select_user"	  		
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			 />
+
+	</TableRow>
+
+	</TableLayout>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/mail_compose_subject" />
+	<EditText android:id="@+id/mail_compose_subject"
+		android:singleLine="true" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:textAppearance="@style/MyDefaultTextAppearance"
+		android:text="@string/mail_compose_text" />
+	<EditText android:id="@+id/mail_compose_text"
+		android:singleLine="false"
+		android:gravity="top"		
+		android:layout_width="fill_parent"
+		android:layout_height="200dip" />	
+
+	<RadioGroup 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content">
+
+		<RadioButton android:text="@string/mail_compose_options_me" 
+			android:textColor="@drawable/xml_color"
+			android:id="@+id/mail_compose_options_me" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" />
+			
+		<RadioButton android:text="@string/mail_compose_options_recipient"
+			android:textColor="@drawable/xml_color"  
+			android:id="@+id/mail_compose_options_recipient" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" android:checked="true"/>
+					
+		<RadioButton android:text="@string/mail_compose_options_both"
+			android:textColor="@drawable/xml_color"  
+			android:id="@+id/mail_compose_options_both" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" />
+			
+	</RadioGroup>
+							
+	<Button android:id="@+id/mail_compose_send" android:text="@string/mail_compose_send" style="@style/OOSubmitBtn" />
+
+
+</LinearLayout>
+</LinearLayout>
+</ScrollView>

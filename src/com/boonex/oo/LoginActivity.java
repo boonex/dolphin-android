@@ -57,7 +57,7 @@ public class LoginActivity extends ActivityBase {
         	m_editSite.setText(i.getStringExtra("site"));
         	m_editUsername.setText(i.getStringExtra("username"));
         	m_editPassword.setText(i.getStringExtra("password"));        	
-        	m_buttonSubmit.setText("Login");
+        	m_buttonSubmit.setText(R.string.title_login);
         	if (i.getStringExtra("password").length() > 0)
         		m_cbRemebmer.setChecked(true);
         	

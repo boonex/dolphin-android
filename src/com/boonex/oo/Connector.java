@@ -24,7 +24,7 @@ import android.util.Log;
 /*
  * Example:
  *         
- *      BxConnector o = new BxConnector ("http://192.168.1.64/d700/xmlrpc/", "hihi", "aaaaa");
+ *      BxConnector o = new BxConnector ("http://192.168.1.64/d700/xmlrpc/", "test", "123456");
  *
  *      Object[] aParams = {
  *      		"123",
@@ -126,7 +126,8 @@ public class Connector extends Object implements Serializable {
     					final Object result = m_oClient.call(method, params);
     					final long t1 = System.currentTimeMillis();
     					handler.post(new Runnable() {
-    						public void run() {
+    						@SuppressWarnings("unchecked")
+							public void run() {
     							Log.i(TAG, "XML-RPC call took " + (t1-t0) + "ms");
     							if (null != m_dialogProgress) {    								
     								m_dialogProgress.dismiss();

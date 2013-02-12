@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="com_facebook_dialogloginactivity_ok_button">OK</string>
+    <string name="com_facebook_loginview_log_out_button">Выйти</string>
+    <string name="com_facebook_loginview_log_in_button">Зайти</string>
+    <string name="com_facebook_loginview_logged_in_as">Зашел как: %1$s</string>
+    <string name="com_facebook_loginview_logged_in_using_facebook">Зашел используя Facebook</string>
+    <string name="com_facebook_loginview_log_out_action">Выйти</string>
+    <string name="com_facebook_loginview_cancel_action">Отменить</string>
+    <string name="com_facebook_logo_content_description">Facebook логотип</string>
+    <string name="com_facebook_usersettingsfragment_log_in_button">Зайти&#8230;</string>
+    <string name="com_facebook_usersettingsfragment_logged_in">Зашел</string>
+    <string name="com_facebook_usersettingsfragment_not_logged_in">Не зашел</string>
+    <string name="com_facebook_placepicker_subtitle_format">%1$s • %2$,d были здесь</string>
+    <string name="com_facebook_placepicker_subtitle_catetory_only_format">%1$s</string>
+    <string name="com_facebook_placepicker_subtitle_were_here_only_format">%1$,d были здесь</string>
+    <string name="com_facebook_picker_done_button_text">Добро</string>
+    <string name="com_facebook_choose_friends">Выбрать друзей</string>
+    <string name="com_facebook_nearby">Рядом</string>
+    <string name="com_facebook_loading">Загрузка...</string>
+    <string name="com_facebook_internet_permission_error_title">AndroidManifest ошибка</string>
+    <string name="com_facebook_internet_permission_error_message">WebView требует разрешение на INTERNET</string>
+    <string name="com_facebook_requesterror_web_login">Пожалуйста зайдите через https://www.facebook.com or https://m.facebook.com, чтобы разрешить программе заходить через Facebook.</string>
+    <string name="com_facebook_requesterror_relogin">Программа не связана с Facebook, нужно зайти и связать эту программу с Facebook.</string>
+    <string name="com_facebook_requesterror_password_changed">Ваш пароль на Facebook изменился, нужно заново связать программу с Facebook.</string>
+    <string name="com_facebook_requesterror_reconnect">Произошла ошибка при соединении к Facebook, попробуйте заново связать программу с Facebook.</string>
+    <string name="com_facebook_requesterror_permissions">Связывание программы с Facebook провалилось из-за недостатка разрешений, нужно дать программе определенные разрешения для необходимых действий.</string>
+</resources>

@@ -108,6 +108,12 @@ public class SiteAdapter extends BaseAdapter {
 		initViews();
 	}
 	
+	public void updatePassword (int index, String password) {
+		Site site = m_listSites.get(index);
+		site.setPwd(password);
+		initViews();
+	}
+	
 	public void delete (int index) {
 		m_listSites.remove(index);
 		initViews();

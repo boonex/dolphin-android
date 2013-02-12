@@ -14,9 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
+
+import com.facebook.model.*;
 
 class XMLRPCSerializer {
 	static final String TAG_NAME = "name";
@@ -38,6 +41,10 @@ class XMLRPCSerializer {
 	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
 	
 	static void serialize(XmlSerializer serializer, Object object ) throws IOException {
+		
+		if (object instanceof JSONObject)
+			object = (GraphObject.Factory.create((JSONObject)object)).asMap(); // for facebook		
+		
 		// check for scalar types:
 		if (object instanceof Integer || object instanceof Short || object instanceof Byte) {
 			serializer.startTag(null, TYPE_I4).text(object.toString()).endTag(null, TYPE_I4);

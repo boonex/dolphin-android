@@ -33,6 +33,8 @@ public class HomeActivity extends ActivityBase {
 	
 	private static final String TAG = "OO HomeActivity";
 	
+	public static final int RESULT_LOGOUT = RESULT_FIRST_USER + 1;
+	
 	private static final int ACTIVITY_PROFILE_INFO=0;
 	private static final int ACTIVITY_STATUS_MESSAGE=1;
 	private static final int ACTIVITY_LOCATION=2;
@@ -52,6 +54,7 @@ public class HomeActivity extends ActivityBase {
     protected String m_sUserTitle;
     protected String m_sPasswd;
     protected String m_sSite;
+    protected int m_iSiteIndex;
     protected int m_iProtocolVer;
     protected Map<String, Object> m_map;
 
@@ -74,6 +77,7 @@ public class HomeActivity extends ActivityBase {
 
         Intent i = getIntent();
         m_sSite = i.getStringExtra("site");
+        m_iSiteIndex = i.getIntExtra ("index", 0);
     	m_sUsername = i.getStringExtra("username");
     	m_sPasswd = i.getStringExtra("password");
     	m_iProtocolVer = i.getIntExtra("protocol", 1);
@@ -289,8 +293,9 @@ public class HomeActivity extends ActivityBase {
     protected void reloadRemoteData () {
     	Object[] aParams;
     	String sMethod;
-        Connector o = new Connector (m_sSite, m_sUsername, m_sPasswd);
-        o.setPassword (o.md5(m_sPasswd));
+        Connector o = new Connector (m_sSite, m_sUsername, m_sPasswd);        
+        
+        o.setPassword (32 == m_sPasswd.length() || 40 == m_sPasswd.length() ? m_sPasswd : o.md5(m_sPasswd));
         o.setProtocolVer(m_iProtocolVer);
         
         Main.setConnector(o);
@@ -350,8 +355,14 @@ public class HomeActivity extends ActivityBase {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.home_logout:
-        	Main.setConnector(null);
-        	finish();
+			Bundle b = new Bundle();
+			b.putInt("index", m_iSiteIndex);
+			Intent i = new Intent();
+			i.putExtras(b);
+			
+			setResult(RESULT_LOGOUT, i);
+    	
+			finish();
             break;
         }
         return super.onOptionsItemSelected(item);
@@ -363,8 +374,7 @@ public class HomeActivity extends ActivityBase {
         if (null == i) 
         	return;
                 
-        switch(requestCode) {
-        
+        switch(requestCode) {        
         case ACTIVITY_STATUS_MESSAGE:        	
         	switch (resultCode) {
         	case StatusMessageActivity.RESULT_OK:
@@ -372,15 +382,9 @@ public class HomeActivity extends ActivityBase {
         			Bundle b = i.getExtras();
         			updateStatus (b.getString("status_message"));
         		}
-        		break;
-        		
-        	default:
-        		break;
+        		break;        		
         	}
-        	break;
-        	
-        default:
-    		break;        	
+        	break;        	
         }        
     }    
     

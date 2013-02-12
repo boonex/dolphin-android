@@ -13,7 +13,7 @@
 			android:id="@+id/map_view"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:apiKey="0CH9zUMDrXL-57XvWvHGINOD7RRe6hwsXxLgVjQ"  />
+			android:apiKey="@string/google_maps_key"  />
 
 	</LinearLayout>
 				

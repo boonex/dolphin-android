@@ -64,7 +64,7 @@ abstract public class ListActivityBase extends ListActivity {
     	
     	if (m_isToolbarEnabled) {
     		m_layoutToolbar = (LinearLayout)getLayoutInflater().inflate(R.layout.toolbar, null);    	
-    		LinearLayout.LayoutParams paramsToolbar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+    		LinearLayout.LayoutParams paramsToolbar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
     		this.addContentView(m_layoutToolbar, paramsToolbar);
     		
     		m_layoutToolbarContainer = (RelativeLayout) findViewById(R.id.toolbar_container);

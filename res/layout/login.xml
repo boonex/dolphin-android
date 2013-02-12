@@ -8,17 +8,7 @@
 	android:layout_height="wrap_content">
 
 	<LinearLayout style="@style/OOUniContWholePage">
-    
-		<TextView android:id="@+id/site_title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textAppearance="@style/MyDefaultTextAppearance"
-			android:text="@string/login_site_url" />
-		<EditText android:id="@+id/site"
-			android:singleLine="true" 
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content" />
-    
+        
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textAppearance="@style/MyDefaultTextAppearance"
@@ -37,17 +27,19 @@
 			android:password="true" 
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content" />
-    	
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:textAppearance="@style/MyDefaultTextAppearance" 
-			android:text="@string/login_remember_password" />
-		<CheckBox android:id="@+id/remember_password"		
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content" />
-		
+    			
 		<Button android:id="@+id/submit" android:text="@string/login_add" style="@style/OOSubmitBtn" />
 
+	</LinearLayout>
+		
+	<LinearLayout android:id="@+id/fb_login_button_wrapper" style="@style/OOUniContWholePage" android:visibility="gone">
+    		
+		<com.facebook.widget.LoginButton
+            android:id="@+id/fb_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+		        
 	</LinearLayout>
 
 </LinearLayout>

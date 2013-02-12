@@ -33,8 +33,8 @@ public class StatusMessageActivity extends ActivityBase {
         	m_editStatus.setText(s);
         }
         
-        MySetContextInterface listener = new MySetContextInterface() {
-        	public StatusMessageActivity context;
+        View.OnClickListener listener = new View.OnClickListener() {
+        	
             public void onClick(View view) {            	
     			
                 Connector o = Main.getConnector();
@@ -42,13 +42,13 @@ public class StatusMessageActivity extends ActivityBase {
                 Log.d(TAG, o.getPassword());
                 
                 Object[] aParams = {
-                		o.getUsername(), 
+                		o.getUsername(),
                 		o.getPassword(),
-                		m_editStatus.getText().toString()        		
+                		m_editStatus.getText().toString()
                 };                    
                 
                 o.execAsyncMethod("dolphin.updateStatusMessage", aParams, new Connector.Callback() {
-        			public void callFinished(Object result) {				 
+        			public void callFinished(Object result) {
         				Log.d(TAG, "dolphin.updateStatusMessage result: " + result.toString());        				
         				Bundle b = new Bundle();
     	    			b.putString("status_message", m_editStatus.getText().toString());
@@ -57,18 +57,12 @@ public class StatusMessageActivity extends ActivityBase {
     	    			setResult(RESULT_OK, i);
         				finish(); 
         			}
-                }, this.context);
+                }, m_actThis);
                 
             }          
-            public void setContext(StatusMessageActivity context) {
-            	this.context = context;            
-            }
-        };        
-        listener.setContext(this);
+        };                
         m_buttonSubmit.setOnClickListener(listener);        
     }
     
-    interface MySetContextInterface extends View.OnClickListener {
-    	public void setContext(StatusMessageActivity context);    
-    }    
+    
 }

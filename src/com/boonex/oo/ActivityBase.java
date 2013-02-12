@@ -1,6 +1,8 @@
 package com.boonex.oo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -64,7 +66,7 @@ abstract public class ActivityBase extends Activity {
     
     	if (m_isToolbarEnabled) {
     		m_layoutToolbar = (LinearLayout)getLayoutInflater().inflate(R.layout.toolbar, null);    	
-    		LinearLayout.LayoutParams paramsToolbar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+    		LinearLayout.LayoutParams paramsToolbar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
     		this.addContentView(m_layoutToolbar, paramsToolbar);
     		    		
     		m_layoutToolbarContainer = (RelativeLayout) findViewById(R.id.toolbar_container);    		
@@ -128,5 +130,28 @@ abstract public class ActivityBase extends Activity {
 
         	m_actThis.startActivity(intentHome);
         }    	
-    }    
+    } 
+
+    protected void alertError (Integer iLangString) {
+    	alertError(getString(iLangString));
+    }
+    
+    protected void alertError (String s) {
+        Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.error);				          
+        builder.setMessage(s);				        
+        builder.setNegativeButton(R.string.close, null); 
+        builder.show();	
+    }
+    
+    public String correctSiteUrl (String sUrl) {    	
+    	if (!sUrl.startsWith("http://") && !sUrl.startsWith("https://"))
+    		sUrl = "http://" + sUrl;
+    	if (!sUrl.endsWith("/"))
+    		sUrl += "/";
+    	if (!sUrl.endsWith("xmlrpc/"))
+    		sUrl += "xmlrpc/";    	
+    	return sUrl;
+    }
+    
 }

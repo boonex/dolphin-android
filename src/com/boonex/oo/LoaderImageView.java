@@ -65,7 +65,7 @@ public class LoaderImageView extends LinearLayout {
 		m_iNoImageResource = R.drawable.no_image; 
 		
 		m_viewImage = new ImageView(m_context);
-		m_viewImage.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		m_viewImage.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		
 		m_spinner = new ProgressBar(m_context);
 		m_spinner.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));

@@ -117,7 +117,7 @@ public class AddImageActivity extends ActivityBase {
                 		o.getPassword(),
                 		m_sAlbumName,
                 		ba,
-                		(new Integer(ba.length)).toString(),
+                		Integer.valueOf(ba.length).toString(),
                 		m_editTitle.getText().toString(),
                 		m_editTags.getText().toString(),
                 		m_editDesc.getText().toString()
@@ -209,7 +209,7 @@ public class AddImageActivity extends ActivityBase {
 					       		    Images.Media.ORIENTATION
 					       		};
 
-				 	  Cursor cur = this.managedQuery(imageUri, projection, null, null, null);
+				 	  Cursor cur = getContentResolver().query(imageUri, projection, null, null, null);
 				 	 
 				 	  if (cur.moveToFirst()) {				 		  
 				 		  

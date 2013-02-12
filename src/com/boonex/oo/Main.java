@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import com.boonex.oo.about.AboutActivity;
 import com.boonex.oo.home.HomeActivity;
+import com.facebook.Session;
 
 
 
@@ -28,6 +29,7 @@ public class Main extends ListActivityBase {
     private static final int ACTIVITY_LOGIN=0;
     private static final int ACTIVITY_HOME=1;
     private static final int ACTIVITY_ABOUT=2;
+    private static final int ACTIVITY_SITE_ADD=3;
     
     protected static Connector m_oConnector = null;    
 	protected SiteAdapter adapter;
@@ -75,50 +77,61 @@ public class Main extends ListActivityBase {
         Bundle b = i.getExtras();
         
         switch(requestCode) {
-        
-        case ACTIVITY_LOGIN:        	
+
+        case ACTIVITY_HOME:
         	switch (resultCode) {
-        	case LoginActivity.RESULT_ADD:
+        		case HomeActivity.RESULT_LOGOUT:
+        		{        		
+        			Session.getActiveSession().closeAndClearTokenInformation();        	
+        			Main.setConnector(null);
+
+        			int index = b.getInt("index");
+        			adapter.updatePassword(index, "");
+        			adapter.writeToFile(this);
+        			setListAdapter(adapter);
+
+        			Log.d(TAG, "Logged out:" + index);
+        		}
+        	}
+        break;
+
+        case ACTIVITY_SITE_ADD:
+        {
+			String site = b.getString("site");
+			if (site.length() > 0)
+				adapter.add(site, "", "");
+			adapter.writeToFile(this);
+			setListAdapter(adapter);
+        }
+        break;
+        	
+        case ACTIVITY_LOGIN:
+        	switch (resultCode) {
+        		case LoginActivity.RESULT_LOGIN:
         		{
         			int index = b.getInt("index");
         			String site = b.getString("site");
         			String username = b.getString("username");
         			String password = b.getString("password");
+        			int iProtocolVer = b.getInt("protocol");
         			Boolean isRememberPassword = b.getBoolean("remember_password");
-        			if (-1 == index) {
-        				if (site.length() > 0)
-        					adapter.add(site, username, isRememberPassword ? password : "");
-        			} else {
-        				adapter.update(index, site, username, isRememberPassword ? password : "");
-        			}
+
+        			adapter.update(index, site, username, isRememberPassword ? password : "");
         			adapter.writeToFile(this);
         			setListAdapter(adapter);
-        		}
-        		break;
-        	case LoginActivity.RESULT_LOGIN:
-    		{
-    			int index = b.getInt("index");
-    			String site = b.getString("site");
-    			String username = b.getString("username");
-    			String password = b.getString("password");
-    			int iProtocolVer = b.getInt("protocol");
-    			Boolean isRememberPassword = b.getBoolean("remember_password");
-    			
-    	        adapter.update(index, site, username, isRememberPassword ? password : "");
-    	        adapter.writeToFile(this);
-    	        setListAdapter(adapter);
-    	        
-    	        Intent intentHome = new Intent(this, HomeActivity.class);
-    	        intentHome.putExtra("site", site);
-    	        intentHome.putExtra("username", username);
-    	        intentHome.putExtra("password", password);
-    	        intentHome.putExtra("protocol", iProtocolVer);
-    	        
-    	        startActivityForResult(intentHome, ACTIVITY_HOME);
+
+        			Intent intentHome = new Intent(this, HomeActivity.class);
+        			intentHome.putExtra("site", site);
+        			intentHome.putExtra("username", username);
+        			intentHome.putExtra("password", password);
+        			intentHome.putExtra("protocol", iProtocolVer);
+        			intentHome.putExtra("index", index);
+
+        			startActivityForResult(intentHome, ACTIVITY_HOME);
     	       		        
-    		}
-    		break;        		
-        	case LoginActivity.RESULT_DELETE:
+        		}
+        		break;        		
+        		case LoginActivity.RESULT_DELETE:
         		{
         			int index = b.getInt("index");
         			adapter.delete(index);
@@ -126,13 +139,8 @@ public class Main extends ListActivityBase {
         			setListAdapter(adapter);
         		}
         		break;
-        	default:
-        		break;
         	}
-        	break;
-        	
-        default:
-    		break;        	
+        	break;        	
         }
         
     }            
@@ -194,7 +202,7 @@ public class Main extends ListActivityBase {
     }
     
     protected void actionAddSite () {
-    	Intent i = new Intent(this, LoginActivity.class);        
-    	startActivityForResult(i, ACTIVITY_LOGIN);
+    	Intent i = new Intent(this, SiteAddActivity.class);        
+    	startActivityForResult(i, ACTIVITY_SITE_ADD);
     }    
 }

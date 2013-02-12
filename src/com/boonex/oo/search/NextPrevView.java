@@ -22,7 +22,7 @@ public class NextPrevView extends LinearLayout {
     
     protected void addControls() {
     	
-    	LinearLayout.LayoutParams paramsText = new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+    	LinearLayout.LayoutParams paramsText = new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
     	paramsText.setMargins(5, 5, 5, 5);
     	addView(getButtonNextControl(), paramsText);
         	

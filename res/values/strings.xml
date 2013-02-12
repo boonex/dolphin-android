@@ -2,13 +2,19 @@
 <resources>	    
     <string name="app_name">Dolphin</string>
     <string name="title">Dolphin</string>
+    
+    <!--  Facebook APP ID -->
+    <string name="app_id">320473678069992</string>
+    
+    <!--  Google Maps API Key -->
+    <string name="google_maps_key">0CH9zUMDrXL-57XvWvHGINOD7RRe6hwsXxLgVjQ</string>
+    
     <string name="error">Error</string>
     <string name="close">Close</string>
     <string name="access_denied">Access denied</string>    
     <string name="loading">Working...</string>
     <string name="exception">Exception</string>
     <string name="x_yo">%s y/o</string>
-    <!-- <string name="x_yo_gender">%s y/o %s</string> -->
     <string name="about_text">Dolphin Mobile App for Android  v.%s
 &lt;br /&gt;&lt;br /&gt;
 Connect to community sites powered by BoonEx Dolphin and 

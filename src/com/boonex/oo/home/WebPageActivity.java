@@ -70,7 +70,7 @@ public class WebPageActivity extends ActivityBase {
 
     	if (m_isToolbarEnabled) {
     		m_progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
-    		ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, (int)(10 * scale + 0.5f)); // 10
+    		ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)(10 * scale + 0.5f)); // 10
     		m_layoutToolbar.addView(m_progressBar, 0, layoutParams);
     	}
     }

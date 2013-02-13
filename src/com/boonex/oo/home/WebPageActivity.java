@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.boonex.oo.ActivityBase;
+import com.boonex.oo.Main;
 import com.boonex.oo.R;
 import com.boonex.oo.friends.FriendsActivity;
 import com.boonex.oo.friends.FriendsHomeActivity;
@@ -50,17 +51,18 @@ public class WebPageActivity extends ActivityBase {
         String sUrl = i.getStringExtra("url");
         	
         setContentView(R.layout.web_page);
-        setTitleCaption(sTitle);            
+        setTitleCaption(sTitle);
         
-        m_viewWeb = (WebView) findViewById(R.id.web_view);
+        m_viewWeb = (WebView) findViewById(R.id.web_view);                		
         m_viewWeb.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);        
         m_viewWeb.setBackgroundColor(0);
         m_viewWeb.getSettings().setJavaScriptEnabled(true);
-        m_viewWeb.loadUrl(sUrl);
-        m_viewWeb.setWebViewClient(new WebPageViewClient(this));                
+        m_viewWeb.loadUrl(sUrl, Main.getHeadersForLoggedInUser());
+        m_viewWeb.setWebViewClient(new WebPageViewClient(this));
         m_viewWeb.setWebChromeClient(new WebPageChromeClient(this));
+        
     }
-
+    
     @Override
     public void setContentView (int iLayoutResID) {    	
     	super.setContentView(iLayoutResID);

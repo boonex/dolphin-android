@@ -323,8 +323,7 @@ public class XMLRPCClient {
 
 		// set POST body
 		HttpEntity entity = new StringEntity(bodyWriter.toString());
-		postMethod.setEntity(entity);
-		
+		postMethod.setEntity(entity);		
 		
 		// execute HTTP POST request				
 		HttpResponse response = client.execute(postMethod);

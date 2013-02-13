@@ -53,7 +53,7 @@ public class SiteAddActivity extends ActivityBase {
 	        return;
     	}
     	
-        Connector o = new Connector (sCorrectUrl, "", "");
+        Connector o = new Connector (sCorrectUrl, "", "", 0);
         
         Object[] aParams = {"O", "K"};
         

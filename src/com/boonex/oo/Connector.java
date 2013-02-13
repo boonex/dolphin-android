@@ -50,6 +50,7 @@ public class Connector extends Object implements Serializable {
 	transient protected XMLRPCClient m_oClient;
 	transient protected ProgressDialog m_dialogProgress;
 	protected String m_sUrl;
+	protected int m_iMemberId;
 	protected String m_sUsername;
 	protected String m_sPwd;
 	protected String m_sPwdClear;
@@ -60,8 +61,9 @@ public class Connector extends Object implements Serializable {
 	protected boolean m_bAlbumsReloadRequired;	
 	protected Context m_context;
 	
-	public Connector (String sUrl, String sUsername, String sPwd) {
+	public Connector (String sUrl, String sUsername, String sPwd, int iMemberId) {
 		m_sUrl = sUrl;
+		m_iMemberId = iMemberId;
 		m_sUsername = sUsername;
 		m_sPwdClear = sPwd;
 		m_sPwd = sPwd;
@@ -202,6 +204,9 @@ public class Connector extends Object implements Serializable {
 		return m_sUrl;
 	}
 
+	public int getMemberId() {
+		return m_iMemberId;
+	}
 	
 	public String getUsername() {
 		return m_sUsername;

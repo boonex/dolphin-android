@@ -1,5 +1,6 @@
 package com.boonex.oo;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class Main extends ListActivityBase {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, false, false, false);
-                 
+        
         setContentView(R.layout.main);        
         setTitleCaption (R.string.title);
         
@@ -111,6 +112,7 @@ public class Main extends ListActivityBase {
         		{
         			int index = b.getInt("index");
         			String site = b.getString("site");
+        			int iMemberId = b.getInt("member_id");
         			String username = b.getString("username");
         			String password = b.getString("password");
         			int iProtocolVer = b.getInt("protocol");
@@ -122,11 +124,12 @@ public class Main extends ListActivityBase {
 
         			Intent intentHome = new Intent(this, HomeActivity.class);
         			intentHome.putExtra("site", site);
+        			intentHome.putExtra("member_id", iMemberId);
         			intentHome.putExtra("username", username);
         			intentHome.putExtra("password", password);
         			intentHome.putExtra("protocol", iProtocolVer);
         			intentHome.putExtra("index", index);
-
+        		    
         			startActivityForResult(intentHome, ACTIVITY_HOME);
     	       		        
         		}
@@ -205,4 +208,18 @@ public class Main extends ListActivityBase {
     	Intent i = new Intent(this, SiteAddActivity.class);        
     	startActivityForResult(i, ACTIVITY_SITE_ADD);
     }    
+    
+    public static String getCookieForLoggedInUser () {
+    	Connector oConnector = Main.getConnector();
+    	if (Main.getConnector() != null && Main.getConnector().getProtocolVer() >= 4)
+    		return "memberID=" + oConnector.getMemberId() + "; memberPassword=" + oConnector.getPassword() + "; lang=" + Main.getLang();
+    	else
+    		return null;
+    }
+    public static Map<String, String> getHeadersForLoggedInUser () {
+    	Map<String, String> mapHeaders = new HashMap<String, String>();
+    	if (Main.getConnector() != null && Main.getConnector().getProtocolVer() >= 4)
+    		mapHeaders.put("Cookie", Main.getCookieForLoggedInUser ());    	
+    	return mapHeaders;
+    }
 }

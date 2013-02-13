@@ -50,6 +50,7 @@ public class HomeActivity extends ActivityBase {
     protected String m_sThumb;
     protected String m_sInfo;
     protected String m_sStatus;
+    protected int m_iMemberId;
     protected String m_sUsername;
     protected String m_sUserTitle;
     protected String m_sPasswd;
@@ -78,6 +79,7 @@ public class HomeActivity extends ActivityBase {
         Intent i = getIntent();
         m_sSite = i.getStringExtra("site");
         m_iSiteIndex = i.getIntExtra ("index", 0);
+        m_iMemberId = i.getIntExtra("member_id", 0);
     	m_sUsername = i.getStringExtra("username");
     	m_sPasswd = i.getStringExtra("password");
     	m_iProtocolVer = i.getIntExtra("protocol", 1);
@@ -293,7 +295,7 @@ public class HomeActivity extends ActivityBase {
     protected void reloadRemoteData () {
     	Object[] aParams;
     	String sMethod;
-        Connector o = new Connector (m_sSite, m_sUsername, m_sPasswd);        
+        Connector o = new Connector (m_sSite, m_sUsername, m_sPasswd, m_iMemberId);        
         
         o.setPassword (32 == m_sPasswd.length() || 40 == m_sPasswd.length() ? m_sPasswd : o.md5(m_sPasswd));
         o.setProtocolVer(m_iProtocolVer);

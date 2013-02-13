@@ -98,6 +98,7 @@ public class LoginActivity extends ActivityBase {
     			Bundle b = new Bundle();
     			b.putInt("index", m_iIndex);
     			b.putString("site", correctSiteUrl(m_sSiteUrl));
+    			b.putInt("member_id", iIdProfile);
     			b.putString("username", sProfileUsername != null ? sProfileUsername : m_editUsername.getText().toString());
     			b.putString("password", sProfilePwdHash != null ? sProfilePwdHash : m_editPassword.getText().toString());            	           
     			b.putBoolean("remember_password", true);
@@ -246,7 +247,7 @@ public class LoginActivity extends ActivityBase {
 	        return;
     	}
     	
-        Connector o = new Connector (sCorrectUrl, m_editUsername.getText().toString(), m_editPassword.getText().toString());
+        Connector o = new Connector (sCorrectUrl, m_editUsername.getText().toString(), m_editPassword.getText().toString(), 0);
                 
         m_oCallback.setMethod(sMethod);
         m_oCallback.setParams(aParams);
@@ -259,7 +260,7 @@ public class LoginActivity extends ActivityBase {
     	String sMethod = "dolphin.service";    	
     	String sCorrectUrl = correctSiteUrl(m_sSiteUrl);
     	    	
-        Connector o = new Connector (sCorrectUrl, "", "");
+        Connector o = new Connector (sCorrectUrl, "", "", 0);
         
         Object[] aEmptyArray = {};
         Object[] aParams = {"facebook_connect", "supported", aEmptyArray, "Module"};

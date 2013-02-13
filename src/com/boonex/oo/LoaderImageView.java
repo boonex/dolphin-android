@@ -2,6 +2,7 @@ package com.boonex.oo;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URLConnection;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -142,7 +143,11 @@ public class LoaderImageView extends LinearLayout {
 	 * @throws MalformedURLException
 	 */
 	private static Drawable getDrawableFromUrl(final String url) throws IOException, MalformedURLException {
-		return Drawable.createFromStream(((java.io.InputStream)new java.net.URL(url).getContent()), "name");
+		URLConnection urlCon = (new java.net.URL(url)).openConnection();
+		String sCookie = Main.getCookieForLoggedInUser();
+		if (sCookie != null)
+			urlCon.addRequestProperty("Cookie", sCookie);
+		return Drawable.createFromStream(urlCon.getInputStream(), "name");
 	}
 
 	

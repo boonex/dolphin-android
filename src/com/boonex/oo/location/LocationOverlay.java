@@ -1,6 +1,7 @@
 package com.boonex.oo.location;
 
 import java.util.Iterator;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -95,9 +96,12 @@ public class LocationOverlay  extends Overlay {
     	return hitMapLocation; 
     }
     
-    private void drawMapLocations(Canvas canvas, MapView	mapView, boolean shadow) {
+    private void drawMapLocations(Canvas canvas, MapView mapView, boolean shadow) {    	
+    	List<GeoPoint> lLocations = locationActivity.getMapLocations();
+    	if (null == lLocations)
+    		return;
     	
-		Iterator<GeoPoint> iterator = locationActivity.getMapLocations().iterator();
+		Iterator<GeoPoint> iterator = lLocations.iterator();
 		Point screenCoords = new Point();
     	while(iterator.hasNext()) {	   
     		GeoPoint location = iterator.next();

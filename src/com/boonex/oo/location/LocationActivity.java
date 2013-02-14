@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.boonex.oo.Connector;
 import com.boonex.oo.Main;
@@ -121,20 +122,27 @@ public class LocationActivity extends MapActivityBase {
 					
 				} else {
 					
-					Map<String, String> map = (Map<String, String>)result;
+					Map<String, String> map = (Map<String, String>)result;					
 					String sLat = map.get("lat");
 					String sLng = map.get("lng");
 					String sType = map.get("type");
 					String sZoom = map.get("zoom");
-					//map.get("country");
-					//map.get("address");
 				 
-					int iLat = (int)(Double.parseDouble(sLat)*1000000);
-					int iLng = (int)(Double.parseDouble(sLng)*1000000);
+					int iLat = 0;
+					int iLng = 0;
+					int iZoom = 1;
+					try {
+						iLat = (int)(Double.parseDouble(sLat)*1000000);
+						iLng = (int)(Double.parseDouble(sLng)*1000000);
+						iZoom = Integer.parseInt(sZoom);
+					} catch (NumberFormatException e) {
+					
+					}
 				
 					setMapLocation(iLat, iLng);
-					m_viewMap.getController().setZoom(Integer.parseInt(sZoom));
-					m_viewMap.getController().animateTo(new GeoPoint(iLat, iLng));				
+					m_viewMap.getController().setZoom(iZoom);
+					if (iLat != 0 && iLng != 0)
+						m_viewMap.getController().animateTo(new GeoPoint(iLat, iLng));				
 					m_locationOverlay = new LocationOverlay((LocationActivity)m_actThis);
 					m_viewMap.getOverlays().add(m_locationOverlay);
 					if (sType.equals("satellite") || sType.equals("hybrid"))
@@ -153,6 +161,12 @@ public class LocationActivity extends MapActivityBase {
 	}    
 
 	public void setMapLocation(int lat, int lng) {
+		if (0 == lat && 0 == lng) {
+			Toast toast = Toast.makeText(this, getString(R.string.location_undefined), Toast.LENGTH_LONG);
+			toast.show();
+			return;
+		}
+		
 		if (m_mapLocations == null) {
 			m_mapLocations = new ArrayList<GeoPoint>();			
 		} else {

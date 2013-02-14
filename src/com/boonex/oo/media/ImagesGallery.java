@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -40,6 +42,10 @@ public class ImagesGallery extends ActivityBase {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, false);
 		
+        // Remove title bar & notification bar 
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
 		this.setContentView(R.layout.media_images_gallery);
 		setTitleCaption (R.string.title_image_gallery);
 		
@@ -49,16 +55,22 @@ public class ImagesGallery extends ActivityBase {
 		m_btnNext = (Button)this.findViewById(R.id.media_images_gallery_next);
 		m_btnPrev = (Button)this.findViewById(R.id.media_images_gallery_prev);
 		
+		int iSavedIndex = -1;
+        Object data = getLastNonConfigurationInstance();
+        if (data != null)
+        	iSavedIndex = (Integer)data;
+        	
         Intent i = getIntent();                
         m_sUsername = i.getStringExtra("username");
         m_listImages = (List<Map<String, Object>>)i.getSerializableExtra("list");
         Log.d(TAG, "m_listImages: " + m_listImages);
         if (m_listImages != null) {
-        	setImageIndex (i.getIntExtra("index", 0));        	
+        	setImageIndex (-1 == iSavedIndex ? i.getIntExtra("index", 0) : iSavedIndex);        	
         } else {
         	m_sAlbumId = i.getStringExtra("album_id");
         	m_sPhotoId = i.getStringExtra("photo_id");
         	reloadRemoteData();
+        	setImageIndex (-1 == iSavedIndex ? i.getIntExtra("index", 0) : iSavedIndex);
         }
 		
 		m_btnNext.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +86,11 @@ public class ImagesGallery extends ActivityBase {
 		});		
 	}
 
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+        return m_iIndex;
+    }
+	
     protected void reloadRemoteData() {
         
     	Connector oConnector = Main.getConnector();

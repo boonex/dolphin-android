@@ -2,6 +2,7 @@ package com.boonex.oo.media;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,9 +50,13 @@ public class AddImageActivity extends ActivityBase {
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b, false);
-        
+                
         setContentView(R.layout.media_images_add);
         setTitleCaption (R.string.title_image_add);
+        
+        Object data = getLastNonConfigurationInstance();
+        if (data != null)
+        	m_bmpImage = (Bitmap)data;         
         
         m_buttonSubmit = (Button) findViewById(R.id.media_images_submit);
         m_buttonFromCamera = (Button) findViewById(R.id.media_images_btn_from_camera);
@@ -157,6 +163,11 @@ public class AddImageActivity extends ActivityBase {
         });
  
     }
+ 
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+        return m_bmpImage;
+    }
     
 	/**
 	 * Retrieves the returned image from the Intent, inserts it into the MediaStore, which
@@ -168,17 +179,12 @@ public class AddImageActivity extends ActivityBase {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {		
 		super.onActivityResult(requestCode, resultCode, intent);
-		
-		Log.i(TAG, "Result code = " + resultCode);				
-		Log.i(TAG, "Request code = " + requestCode);				
-		
+				
 		if (resultCode == RESULT_CANCELED) {
 			showToast(getString(R.string.media_images_add_activity_canceled));
 			return;
 		}
-		
-		Log.i(TAG, "intent = " + intent);
-		
+				
 		if (requestCode == CAMERA_ACTIVITY || requestCode == PICKER_ACTIVITY) {
 			
 			Bitmap tmpImage = null;				
@@ -189,11 +195,26 @@ public class AddImageActivity extends ActivityBase {
 					Log.i(TAG, "Bundle = " + b);				
 					tmpImage = (Bitmap) b.get("data");
 				} else {
-					Log.i(TAG, "Bundle is NULL");
 					File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);
-					Log.i(TAG, "Path = " + Environment.getExternalStorageDirectory());
-					Log.i(TAG, "AbsolutePath = " + file.getAbsolutePath());
 					tmpImage = BitmapFactory.decodeFile(file.getAbsolutePath());
+					
+					try {
+						
+						ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+						String orientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+						Matrix matrix = new Matrix();
+						if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_90+""))
+							matrix.postRotate(90);
+						else if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_180+""))
+							matrix.postRotate(180);
+						else if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_270+""))
+							matrix.postRotate(270);
+						tmpImage = Bitmap.createBitmap(tmpImage, 0, 0, tmpImage.getWidth(), tmpImage.getHeight(), matrix, true);
+						
+					} catch (IOException e) {
+					}
+					
+					
 				}
 			} else { // media library
 				
@@ -214,14 +235,16 @@ public class AddImageActivity extends ActivityBase {
 				 	  if (cur.moveToFirst()) {				 		  
 				 		  
 				 		  int dataColumn = cur.getColumnIndex(Images.Media.DATA);
-				 		  int mimeTypeColumn = cur.getColumnIndex(Images.Media.MIME_TYPE);
 				 		  int orientationColumn = cur.getColumnIndex(Images.Media.ORIENTATION);
 		              	            				       
-				 		  Log.i(TAG, "orientation = " + cur.getString(orientationColumn));
-				 		  Log.i(TAG, "data = " + cur.getString(dataColumn));
-				 		  Log.i(TAG, "mime/type = " + cur.getString(mimeTypeColumn));
-
-				 		  tmpImage = BitmapFactory.decodeFile(cur.getString(dataColumn));				 		 
+				 		  tmpImage = BitmapFactory.decodeFile(cur.getString(dataColumn));
+				 		  
+				 		  int iOrientationAngle = Integer.parseInt(cur.getString(orientationColumn));
+				 		  
+				 		  Matrix matrix = new Matrix();
+				 		  matrix.postRotate(iOrientationAngle);				 			  
+				 		  tmpImage = Bitmap.createBitmap(tmpImage, 0, 0, tmpImage.getWidth(), tmpImage.getHeight(), matrix, true);
+				 		  
 				 	  } 
 				 	  
 			    } else {			 		  
@@ -237,13 +260,11 @@ public class AddImageActivity extends ActivityBase {
 				scaleFactor = ((float) MAX_WIDTH) / w;
 			else
 				scaleFactor = ((float) MAX_HEIGHT) / h;				       
-		
-		    // create matrix for the manipulation		
-		    Matrix matrix = new Matrix();		
-		    // resize the bit map		
+				
+		    Matrix matrix = new Matrix();				
 		    matrix.postScale(scaleFactor, scaleFactor);
 		        
-		    // recreate the new Bitmap
+		    // recreate final bitmap
 		    m_bmpImage = Bitmap.createBitmap(tmpImage, 0, 0, w, h, matrix, true); 
 		
 		    tmpImage.recycle();

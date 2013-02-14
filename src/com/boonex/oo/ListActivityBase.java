@@ -85,9 +85,11 @@ abstract public class ListActivityBase extends ListActivity {
 
         	        Connector o = Main.getConnector();
         	        intentHome.putExtra("site", o.getSiteUrl());
+        	        intentHome.putExtra("member_id", o.getMemberId());
         	        intentHome.putExtra("username", o.getUsername());
         	        intentHome.putExtra("password", o.getPasswordClear());
         	        intentHome.putExtra("protocol", o.getProtocolVer());
+        	        intentHome.putExtra("index", o.getSiteIndex());
 
         	        m_actThis.startActivity(intentHome); 
 

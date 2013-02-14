@@ -20,6 +20,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.ListAdapter;
 
 /*
  * Example:
@@ -198,6 +199,17 @@ public class Connector extends Object implements Serializable {
             e.printStackTrace();
             return ""; 
        }			
+	}
+
+	public int getSiteIndex() {
+		ListAdapter lSites = Main.MainActivity.getListAdapter();
+		int l = lSites.getCount();
+		for (int i = 0 ; i < l ; ++i) {
+			Site s = (Site)lSites.getItem(i);
+			if (s.getUrl().equalsIgnoreCase(m_sUrl) && s.getUsername() == m_sUsername)
+				return i;
+		}
+		return 0;
 	}
 
 	public String getSiteUrl() {

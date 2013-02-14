@@ -32,6 +32,8 @@ public class Main extends ListActivityBase {
     private static final int ACTIVITY_ABOUT=2;
     private static final int ACTIVITY_SITE_ADD=3;
     
+    public static Main MainActivity = null;
+    
     protected static Connector m_oConnector = null;    
 	protected SiteAdapter adapter;
 	protected FrameLayout m_viewBtnAddSite; 
@@ -41,6 +43,8 @@ public class Main extends ListActivityBase {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, false, false, false);
+        
+        MainActivity = this;
         
         setContentView(R.layout.main);        
         setTitleCaption (R.string.title);

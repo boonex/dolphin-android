@@ -22,6 +22,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
+import com.boonex.oo.Main;
+
 import android.util.Xml;
 
 
@@ -323,7 +325,12 @@ public class XMLRPCClient {
 
 		// set POST body
 		HttpEntity entity = new StringEntity(bodyWriter.toString());
-		postMethod.setEntity(entity);		
+		postMethod.setEntity(entity);
+		
+		// add cookies for logged in user
+		String sCookie = Main.getCookieForLoggedInUser();
+		if (sCookie != null)
+			postMethod.addHeader("Cookie", sCookie);
 		
 		// execute HTTP POST request				
 		HttpResponse response = client.execute(postMethod);

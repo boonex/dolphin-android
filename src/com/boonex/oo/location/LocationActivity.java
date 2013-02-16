@@ -130,7 +130,7 @@ public class LocationActivity extends MapActivityBase {
 				 
 					int iLat = 0;
 					int iLng = 0;
-					int iZoom = 1;
+					int iZoom = 3;
 					try {
 						iLat = (int)(Double.parseDouble(sLat)*1000000);
 						iLng = (int)(Double.parseDouble(sLng)*1000000);

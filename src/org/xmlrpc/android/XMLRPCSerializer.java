@@ -14,14 +14,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
+import android.util.Log;
+
 import com.facebook.model.*;
 
 class XMLRPCSerializer {
+	static final String TAG = "XMLRPCSerializer";
+	
 	static final String TAG_NAME = "name";
 	static final String TAG_MEMBER = "member";
 	static final String TAG_VALUE = "value";
@@ -42,8 +48,22 @@ class XMLRPCSerializer {
 	
 	static void serialize(XmlSerializer serializer, Object object ) throws IOException {
 		
-		if (object instanceof JSONObject)
-			object = (GraphObject.Factory.create((JSONObject)object)).asMap(); // for facebook		
+		// check for facebook types
+		if (object instanceof JSONObject) {
+			object = (GraphObject.Factory.create((JSONObject)object)).asMap(); 		
+		} else if (object instanceof JSONArray) {
+			List<Object> list = new ArrayList<Object>();
+			JSONArray jsonArray = (JSONArray)object; 
+			int len = jsonArray.length();
+			for (int i=0; i<len ; i++) {
+				try {
+					list.add(jsonArray.get(i));
+				} catch (JSONException e) {
+					Log.d(TAG, e.toString());
+				}
+			}
+			object = list;
+		}
 		
 		// check for scalar types:
 		if (object instanceof Integer || object instanceof Short || object instanceof Byte) {
@@ -112,7 +132,7 @@ class XMLRPCSerializer {
 			}
 			serializer.endTag(null, TYPE_STRUCT);
 		} else {
-			throw new IOException("Cannot serialize " + object);
+			throw new IOException("Cannot serialize " + object.getClass() + ": " + object);
 		}
 	}
 	

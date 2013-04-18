@@ -273,8 +273,14 @@ public class LoginActivity extends ActivityBase {
     		
     		public void callFinished(Object result) {
     			Log.d(TAG, "dolphin.service result: " + result + " / class: " + result.getClass());
-    			if (!(result instanceof String) || 1 != Integer.parseInt((String)result))
+    			
+    			try {
+    				if (!(result instanceof String) || 1 != Integer.parseInt((String)result))
+    					return;
+    			} catch (NumberFormatException e) {
+    				Log.d(TAG, "dolphin.service execption: " + e);
     				return;
+    			}
     				
     			m_viewLoginButtonWrapperFB.setVisibility(View.VISIBLE);
     			m_buttonLoginFB.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {

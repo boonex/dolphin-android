@@ -2,21 +2,21 @@ package com.boonex.oo.media;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,7 +49,7 @@ public class AddImageActivity extends ActivityBase {
     
     @Override
     protected void onCreate(Bundle b) {
-        super.onCreate(b, false);
+        super.onCreate(b, true, false);  
                 
         setContentView(R.layout.media_images_add);
         setTitleCaption (R.string.title_image_add);
@@ -189,13 +189,17 @@ public class AddImageActivity extends ActivityBase {
 			
 			Bitmap tmpImage = null;				
 			Bundle b;
+			String sMsg = null;
 			
-			if (requestCode == CAMERA_ACTIVITY) { 				
+			if (requestCode == CAMERA_ACTIVITY) { 		
+				
 				if (null != intent && null != (b = intent.getExtras()) && null != (m_bmpImage = (Bitmap) b.get("data"))) {
-					Log.i(TAG, "Bundle = " + b);				
+								
 					tmpImage = (Bitmap) b.get("data");
+					
 				} else {
-					File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);
+					
+					File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);					
 					tmpImage = BitmapFactory.decodeFile(file.getAbsolutePath());
 					
 					try {
@@ -208,10 +212,14 @@ public class AddImageActivity extends ActivityBase {
 						else if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_180+""))
 							matrix.postRotate(180);
 						else if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_270+""))
-							matrix.postRotate(270);
+							matrix.postRotate(270);						
 						tmpImage = Bitmap.createBitmap(tmpImage, 0, 0, tmpImage.getWidth(), tmpImage.getHeight(), matrix, true);
 						
+						
 					} catch (IOException e) {
+						sMsg = e.toString();
+					} catch (IllegalArgumentException e) {
+						sMsg = e.toString();
 					}
 					
 					
@@ -219,59 +227,48 @@ public class AddImageActivity extends ActivityBase {
 			} else { // media library
 				
 			    Uri imageUri = intent.getData();
-			    String imgPath = imageUri.toString();
+			    Log.i(TAG, "Image URI: " + imageUri);
 			    
-			    if (imageUri.toString().contains("content:")){ //file is in media library
-			    	 
-				 	String[] projection = new String[] {
-					       		    Images.Media._ID,
-					       		    Images.Media.DATA,
-					       		    Images.Media.MIME_TYPE,
-					       		    Images.Media.ORIENTATION
-					       		};
-
-				 	  Cursor cur = getContentResolver().query(imageUri, projection, null, null, null);
-				 	 
-				 	  if (cur.moveToFirst()) {				 		  
-				 		  
-				 		  int dataColumn = cur.getColumnIndex(Images.Media.DATA);
-				 		  int orientationColumn = cur.getColumnIndex(Images.Media.ORIENTATION);
-		              	            				       
-				 		  tmpImage = BitmapFactory.decodeFile(cur.getString(dataColumn));
-				 		  
-				 		  int iOrientationAngle = Integer.parseInt(cur.getString(orientationColumn));
-				 		  
-				 		  Matrix matrix = new Matrix();
-				 		  matrix.postRotate(iOrientationAngle);				 			  
-				 		  tmpImage = Bitmap.createBitmap(tmpImage, 0, 0, tmpImage.getWidth(), tmpImage.getHeight(), matrix, true);
-				 		  
-				 	  } 
-				 	  
-			    } else {			 		  
-			    	tmpImage = BitmapFactory.decodeFile(imgPath.replace("file://", ""));
+			    try {
+                    tmpImage = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+			    } catch (FileNotFoundException e) {
+			    	sMsg = e.toString();
+			    } catch (IOException e) {
+			    	sMsg = e.toString();
 			    }
+
+			}
+			
+			if (null == sMsg) {
+				
+				float scaleFactor;
+				int w = tmpImage.getWidth();
+				int h = tmpImage.getHeight();
+				if (w > h)
+					scaleFactor = ((float) MAX_WIDTH) / w;
+				else
+					scaleFactor = ((float) MAX_HEIGHT) / h;				       
+				
+				Matrix matrix = new Matrix();				
+				matrix.postScale(scaleFactor, scaleFactor);
+		        
+				// recreate final bitmap
+				if (m_bmpImage != null) {
+					m_viewImage.setImageBitmap(null);
+					m_bmpImage = null;
+				}
+				m_bmpImage = Bitmap.createBitmap(tmpImage, 0, 0, w, h, matrix, true); 
+
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+					tmpImage.recycle();
+		    					
+				m_viewImage.setImageBitmap(m_bmpImage); // Display image in the View				
+			
+				sMsg = getString(R.string.media_images_add_image_selected);
 					
 			}
 			
-			float scaleFactor;
-			int w = tmpImage.getWidth();
-			int h = tmpImage.getHeight();
-			if (w > h)
-				scaleFactor = ((float) MAX_WIDTH) / w;
-			else
-				scaleFactor = ((float) MAX_HEIGHT) / h;				       
-				
-		    Matrix matrix = new Matrix();				
-		    matrix.postScale(scaleFactor, scaleFactor);
-		        
-		    // recreate final bitmap
-		    m_bmpImage = Bitmap.createBitmap(tmpImage, 0, 0, w, h, matrix, true); 
-		
-		    tmpImage.recycle();
-		        
-			m_viewImage.setImageBitmap(m_bmpImage); // Display image in the View				
-				
-			showToast(getString(R.string.media_images_add_image_selected));
+			showToast(sMsg);
 		}			
 
 	}

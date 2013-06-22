@@ -74,6 +74,7 @@ public class ImagesFilesActivity extends MediaFilesActivity {
     	i.putExtra("username", m_sUsername);
     	i.putExtra("index", position);
     	i.putExtra("list", (Serializable)list);
+    	i.putExtra("album_default", m_isAlbumDefault);
     	startActivityForResult(i, 0);
     	        
     }        

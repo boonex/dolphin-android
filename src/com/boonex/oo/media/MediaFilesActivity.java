@@ -26,6 +26,7 @@ public class MediaFilesActivity extends ListActivityBase {
 	protected String m_sMediaId;
 	protected String m_sAlbumId;
 	protected String m_sAlbumName;
+	protected boolean m_isAlbumDefault;
 	protected Object m_aFiles[];
 	protected Connector m_oConnector;
 	
@@ -39,6 +40,7 @@ public class MediaFilesActivity extends ListActivityBase {
         m_sAlbumId = i.getStringExtra("album_id");
         m_sAlbumName = i.getStringExtra("album_name");
         m_sMediaId = i.getStringExtra("media_id");
+        m_isAlbumDefault = i.getBooleanExtra("album_default", true);        
         if (null != m_sMediaId) {
         	TextView m_editSite = (TextView) findViewById(android.R.id.empty);
         	m_editSite.setVisibility(View.GONE);

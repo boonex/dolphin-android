@@ -82,6 +82,7 @@ public class MediaAlbumsActivity extends ListActivityBase {
     	i.putExtra("username", m_sUsername);
     	i.putExtra("album_id", sAlbumId);
     	i.putExtra("album_name", albumsAdapter.getAlbumNameRaw(position));
+    	i.putExtra("album_default", albumsAdapter.isAlbumDefault(position));
     	startActivityForResult(i, 0);
     }
 

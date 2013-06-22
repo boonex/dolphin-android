@@ -2,7 +2,7 @@
     <color name="text_color">#ff333333</color>
     
     <!-- List View -->
-    <color name="list_cache_color_hint">#ff333333</color>
+    <color name="list_cache_color_hint">#00000000</color>
     
     <!-- Thumbnail -->
     <color name="thumb_image_bg">#ff000000</color>

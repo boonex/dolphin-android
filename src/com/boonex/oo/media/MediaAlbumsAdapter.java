@@ -58,7 +58,7 @@ public class MediaAlbumsAdapter extends BaseAdapter {
 		if (i < 0 || i >= m_listAlbums.size())			
 			return "Out of range";		
 		Map<String, String> map = (Map<String, String>)m_listAlbums.get(i);		
-		Integer iNum = new Integer(map.get("Num"));
+		Integer iNum = Integer.valueOf(map.get("Num"));
 		if (iNum > 0)
 			return String.format(m_context.getString(R.string.media_album_name_num), map.get("Title"), iNum);
 		else
@@ -74,4 +74,11 @@ public class MediaAlbumsAdapter extends BaseAdapter {
 		Map<String, String> map = (Map<String, String>)m_listAlbums.get(i);
 		return map.get("Title");
 	}
+	
+	public boolean isAlbumDefault(int i) {
+		Map<String, String> map = (Map<String, String>)m_listAlbums.get(i);
+		String s = map.get("DefaultAlbum");		
+		return null == s || s.equals("1") ? true : false;
+	}	
+	
 }

@@ -32,6 +32,7 @@ public class ImagesGallery extends ActivityBase {
 	protected String m_sUsername;
 	protected String m_sAlbumId;
 	protected String m_sPhotoId;
+	protected Boolean m_isAlbumDefault;
 	protected Integer m_iIndex = 0;
 	protected List<Map<String, Object>> m_listImages;
 	protected ImagesGallery m_actImagesGallery;	
@@ -62,6 +63,7 @@ public class ImagesGallery extends ActivityBase {
         	
         Intent i = getIntent();                
         m_sUsername = i.getStringExtra("username");
+        m_isAlbumDefault = i.getBooleanExtra("album_default", true);
         m_listImages = (List<Map<String, Object>>)i.getSerializableExtra("list");
         Log.d(TAG, "m_listImages: " + m_listImages);
         if (m_listImages != null) {
@@ -193,7 +195,7 @@ public class ImagesGallery extends ActivityBase {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
         Connector oConnector = Main.getConnector();
-        int iMenu = m_sUsername.equalsIgnoreCase(oConnector.getUsername()) ? R.menu.media_images_gallery_owner : R.menu.media_images_gallery; 
+        int iMenu = m_isAlbumDefault && m_sUsername.equalsIgnoreCase(oConnector.getUsername()) ? R.menu.media_images_gallery_owner : R.menu.media_images_gallery; 
                 		
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(iMenu, menu);

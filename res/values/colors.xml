@@ -1,0 +1,15 @@
+<resources>
+    <color name="text_color">#ff333333</color>
+    
+    <!-- List View -->
+    <color name="list_cache_color_hint">#ff333333</color>
+    
+    <!-- Thumbnail -->
+    <color name="thumb_image_bg">#ff000000</color>
+    
+    <!-- Home Button -->
+    <color name="home_button_bubble_text_color">#fff</color>
+    
+	<!-- Action Bar -->    
+    <color name="actionbar_title_color">#ff333333</color>
+</resources>

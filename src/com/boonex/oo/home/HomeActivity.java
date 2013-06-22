@@ -228,7 +228,7 @@ public class HomeActivity extends ActivityBase {
 			Map<String, String> map = (Map<String, String>)aMenu[i];
     		HomeBtn oBtn;
             String sTitle = map.get("title");            
-            int iAction = new Integer(map.get("action"));
+            int iAction = Integer.valueOf(map.get("action"));
             String sActionData = map.get("action_data");
             String sBubble = map.get("bubble");
     		String sIcon = map.get("icon");

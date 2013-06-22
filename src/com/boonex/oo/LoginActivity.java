@@ -124,7 +124,7 @@ public class LoginActivity extends ActivityBase {
     
     @Override
     protected void onCreate(Bundle b) {
-        super.onCreate(b, false, false, false);
+        super.onCreate(b, true, false, false);
         
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(b);

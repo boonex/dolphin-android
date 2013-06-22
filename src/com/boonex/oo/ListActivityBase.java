@@ -1,114 +1,50 @@
 package com.boonex.oo;
 
-import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.boonex.oo.home.HomeActivity;
+import com.boonex.oo.actionbar.ActionBarListActivity;
 
-abstract public class ListActivityBase extends ListActivity {
+abstract public class ListActivityBase extends ActionBarListActivity {
 	
-	protected RelativeLayout m_layoutToolbarContainer;
-	protected LinearLayout m_layoutToolbar;
-	protected ImageButton m_btnReload;
-	protected ImageButton m_btnHome;
-	protected ImageButton m_btnAction;
-	
+	protected ActivityBaseHelper m_oActivityHelper;
+
 	protected View m_viewMain;
-	
+		
 	protected Boolean m_isToolbarEnabled;
 	protected Boolean m_isReloadEnabled;
 	protected ListActivityBase m_actThis;
 	protected Bundle m_savedInstanceState;
 	
 	@Override
-    public void onCreate(Bundle savedInstanceState) {		
+    protected void onCreate(Bundle savedInstanceState) {		
 		this.onCreate (savedInstanceState, true, true);			
     }
     
-    public void onCreate(Bundle savedInstanceState, boolean isToolbarEnabled) {
+	protected void onCreate(Bundle savedInstanceState, boolean isToolbarEnabled) {
     	this.onCreate (savedInstanceState, isToolbarEnabled, true);
     }
     
-    public void onCreate(Bundle savedInstanceState, boolean isToolbarEnabled, boolean isReloadEnabled) {
+	protected void onCreate(Bundle savedInstanceState, boolean isToolbarEnabled, boolean isReloadEnabled) {
     	this.onCreate (savedInstanceState, isToolbarEnabled, isReloadEnabled, true);
     }
     
-    public void onCreate(Bundle savedInstanceState, boolean isToolbarEnabled, boolean isReloadEnabled, boolean isTryToRestoreConnector) {
+	protected void onCreate(Bundle savedInstanceState, boolean isToolbarEnabled, boolean isReloadEnabled, boolean isTryToRestoreConnector) {
         super.onCreate(savedInstanceState);
         m_actThis = this;
         m_isToolbarEnabled = isToolbarEnabled;
         m_isReloadEnabled = isReloadEnabled;
         m_savedInstanceState = savedInstanceState;
-        
-        if (isTryToRestoreConnector) {
-        	Connector o = Main.getConnector();
-			if (null == o) {
-				o = Connector.restoreConnector(this);
-				Main.setConnector(o);
-			}        
-        }
+        m_oActivityHelper = new ActivityBaseHelper(this, isTryToRestoreConnector, isToolbarEnabled);
     }
 
     
     @Override
     public void setContentView (int iLayoutResID) {
-    	m_viewMain = getLayoutInflater().inflate(iLayoutResID, null);    	
-    	    	    	
+    	m_viewMain = getLayoutInflater().inflate(iLayoutResID, null);
     	super.setContentView(m_viewMain);
-    	
-    	if (m_isToolbarEnabled) {
-    		m_layoutToolbar = (LinearLayout)getLayoutInflater().inflate(R.layout.toolbar, null);    	
-    		LinearLayout.LayoutParams paramsToolbar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-    		this.addContentView(m_layoutToolbar, paramsToolbar);
-    		
-    		m_layoutToolbarContainer = (RelativeLayout) findViewById(R.id.toolbar_container);
-    		final float scale = getResources().getDisplayMetrics().density;
-    		m_viewMain.setPadding(0, 0, 0, (int)(50 * scale + 0.5f));    		
-    		
-    		m_btnReload = (ImageButton) findViewById(R.id.toolbar_btn_reload);
-    		m_btnHome = (ImageButton) findViewById(R.id.toolbar_btn_home);
-    		m_btnAction = (ImageButton) findViewById(R.id.toolbar_btn_action);
-    		
-    		m_btnReload.setVisibility(m_isReloadEnabled ? View.VISIBLE : View.INVISIBLE);
-    		
-    		m_btnHome.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-
-                    Intent intentHome = new Intent(m_actThis, HomeActivity.class);
-        	        intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        	        Connector o = Main.getConnector();
-        	        intentHome.putExtra("site", o.getSiteUrl());
-        	        intentHome.putExtra("member_id", o.getMemberId());
-        	        intentHome.putExtra("username", o.getUsername());
-        	        intentHome.putExtra("password", o.getPasswordClear());
-        	        intentHome.putExtra("protocol", o.getProtocolVer());
-        	        intentHome.putExtra("index", o.getSiteIndex());
-
-        	        m_actThis.startActivity(intentHome); 
-
-                }
-            });
-
-    		m_btnReload.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {                	                	
-                	m_actThis.reloadRemoteData();
-                }
-            });
-
-    		m_btnAction.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {                	                	
-                	m_actThis.customAction();
-                }
-            });
-    		
-    	}
     }
     
     protected void setTitleCaption (String s) {
@@ -125,5 +61,33 @@ abstract public class ListActivityBase extends ListActivity {
 
     protected void customAction () {
     	
+    }
+    
+    protected void alertError (Integer iLangString) {
+    	m_oActivityHelper.alertError(getString(iLangString));
+    }
+        
+    public String correctSiteUrl (String sUrl) {    	
+    	return m_oActivityHelper.correctSiteUrl(sUrl);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+    	return m_oActivityHelper.onCreateOptionsMenu(menu, m_isReloadEnabled);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {    	
+    	if (m_oActivityHelper.onOptionsItemSelected(item))
+    		return true;
+    	
+        switch (item.getItemId()) {
+        case R.id.menu_refresh:
+        	reloadRemoteData();
+            return true;
+        default:
+        	return super.onOptionsItemSelected(item);
+        }
     }
 }

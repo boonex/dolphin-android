@@ -23,7 +23,7 @@ public class SearchNearMeActivity extends ActivityBase {
     
     @Override
     protected void onCreate(Bundle b) {
-        super.onCreate(b, false);
+        super.onCreate(b, true, false);
         
         setContentView(R.layout.search_near_me);
         setTitleCaption (R.string.title_search_near_me);

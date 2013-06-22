@@ -7,12 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,8 +41,6 @@ public class WebPageActivity extends ActivityBase {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        getWindow().requestFeature(Window.FEATURE_PROGRESS);
-        
         Intent i = getIntent();        
         String sTitle = i.getStringExtra("title");
         String sUrl = i.getStringExtra("url");
@@ -66,15 +61,6 @@ public class WebPageActivity extends ActivityBase {
     @Override
     public void setContentView (int iLayoutResID) {    	
     	super.setContentView(iLayoutResID);
-    	
-		final float scale = getResources().getDisplayMetrics().density;
-		m_viewMain.setPadding(0, 0, 0, (int)(50 * scale + 0.5f)); // 75    		
-
-    	if (m_isToolbarEnabled) {
-    		m_progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
-    		ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)(10 * scale + 0.5f)); // 10
-    		m_layoutToolbar.addView(m_progressBar, 0, layoutParams);
-    	}
     }
     
     protected void reloadRemoteData () {    	
@@ -101,13 +87,7 @@ public class WebPageActivity extends ActivityBase {
     	}
     	
     	public void onProgressChanged(WebView view, int progress) {
-    		// Activities and WebViews measure progress with different scales.
-    		// The progress meter will automatically disappear when we reach 100%    		
-    		m_progressBar.setProgress(progress);
-    		if (progress >= m_progressBar.getMax() && m_progressBar.getVisibility() != View.GONE)
-    			m_progressBar.setVisibility(View.GONE);
-    		else if (m_progressBar.getVisibility() != View.VISIBLE)
-    			m_progressBar.setVisibility(View.VISIBLE);    		
+    		getActionBarHelper().setRefreshActionItemState(progress >= 100 ? false : true);
     	}    	
     }
     private class WebPageViewClient extends WebViewClient {
@@ -156,7 +136,7 @@ public class WebPageActivity extends ActivityBase {
         		
         		String sSection = url.substring("bxgoto:".length());
         		if (sSection.equals("home")) {
-        			gotoHome();
+        			m_oActivityHelper.gotoHome();
         		} else if (sSection.equals("friends")) {
         			Intent i = new Intent(m_actWebPage, FriendsHomeActivity.class);
     				startActivityForResult(i, 0);

@@ -42,7 +42,7 @@ public class Main extends ListActivityBase {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, false, false, false);
+        super.onCreate(savedInstanceState, true, false, false);
         
         MainActivity = this;
         

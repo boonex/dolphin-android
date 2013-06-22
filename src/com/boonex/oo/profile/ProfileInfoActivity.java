@@ -38,7 +38,7 @@ public class ProfileInfoActivity extends ListActivityBase {
         m_viewTextUsername = (TextView)findViewById(R.id.home_profile_username);
         m_viewTextInfo = (TextView)findViewById(R.id.home_profile_info);
         
-        Intent i = getIntent();    	
+        Intent i = getIntent();
         m_sUsername = i.getStringExtra("username");
         m_sUserTitle = i.getStringExtra("user_title");
         m_sThumb = i.getStringExtra("thumb");

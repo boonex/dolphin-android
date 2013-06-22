@@ -10,6 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -29,10 +32,29 @@ public class ImagesFilesActivity extends MediaFilesActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitleCaption (R.string.title_image_files);
-        if (m_sUsername.equalsIgnoreCase(m_oConnector.getUsername())) {
-        	m_btnAction.setVisibility(View.VISIBLE);
-        	m_btnAction.setImageResource(R.drawable.ic_toolbar_add_image);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	if (m_sUsername.equalsIgnoreCase(m_oConnector.getUsername())) {
+    		MenuInflater inflater = getMenuInflater();
+    		inflater.inflate(R.menu.media, menu);
+    		return true;
+    	} else {
+    		return super.onCreateOptionsMenu(menu);
+    	}
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.media_add:
+        	Intent i = new Intent(this, AddImageActivity.class);    	
+        	i.putExtra("album_name", m_sAlbumName);
+        	startActivityForResult(i, 0);
+            break;
         }
+        return super.onOptionsItemSelected(item);
     }
     
     protected MediaFilesAdapter getAdapterInstance (Context context, Object[] aFiles, String sUsername) {    	    	
@@ -56,11 +78,6 @@ public class ImagesFilesActivity extends MediaFilesActivity {
     	        
     }        
 
-    protected void customAction () {
-    	Intent i = new Intent(this, AddImageActivity.class);    	
-    	i.putExtra("album_name", m_sAlbumName);
-    	startActivityForResult(i, 0);    	
-    }	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {		

@@ -24,6 +24,8 @@ public class HomeBtn extends FrameLayout {
     		m_viewIcon.setImageResource(iIconResource);
     	else
     		m_viewIcon.setImageResource(R.drawable.ic_site_view);
+    	
+    	// TODO: resize buttons depending on - getResources().getDisplayMetrics().density
 	}
 	
     public HomeBtn(Context context, int iLayout, String sTitle, String sBubble) {

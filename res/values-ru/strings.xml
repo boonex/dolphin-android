@@ -37,7 +37,7 @@
     <string name="title_image_add">Добавить фото</string>
     <string name="title_image_albums">Фото Альбомы</string>
     <string name="title_image_files">Фото</string>
-    <string name="title_image_gallery">Фото Галлерея</string>      
+    <string name="title_image_gallery"></string>      
     <string name="title_sound_albums">Аудио Альбомы</string>
     <string name="title_sound_files">Аудио</string>
     <string name="title_video_albums">Видео Альбомы</string>
@@ -63,7 +63,8 @@
     <string name="home_logout">Выйти</string>
     <string name="msg_login_incorrect">Имя пользователя или пароль не верны</string>
     <string name="msg_url_incorrect">Направильный адрес сайта</string>
-    <string name="menu_item_format">%1$1s (%2$1s)</string>    
+    <string name="menu_item_format">%1$1s (%2$1s)</string>
+    <string name="menu_refresh">Обновить</string>
     <string name="status_message_menu">Статус</string>
     <string name="status_message">Статус сообщение:</string>
     <string name="status_message_update">Обновить</string>
@@ -110,8 +111,8 @@
     <string name="media_album_name_num">%1$1s (%2$1s)</string>
     <string name="media_files_delete">Удалить</string>
     <string name="media_files_view">Посмотреть</string>
-    <string name="media_images_gallery_next">&gt;</string>
-    <string name="media_images_gallery_prev">&lt;</string>
+    <string name="media_images_gallery_next">Вперёд</string>
+    <string name="media_images_gallery_prev">Назад</string>
     <string name="media_images_from_camera">Камера</string>
     <string name="media_images_from_gallery">Галлерея</string>
     <string name="media_images_caption_image">Фото</string>

@@ -1,0 +1,69 @@
+<resources>
+    
+    <dimen name="margin">10dip</dimen>
+    <dimen name="margin2">5dip</dimen>
+    <dimen name="padding">10dip</dimen>
+    <dimen name="padding2">5dip</dimen>
+    
+    <!-- Common container -->
+    <dimen name="cont_margin">@dimen/margin</dimen>
+    <dimen name="cont_padding">@dimen/padding</dimen>
+    
+    <!-- "Empty" container -->
+    <dimen name="cont_empty_padding">5pt</dimen>
+    <dimen name="cont_empty_font_size">10pt</dimen>
+
+    <!-- Profile Info -->
+    <dimen name="profile_info_text_size">16dip</dimen>
+    <dimen name="profile_info_title_text_size">18dip</dimen>
+    <dimen name="profile_info_data_margin_top">@dimen/margin</dimen>
+
+    <!-- Button -->
+    <dimen name="button_margin">@dimen/margin</dimen>
+    
+    <!-- List View -->
+    <dimen name="list_picker_divider_size">3dip</dimen>
+    <dimen name="list_divider_size">@dimen/margin</dimen>
+    <dimen name="list_padding">@dimen/padding</dimen>    
+    
+    <!-- Thumbnail -->
+    <dimen name="thumb_cont_info_page_margin_top">@dimen/margin</dimen>
+    <dimen name="thumb_cont_info_page_margin_left">@dimen/margin</dimen>
+    <dimen name="thumb_cont_info_page_margin_right">@dimen/margin</dimen>
+    <dimen name="thumb_image_width">64dip</dimen>
+    <dimen name="thumb_image_height">64dip</dimen>
+    <dimen name="thumb_image_margin_top">@dimen/margin2</dimen>
+    <dimen name="thumb_image_margin_right">@dimen/margin</dimen>
+    <dimen name="thumb_image_margin_bottom">@dimen/margin2</dimen>
+    <dimen name="thumb_image_margin_left">@dimen/margin2</dimen>
+    <dimen name="thumb_title_font_size">20dip</dimen>
+    <dimen name="thumb_text1_font_size">12dip</dimen>
+    <dimen name="thumb_text2_font_size">12dip</dimen>
+    
+    <!-- Home Button -->
+    <dimen name="home_button_width">90dip</dimen>
+    <dimen name="home_button_height">90dip</dimen>
+    <dimen name="home_button_cont_width">90dip</dimen>
+    <dimen name="home_button_cont_height">90dip</dimen>
+    <dimen name="home_button_img_width">48dip</dimen>
+    <dimen name="home_button_img_height">48dip</dimen>
+    <dimen name="home_button_img_margin_top">10dip</dimen>
+    <dimen name="home_button_img_margin_bottom">3dip</dimen>
+    <dimen name="home_button_text_size">16dip</dimen>
+    <dimen name="home_button_bubble_height">22dip</dimen>
+    <dimen name="home_button_bubble_text_size">12dip</dimen>
+    <dimen name="home_button_bubble_padding_top">2dip</dimen>
+    <dimen name="home_button_bubble_padding_bottom">2dip</dimen>
+    <dimen name="home_button_bubble_padding_left">5dip</dimen>
+    <dimen name="home_button_bubble_padding_right">5dip</dimen>
+    
+    <!--  ActionBar -->
+    <dimen name="actionbar_compat_height">48dp</dimen>
+    <dimen name="actionbar_compat_button_width">48dp</dimen>
+    <dimen name="actionbar_compat_button_home_width">48dp</dimen>
+    <dimen name="actionbar_compat_button_home_padding_left">12dp</dimen>
+    <dimen name="actionbar_compat_title_text_size">18sp</dimen>
+    <dimen name="actionbar_compat_title_padding_left">2dp</dimen>
+    <dimen name="actionbar_compat_title_padding_right">6dp</dimen>
+    
+</resources>

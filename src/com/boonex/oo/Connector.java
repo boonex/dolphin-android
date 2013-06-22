@@ -16,7 +16,6 @@ import org.xmlrpc.android.XMLRPCRedirectException;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -49,7 +48,6 @@ public class Connector extends Object implements Serializable {
 	private static final String FILENAME = "connector.ser";
 	
 	transient protected XMLRPCClient m_oClient;
-	transient protected ProgressDialog m_dialogProgress;
 	protected String m_sUrl;
 	protected int m_iMemberId;
 	protected String m_sUsername;
@@ -72,16 +70,22 @@ public class Connector extends Object implements Serializable {
 		m_oClient = new XMLRPCClient(URI.create(m_sUrl));		
 	}
 	
+	protected void setLoadingIndicator (boolean isLoading) {
+		if (null == m_context) 
+			return;
+		if (m_context instanceof ActivityBase)
+			((ActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
+		else if (m_context instanceof ListActivityBase)
+			((ListActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
+		else if (m_context instanceof MapActivityBase)
+			((MapActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
+	}
+	
 	public void execAsyncMethod (String sMethod, Object[] aParams, Callback oCallBack, Context context) {
 		this.m_context = context;
 		
-		String sLoading = m_context.getResources().getString(R.string.loading);
+		setLoadingIndicator(true);
 		
-		if (null != context) {
-			m_dialogProgress = ProgressDialog.show(context, "", sLoading, true, false);
-		} else {
-			m_dialogProgress = null;
-		}
         XMLRPCMethod method = new XMLRPCMethod(sMethod, oCallBack);        
         method.call(aParams);		
 	}
@@ -132,9 +136,8 @@ public class Connector extends Object implements Serializable {
     						@SuppressWarnings("unchecked")
 							public void run() {
     							Log.i(TAG, "XML-RPC call took " + (t1-t0) + "ms");
-    							if (null != m_dialogProgress) {    								
-    								m_dialogProgress.dismiss();
-    							}
+    							setLoadingIndicator(false);
+    							
     							if ((result instanceof Map) && null != ((Map<String, String>)result).get("error")) {
     	    						Builder builder = new AlertDialog.Builder(m_context);
     	    			        	builder.setTitle(m_context.getResources().getString(R.string.exception));
@@ -166,9 +169,7 @@ public class Connector extends Object implements Serializable {
     			handler.post(new Runnable() {
     				public void run() {						
     					Log.e(TAG, "Error: " + e.getMessage());
-    					if (null != m_dialogProgress) {    						
-    						m_dialogProgress.dismiss();
-    					}
+    					setLoadingIndicator(false);
     					
     					if (callBack.callFailed(e)) {
     						Builder builder = new AlertDialog.Builder(m_context);

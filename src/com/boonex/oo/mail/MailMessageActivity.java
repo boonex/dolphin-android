@@ -5,6 +5,9 @@ import java.util.Map;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -31,15 +34,32 @@ public class MailMessageActivity extends ListActivityBase {
         
         setContentView(R.layout.list);
         setTitleCaption(R.string.title_mail_message);
-
-        m_btnAction.setVisibility(View.VISIBLE);
-        m_btnAction.setImageResource(R.drawable.ic_toolbar_reply);
         
         Intent i = getIntent();        
         m_isInbox = i.getBooleanExtra("inbox", true);
         m_iMsgId = i.getIntExtra("msg_id", 0);        
         
         reloadRemoteData ();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {    	
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.mail, menu);    	
+    	return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.mail_reply:
+    		Intent i = new Intent(this, MailComposeActivity.class);
+    		i.putExtra("recipient", m_sRecipient);
+    		i.putExtra("recipient_title", m_sRecipientTitle);
+    		startActivityForResult(i, ACTIVITY_MAIL_COMPOSE);
+            break;
+        }
+        return super.onOptionsItemSelected(item);
     }
     
     protected void reloadRemoteData () {
@@ -64,14 +84,7 @@ public class MailMessageActivity extends ListActivityBase {
 			}
         }, this);    	
     }
-    
-    protected void customAction () {
-		Intent i = new Intent(this, MailComposeActivity.class);
-		i.putExtra("recipient", m_sRecipient);
-		i.putExtra("recipient_title", m_sRecipientTitle);
-		startActivityForResult(i, ACTIVITY_MAIL_COMPOSE);    	
-    }
-    
+        
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {    	
         super.onListItemClick(l, v, position, id);

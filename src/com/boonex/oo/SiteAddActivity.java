@@ -20,7 +20,7 @@ public class SiteAddActivity extends ActivityBase {
 	
     @Override
     protected void onCreate(Bundle b) {
-        super.onCreate(b, false, false, false);
+        super.onCreate(b, true, false, false);
         
         setContentView(R.layout.site_add);
         setTitleCaption (R.string.title_login);

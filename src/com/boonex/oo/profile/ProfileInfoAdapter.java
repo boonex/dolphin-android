@@ -89,11 +89,11 @@ public class ProfileInfoAdapter extends BaseAdapter {
 				LinearLayout ll = new LinearLayout(m_context);
 				ll.setOrientation(LinearLayout.VERTICAL);
 				ll.addView(viewFieldCaption);												
-				ll.addView(viewField1);								
+				ll.addView(viewField1);
 				t.addView(ll);
 			} else {
 				ViewTextSimple viewFieldCaption = new ViewTextSimple (m_context, mapField.get("Caption") + ": ");
-				viewFieldCaption.setPadding(0, 0, 5, 0);				
+				viewFieldCaption.setPadding(0, 0, (int) m_context.getResources().getDimension(R.dimen.padding2), 0);
 			
 				ViewTextSimple viewField1 = new ViewTextSimple (m_context, mapField.get("Value1") + (null != mapField.get("Value2") && mapField.get("Value2").length() > 0 ? " / " + mapField.get("Value2") : ""));			
 						

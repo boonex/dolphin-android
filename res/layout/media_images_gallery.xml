@@ -9,29 +9,28 @@
     	android:id="@+id/media_images_image_view"
     	android:layout_width="fill_parent" 
     	android:layout_height="fill_parent"
-    	android:gravity="center"    
-    />
+    	android:gravity="center" />
     
-	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<TableLayout 
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:stretchColumns="2">
     <TableRow>
     
-    	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android">
+    	<LinearLayout>
 	    <Button
 		    android:id="@+id/media_images_gallery_prev"
-	    	android:layout_width="50px" 
+	    	android:layout_width="wrap_content" 
     		android:layout_height="wrap_content"
     		android:text="@string/media_images_gallery_prev"    	    		    	
     	/>
     	</LinearLayout>
-    	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"    	
+    	<LinearLayout 	
     	    android:gravity="right"  
     		android:layout_column="2">
     	<Button
     		android:id="@+id/media_images_gallery_next"
-    		android:layout_width="50px" 
+    		android:layout_width="wrap_content" 
     		android:layout_height="wrap_content"
     		android:text="@string/media_images_gallery_next"	  	    
     	/>  

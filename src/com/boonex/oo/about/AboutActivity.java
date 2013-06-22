@@ -16,7 +16,7 @@ public class AboutActivity extends ActivityBase {
 	protected TextView m_textAbout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, false, false, false);
+        super.onCreate(savedInstanceState, true, false, false);
         
         setContentView(R.layout.about);
         setTitleCaption(R.string.title_about);    

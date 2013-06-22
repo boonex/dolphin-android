@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/media_images_gallery_prev"
+		android:title="@string/media_images_gallery_prev"
+		android:icon="@drawable/ic_menu_prev"
+		android:showAsAction="always" />
+	<item android:id="@+id/media_images_gallery_next"
+		android:title="@string/media_images_gallery_next"
+		android:icon="@drawable/ic_menu_next"
+		android:showAsAction="always" />
+	<item android:id="@+id/media_images_gallery_set_as_avatar"
+		android:title="@string/media_images_gallery_set_as_avatar"
+		android:icon="@drawable/ic_menu_make_avatar"
+		android:showAsAction="never" />
+</menu>

@@ -33,7 +33,7 @@ public class MailComposeActivity extends ActivityBase {
     
     @Override
     protected void onCreate(Bundle b) {
-        super.onCreate(b, false);
+        super.onCreate(b, true, false);
         
         setContentView(R.layout.mail_compose);
         setTitleCaption(R.string.title_mail_compose);
@@ -104,7 +104,7 @@ public class MailComposeActivity extends ActivityBase {
         			public void callFinished(Object result) {				 
         				
         				Log.d(TAG, "dolphin.sendMessage result: " + result.toString());
-        				Integer iResult = new Integer (result.toString());
+        				Integer iResult = Integer.valueOf (result.toString());
         				String sErrorMsg = "";
         				String sTitle = getString(R.string.mail_error);
         				switch (iResult) {

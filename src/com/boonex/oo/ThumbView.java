@@ -2,8 +2,11 @@ package com.boonex.oo;
 
 import java.util.Map;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -84,5 +87,55 @@ public class ThumbView extends LinearLayout {
     
 	protected String getThumbFieldName () {
 		return "Thumb";
-	}	
+	}
+	
+	
+    protected class ConfirmationOnClickListener implements View.OnClickListener {
+		protected String m_sData;
+		protected Context m_context;    	
+    	public ConfirmationOnClickListener (Context context, String sData) {
+    		m_context = context;
+    		m_sData = sData;
+    	}
+		@Override
+		public void onClick(View arg0) {
+	    	AlertDialog.Builder alertDialog = new AlertDialog.Builder(m_context);
+	        alertDialog.setTitle(R.string.dialog_confirm_title);
+	        alertDialog.setMessage(R.string.dialog_confirm_msg);
+
+	        alertDialog.setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog,int which) {
+	            	onConfirm();
+	            }
+	        });
+
+	        alertDialog.setNegativeButton(R.string.button_no, new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+	            	dialog.cancel();
+	            	onCancel();
+	            }
+	        });
+
+	        alertDialog.show();			
+		}
+		public void onConfirm() {
+			// override
+		}
+		public void onCancel() {
+			// override
+		}		
+    }
+    
+    protected class CustomOnClickListener implements View.OnClickListener {
+		protected String m_sData;
+		protected Context m_context;    	
+    	public CustomOnClickListener (Context context, String sData) {
+    		m_context = context;
+    		m_sData = sData;
+    	}
+		@Override
+		public void onClick(View arg0) {
+			// override
+		}		
+    }    
 }

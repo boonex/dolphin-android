@@ -20,6 +20,12 @@
 &lt;br /&gt;&lt;br /&gt;
 При помощи платформы &lt;a href="http://www.boonex.com/dolphin"&gt;Dolphin&lt;/a&gt; от &lt;a href="http://www.boonex.com/"&gt;BoonEx&lt;/a&gt; можно создать свой 
 собственный сайт социального сообщества с мобильным приложением.</string>
+    <string name="button_cancel">Отменить</string>
+    <string name="button_settings">Настройки</string>
+    <string name="button_yes">Да</string>
+    <string name="button_no">Нет</string>
+    <string name="dialog_confirm_title">Подтверждение</string>
+    <string name="dialog_confirm_msg">Вы уверенны?</string>
     <string name="empty">Пусто</string>
     <string name="title_home">Домашняя станица</string>
     <string name="title_login">Войти</string>

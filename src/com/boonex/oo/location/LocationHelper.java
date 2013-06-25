@@ -55,13 +55,13 @@ public class LocationHelper {
     	AlertDialog.Builder alertDialog = new AlertDialog.Builder(m_context);
         
         // Setting Dialog Title
-        alertDialog.setTitle(m_context.getString(R.string.location_settings_title));
+        alertDialog.setTitle(R.string.location_settings_title);
 
         // Setting Dialog Message
-        alertDialog.setMessage(m_context.getString(R.string.location_settings_msg));
+        alertDialog.setMessage(R.string.location_settings_msg);
 
         // On pressing Settings button
-        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(R.string.button_settings, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 m_context.startActivity(intent);
@@ -69,7 +69,7 @@ public class LocationHelper {
         });
 
         // on pressing cancel button
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             	dialog.cancel();
             }

@@ -37,24 +37,14 @@ public class ThumbViewActionApproveReject extends ThumbViewBase {
 	protected Button getButtonAccept() {
 		if (null == m_btnAccept) {
 			
-			MyOnClickListener listener = new MyOnClickListener() {
-				protected String m_sNick;
-				protected Context m_context;
-		    	public void setContext(Context context) {
-		    		m_context = context;
-		    	}
-		    	public void setNick(String s) {
-		    		m_sNick = s;
-		    	}
-	        	public void onClick(View view) {
+			CustomOnClickListener listener = new CustomOnClickListener(this.getContext(), this.m_sUsername) {
+				@Override
+				public void onClick(View arg0) {
 	        		FriendRequestsActivity activity = (FriendRequestsActivity)m_context;
-	        		activity.onAcceptFriend(m_sNick);
-	        	}
+	        		activity.onAcceptFriend(m_sData);
+				}
 	        };
-	        
-	        listener.setNick(this.m_sUsername);
-	        listener.setContext(this.getContext());
-	        
+
 	        m_btnAccept = (Button)LayoutInflater.from(this.getContext()).inflate(R.layout.view_action_button, null, false);	        
 	        m_btnAccept.setOnClickListener(listener);
 	        m_btnAccept.setText(getContext().getString(R.string.friends_approve));
@@ -67,24 +57,13 @@ public class ThumbViewActionApproveReject extends ThumbViewBase {
 	protected Button getButtonReject() {
 		if (null == m_btnReject) {
 			
-			MyOnClickListener listener = new MyOnClickListener() {
-				protected String m_sNick;
-				protected Context m_context;
-		    	public void setContext(Context context) {
-		    		m_context = context;
-		    	}
-		    	public void setNick(String s) {
-		    		m_sNick = s;
-		    	}
-	        	public void onClick(View view) {
+			ConfirmationOnClickListener listener = new ConfirmationOnClickListener(this.getContext(), this.m_sUsername) {
+				public void onConfirm() {
 	        		FriendRequestsActivity activity = (FriendRequestsActivity)m_context;
-	        		activity.onRejectFriend(m_sNick);
-	        	}
+	        		activity.onRejectFriend(m_sData);
+				}
 	        };
-	        
-	        listener.setNick(this.m_sUsername);
-	        listener.setContext(this.getContext());
-	        
+
 	        m_btnReject = (Button)LayoutInflater.from(this.getContext()).inflate(R.layout.view_action_button, null, false);
 	        m_btnReject.setOnClickListener(listener);
 	        m_btnReject.setText(getContext().getString(R.string.friends_reject));

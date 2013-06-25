@@ -5,7 +5,6 @@ import java.util.Map;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -33,25 +32,14 @@ public class ThumbViewMediaEdit extends ThumbViewMedia {
 	}
 	protected Button getButtonDeleteControl() {
 	    if (null == m_btnDelete) {
-	    	
-			MyOnClickListener listener = new MyOnClickListener() {
-				protected String m_sFileId;
-				protected Context m_context;
-		    	public void setContext(Context context) {
-		    		m_context = context;
-		    	}
-		    	public void setFileId(String s) {
-		    		m_sFileId = s;
-		    	}
-	        	public void onClick(View view) {
-	        		MediaFilesActivity activity = (MediaFilesActivity)m_context;
-	        		activity.onRemoveFile(m_sFileId);
-	        	}
+
+			ConfirmationOnClickListener listener = new ConfirmationOnClickListener(this.getContext(), (String)m_map.get("id")) {
+				public void onConfirm() {
+    				MediaFilesActivity activity = (MediaFilesActivity)m_context;
+    				activity.onRemoveFile(m_sData);
+				}
 	        };
-	        
-	        listener.setFileId((String)m_map.get("id"));
-	        listener.setContext(this.getContext());
-	             					
+	    	
 	        m_btnDelete = (Button)LayoutInflater.from(this.getContext()).inflate(R.layout.view_action_button, null, false);
 	        m_btnDelete.setOnClickListener(listener);
 	        m_btnDelete.setText(getContext().getString(R.string.media_files_delete));
@@ -60,9 +48,5 @@ public class ThumbViewMediaEdit extends ThumbViewMedia {
 	    }
 		return m_btnDelete;
 	}
-		
-    interface MyOnClickListener extends View.OnClickListener {
-    	public void setContext(Context context);
-    	public void setFileId(String s);
-    }	
+
 }

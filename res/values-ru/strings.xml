@@ -50,7 +50,10 @@
     <string name="title_search_results">Результаты</string>
     <string name="title_status_message">Статус Сообщение</string>
     <string name="location_acquiring_current">Получение текущего местоположения...</string>
-    <string name="location_undefined">Местоположение не определено</string>            
+    <string name="location_undefined">Местоположение не определено</string>
+    <string name="location_not_available">Текущее местоположение недоступно</string>
+    <string name="location_settings_title">Настройки определения места</string>
+    <string name="location_settings_msg">Все источники определения места отключены. Открыть настройки для включения функции определения местоположения?</string>            
     <string name="login_site_url">Адрес сайта:</string>
     <string name="login_username">Имя пользователя:</string>
     <string name="login_password">Пароль:</string>

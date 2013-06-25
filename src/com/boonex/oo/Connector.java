@@ -77,8 +77,8 @@ public class Connector extends Object implements Serializable {
 			((ActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
 		else if (m_context instanceof ListActivityBase)
 			((ListActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
-		else if (m_context instanceof MapActivityBase)
-			((MapActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
+		else if (m_context instanceof FragmentActivityBase)
+			((FragmentActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
 	}
 	
 	public void execAsyncMethod (String sMethod, Object[] aParams, Callback oCallBack, Context context) {

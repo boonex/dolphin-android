@@ -1,13 +1,12 @@
 package com.boonex.oo.actionbar;
 
-import com.google.android.maps.MapActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-public abstract class ActionBarMapActivity extends MapActivity {
+public abstract class ActionBarFragmentActivity extends FragmentActivity {
     final ActionBarHelper mActionBarHelper = ActionBarHelper.createInstance(this);
 
     /**

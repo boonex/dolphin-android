@@ -1,99 +1,56 @@
 package com.boonex.oo.location;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.boonex.oo.Connector;
-import com.boonex.oo.Main;
-import com.boonex.oo.MapActivityBase;
-import com.boonex.oo.R;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class LocationActivity extends MapActivityBase {
+import com.boonex.oo.Connector;
+import com.boonex.oo.FragmentActivityBase;
+import com.boonex.oo.Main;
+import com.boonex.oo.R;
+
+public class LocationActivity extends FragmentActivityBase {
 	private static final String TAG = "OO LocationActivity";
 	public static final int RESULT_OK = RESULT_FIRST_USER + 1;
 	public static final int ZOOM = 16;
-	private Button m_buttonSubmit;
-	private MapView m_viewMap;
-	private LocationOverlay m_locationOverlay;
-	private List<GeoPoint> m_mapLocations;
-	private ProgressDialog m_dialogProgress;
-	LocationListener m_locationListener;
-	LocationManager m_locationManager;
+	private GoogleMap m_frMap;
 	private String m_sUsername;
+	private LocationActivity m_actThis;
 	
     @Override
     protected void onCreate(Bundle b) {
-        super.onCreate(b);        
+        super.onCreate(b);
+        
+        m_actThis = this;
         
         setContentView(R.layout.location);
-        setTitleCaption(R.string.title_location);
+        setTitle(R.string.title_location);
         
-        m_buttonSubmit = (Button) findViewById(R.id.submit);
-        m_viewMap = (MapView) findViewById(R.id.map_view);        
-        
-        m_viewMap.setEnabled(true);
-		m_viewMap.setClickable(true);
-		m_viewMap.setBuiltInZoomControls(true);
-                       
         Intent i = getIntent();        
         m_sUsername = i.getStringExtra("username");
-		               
-        m_buttonSubmit.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View view) {
-        		        	     
-        		if (m_locationManager == null)
-        			m_locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        		        		
-        		String strProvider = null; 
-        		
-        		if (m_locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-        			strProvider = LocationManager.GPS_PROVIDER;
-        		} else if (m_locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-        			strProvider = LocationManager.NETWORK_PROVIDER;
-        		} else {
-        			// TODO: open gps enable dialog
-        		}
-        		
-        		if (strProvider == null)
-        			return;
-        		
-            	Log.d(TAG, "LOCATION PROVIDER: " + strProvider);
-            		
-            	if (m_locationListener != null)
-            		m_locationManager.removeUpdates(m_locationListener);
-            	
-            	m_locationListener = new CurrentLocationListener();        		
-            	m_locationManager.requestLocationUpdates(strProvider, 1000, 1, m_locationListener);
-        		
-            	startProgress ();
-            	
-        	}
-        });
-        
+
+        m_frMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+
         reloadRemoteData ();
     }
     
     protected void reloadRemoteData () {
         Connector o = Main.getConnector();
-        
-        m_buttonSubmit.setVisibility(m_sUsername.equalsIgnoreCase(o.getUsername()) ? Button.VISIBLE : Button.GONE);
         
         Object[] aParams = {
         		o.getUsername(), 
@@ -128,75 +85,46 @@ public class LocationActivity extends MapActivityBase {
 					String sType = map.get("type");
 					String sZoom = map.get("zoom");
 				 
-					int iLat = 0;
-					int iLng = 0;
-					int iZoom = 3;
+					double fLat = 0;
+					double fLng = 0;
+					float fZoom = 3;
 					try {
-						iLat = (int)(Double.parseDouble(sLat)*1000000);
-						iLng = (int)(Double.parseDouble(sLng)*1000000);
-						iZoom = Integer.parseInt(sZoom);
+						fLat = Double.parseDouble(sLat);
+						fLng = Double.parseDouble(sLng);
+						fZoom = Float.parseFloat(sZoom);
 					} catch (NumberFormatException e) {
-					
+						Log.e(TAG, e.toString());
 					}
 				
-					setMapLocation(iLat, iLng);
-					m_viewMap.getController().setZoom(iZoom);
-					if (iLat != 0 && iLng != 0)
-						m_viewMap.getController().animateTo(new GeoPoint(iLat, iLng));				
-					m_locationOverlay = new LocationOverlay((LocationActivity)m_actThis);
-					m_viewMap.getOverlays().add(m_locationOverlay);
-					if (sType.equals("satellite") || sType.equals("hybrid"))
-						m_viewMap.setSatellite(true);
-				
+					setMapLocation(fLat, fLng, fZoom, sType);				
 				}
 				
 			}
         }, this);    	
     }
     
-	@Override
-	protected boolean isRouteDisplayed() {
-		// not implemented
-		return false;
-	}    
-
-	public void setMapLocation(int lat, int lng) {
+	public void setMapLocation(double lat, double lng, float fZoom, String sType) {
 		if (0 == lat && 0 == lng) {
 			Toast toast = Toast.makeText(this, getString(R.string.location_undefined), Toast.LENGTH_LONG);
 			toast.show();
 			return;
 		}
 		
-		if (m_mapLocations == null) {
-			m_mapLocations = new ArrayList<GeoPoint>();			
-		} else {
-			m_mapLocations.clear();
-		}
-		m_mapLocations.add(new GeoPoint(lat, lng));			
+		LatLng latLng = new LatLng(lat, lng);
+		
+		m_frMap.clear();
+		m_frMap.addMarker(new MarkerOptions().position(latLng).title(m_sUsername));
+		m_frMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, fZoom));
+		
+		if (sType.equals("satellite") || sType.equals("hybrid"))
+			m_frMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
+		Log.i(TAG, "setMapLocation - lat:" + lat + " / lng:" + lng);
 	}
-	
-	public List<GeoPoint> getMapLocations() {
-		return m_mapLocations;
-	}
-	
+		
 	public void setLocation(double fLat, double fLng) {
-				
-		int iLat = (int)(fLat*1000000);
-		int iLng = (int)(fLng*1000000);
-		
-		m_viewMap.getController().setZoom(ZOOM);
-		m_viewMap.getController().animateTo(new GeoPoint(iLat, iLng));
-		
-		Log.d(TAG, "lat2: " + iLat);
-		Log.d(TAG, "lng2: " + iLng);
-		
-		m_locationOverlay = null;        			
-		m_viewMap.getOverlays().clear();
-		setMapLocation(iLat, iLng);
-		m_locationOverlay = new LocationOverlay((LocationActivity)m_actThis);
-		m_viewMap.getOverlays().add(m_locationOverlay);
-		m_viewMap.invalidate();
-		
+
+		setMapLocation(fLat, fLng, ZOOM, "");
 		
         Connector o = Main.getConnector();
         Object[] aParams = {
@@ -205,7 +133,7 @@ public class LocationActivity extends MapActivityBase {
         		String.format("%.8f", fLat).replace(",", "."),
         		String.format("%.8f", fLng).replace(",", "."),
         		String.format("%d", ZOOM),
-        		m_viewMap.isSatellite() ? "hybrid" : "normal"
+        		m_frMap.getMapType() == GoogleMap.MAP_TYPE_SATELLITE || m_frMap.getMapType() == GoogleMap.MAP_TYPE_HYBRID ? "hybrid" : "normal"
         };        
         o.execAsyncMethod("dolphin.updateUserLocation", aParams, new Connector.Callback() {
 			public void callFinished(Object result) {				 
@@ -215,54 +143,48 @@ public class LocationActivity extends MapActivityBase {
 	}
 	
 	public void startProgress () {
-		if (m_dialogProgress != null)
-			return;
-		m_dialogProgress = ProgressDialog.show(this, "", getString(R.string.location_acquiring), false, true, new DialogInterface.OnCancelListener () {
-			public void  onCancel  (DialogInterface dialog) {
-				stopProgress();				
-			}
-		}); 	
+		getActionBarHelper().setRefreshActionItemState(true); 	
 	}
 	
 	public void stopProgress () {
-		if (m_dialogProgress != null) {					
-			m_dialogProgress.dismiss();
-			m_dialogProgress = null;
-		}
-		
-		if (m_locationListener != null && m_locationManager != null) {
-			m_locationManager.removeUpdates(m_locationListener);
-			m_locationListener = null;
-		}
+		getActionBarHelper().setRefreshActionItemState(false);
 	}
-	
-	
-	
-	public class CurrentLocationListener implements LocationListener {
-
-		public void onLocationChanged(Location argLocation) {
-			if (argLocation != null) {
-				Log.d(TAG, "Location is available");
-				setLocation (argLocation.getLatitude(), argLocation.getLongitude());
-				stopProgress ();			
-			} else {
-				Log.d(TAG, "Location is NULLLLLLLLLLL");
-			}
-		}
 		
-		public void onProviderDisabled(String provider) {
-			Log.d(TAG, "Provider disabled: " + provider);
-			stopProgress ();						
-		}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	Connector o = Main.getConnector();
+    	if (m_sUsername.equalsIgnoreCase(o.getUsername())) {
+    		MenuInflater inflater = getMenuInflater();
+    		inflater.inflate(R.menu.location, menu);    	
+    		return true;
+    	} 
+    	return super.onCreateOptionsMenu(menu);
+    }
 
-		public void onProviderEnabled(String provider) {
-			Log.d(TAG, "Provider enabled: " + provider);
-		}
-
-		public void onStatusChanged(String provider, int status, Bundle arg2) {
-			Log.d(TAG, "Status changed(" + provider + "): " + status + " / " + arg2);
-		}
-	}
-	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.location_update:
+    		LocationHelper.LocationResult locationResult = new LocationHelper.LocationResult(){
+    		    @Override
+    		    public void gotLocation(Location location){
+    		        stopProgress();
+    		        if (null != location) {
+    		        	Log.i(TAG, "Got Location: " + location);
+    		        	setLocation (location.getLatitude(), location.getLongitude());
+    		        } else {
+    		        	Toast.makeText(m_actThis, R.string.location_not_available, Toast.LENGTH_LONG).show();
+    		        }
+    		    }
+    		};
+    		LocationHelper myLocation = new LocationHelper();
+    		if (myLocation.getLocation(m_actThis, locationResult))
+    			startProgress();
+    		else
+    			myLocation.openLocationEnableDialog();
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }    
 	
 }

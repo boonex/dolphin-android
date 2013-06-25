@@ -5,9 +5,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.boonex.oo.actionbar.ActionBarMapActivity;
+import com.boonex.oo.actionbar.ActionBarFragmentActivity;
 
-abstract public class MapActivityBase extends ActionBarMapActivity {
+abstract public class FragmentActivityBase extends ActionBarFragmentActivity {
 
 	protected ActivityBaseHelper m_oActivityHelper;
 
@@ -15,7 +15,7 @@ abstract public class MapActivityBase extends ActionBarMapActivity {
 	
 	protected Boolean m_isToolbarEnabled;
 	protected Boolean m_isReloadEnabled;
-	protected MapActivityBase m_actThis;
+	protected FragmentActivityBase m_actThis;
 	protected Bundle m_savedInstanceState;	
 	
     @Override

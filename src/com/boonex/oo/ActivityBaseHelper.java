@@ -55,6 +55,13 @@ public class ActivityBaseHelper {
     }
         
     public void gotoHome () {
+    	if (null == Main.MainActivity) {
+        	Intent intentHome = new Intent(m_oActivity, Main.class);
+        	intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        	m_oActivity.startActivity(intentHome);
+        	return;
+    	}
+    	
     	Connector o = Main.getConnector();
     	String sClass = m_oActivity.getClass().getSimpleName();
     	

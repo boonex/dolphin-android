@@ -3,13 +3,16 @@ package com.boonex.oo.search;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.boonex.oo.ActivityBase;
 import com.boonex.oo.R;
+import com.boonex.oo.location.LocationHelper;
 
 public class SearchNearMeActivity extends ActivityBase {
 	
@@ -35,13 +38,30 @@ public class SearchNearMeActivity extends ActivityBase {
         MySetContextInterface listener = new MySetContextInterface() {
         	public SearchNearMeActivity context;
             public void onClick(View view) {            	
-    			    			
-    			Intent i = new Intent(context, SearchResultsNearMeActivity.class);
-    			i.putExtra("online_only", m_cbOnlineOnly.isChecked());
-    			i.putExtra("with_photos_only", m_cbWithPhotosOnly.isChecked());
-    			i.putExtra("start", 0);
-    			startActivityForResult(i, ACTIVITY_SEARCH_RESULTS);
-    			                
+    			
+        		LocationHelper.LocationResult locationResult = new LocationHelper.LocationResult(){
+        		    @Override
+        		    public void gotLocation(Location location){
+        		        stopProgress();
+        		        if (null != location) {
+        	    			Intent i = new Intent(context, SearchResultsNearMeActivity.class);
+        	    			i.putExtra("online_only", m_cbOnlineOnly.isChecked());
+        	    			i.putExtra("with_photos_only", m_cbWithPhotosOnly.isChecked());
+        	    			i.putExtra("start", 0);
+        	    			i.putExtra("lat", location.getLatitude());
+        	    			i.putExtra("lng", location.getLongitude());
+        	    			startActivityForResult(i, ACTIVITY_SEARCH_RESULTS);
+        		        } else {
+        		        	Toast.makeText(m_actThis, R.string.location_not_available, Toast.LENGTH_LONG).show();
+        		        }
+        		    }
+        		};
+        		LocationHelper myLocation = new LocationHelper();
+        		if (myLocation.getLocation(m_actThis, locationResult))
+        			startProgress();
+        		else
+        			myLocation.openLocationEnableDialog();
+
             }          
             public void setContext(SearchNearMeActivity context) {
             	this.context = context;
@@ -71,5 +91,12 @@ public class SearchNearMeActivity extends ActivityBase {
 		super.onSaveInstanceState(outState);		  
 	}
 	    
-    
+	public void startProgress () {
+		getActionBarHelper().setRefreshActionItemState(true); 	
+	}
+	
+	public void stopProgress () {
+		getActionBarHelper().setRefreshActionItemState(false);
+	}
+
 }

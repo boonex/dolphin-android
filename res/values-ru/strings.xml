@@ -155,4 +155,5 @@
     <string name="search_submit">Поиск</string>
     <string name="search_prev">Пред.</string>
     <string name="search_next">След.</string>
+    <string name="search_country_empty">Нужно указать хотя-бы страну</string>
 </resources>

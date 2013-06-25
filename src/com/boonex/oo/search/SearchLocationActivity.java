@@ -1,5 +1,7 @@
 package com.boonex.oo.search;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +53,19 @@ public class SearchLocationActivity extends ActivityBase {
         	public SearchLocationActivity context;
             public void onClick(View view) {            	
     			    			
+                if (null == m_sCountryCode || 0 == m_sCountryCode.length()) {
+                	AlertDialog dialog = new AlertDialog.Builder(m_actThis).create();
+                	dialog.setTitle(getString(R.string.error));
+                	dialog.setMessage(getString(R.string.search_country_empty));
+                	dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.close), new DialogInterface.OnClickListener() {
+                		public void onClick(DialogInterface dialog, int whichButton) {
+                			dialog.dismiss();
+                		}
+                	}); 
+                	dialog.show();
+                	return;
+                }
+                
     			Intent i = new Intent(context, SearchResultsLocationActivity.class);
     			i.putExtra("country", m_sCountryCode);
     			i.putExtra("city", m_editCity.getText().toString());

@@ -167,5 +167,6 @@ and mobile apps package from &lt;a href="http://www.boonex.com/"&gt;BoonEx&lt;/a
     <string name="search_select_country">Select</string>
     <string name="search_submit">Search</string>
     <string name="search_prev">Prev</string>
-    <string name="search_next">Next</string>    
+    <string name="search_next">Next</string>
+    <string name="search_country_empty">Please specify country at least</string>    
 </resources>

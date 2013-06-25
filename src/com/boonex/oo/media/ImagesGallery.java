@@ -72,7 +72,6 @@ public class ImagesGallery extends ActivityBase {
         	m_sAlbumId = i.getStringExtra("album_id");
         	m_sPhotoId = i.getStringExtra("photo_id");
         	reloadRemoteData();
-        	//setImageIndex (-1 == iSavedIndex ? i.getIntExtra("index", 0) : iSavedIndex);
         }		
         
         m_viewImageLoader.setOnClickListener(new View.OnClickListener() {

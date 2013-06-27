@@ -38,11 +38,13 @@ public class ProfileActivity extends ListActivityBase {
 	private static final int ACTIVITY_WEB_PAGE=7;
 
 	protected ProfileActivity m_actProfile;
+	protected boolean m_isFinishActivityAfterFriendRquest = false;
 	
 	protected String m_sUsername;
 	protected String m_sUserTitle;
 	protected String m_sThumb;
 	protected String m_sInfo;
+	
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,22 +86,12 @@ public class ProfileActivity extends ListActivityBase {
 				if (result instanceof String) {
 					
 					String s = result.toString();
-					if (s.equals("-1") || 0 == s.length()) 
-						s = m_actThis.getString(R.string.access_denied);
-					
-                	AlertDialog dialog = new AlertDialog.Builder(m_actThis).create();
-                	dialog.setMessage(s);
-                	dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.close), new DialogInterface.OnClickListener() {
-                		public void onClick(DialogInterface dialog, int whichButton) {
-                			dialog.dismiss();
-                			Connector o = Main.getConnector();
-                			if (!m_sUsername.equalsIgnoreCase(o.getUsername())) {
-                				finish();
-                			}
-                		}
-                	}); 
-                	dialog.show();
-                	
+					if (s.equals("-1")) {
+						dialogMsgAddFriend(m_actThis.getString(R.string.access_denied));
+					} else {
+						dialogMsg(0 == s.length() ? m_actThis.getString(R.string.access_denied) : s, true);
+					}
+
 				} else {
 				
 					Map<String, Object> mapProfileInfo;
@@ -266,20 +258,58 @@ public class ProfileActivity extends ListActivityBase {
                         
         o.execAsyncMethod("dolphin.addFriend", aParams, new Connector.Callback() {
 			public void callFinished(Object result) {
-				
-                AlertDialog dialog = new AlertDialog.Builder(m_actThis).create();
-                dialog.setMessage(result.toString());
-                dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.close), new DialogInterface.OnClickListener() {
-                	public void onClick(DialogInterface dialog, int whichButton) {
-                		dialog.dismiss();
-                	}
-                }); 
-                dialog.show();
-                
+				dialogMsg(result.toString(), m_isFinishActivityAfterFriendRquest);
 			}
         }, this);
         
         
     }
-         
+
+    protected void dialogMsgAddFriend(String sMsg) {
+        AlertDialog dialog = new AlertDialog.Builder(m_actThis).create();
+        dialog.setMessage(sMsg);
+        
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.friends_add_friend), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+            	m_isFinishActivityAfterFriendRquest = true;
+            	onAddFriend();
+            }
+        });
+        
+        dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.close), new DialogInterface.OnClickListener() {
+    		@Override
+    		public void onClick(DialogInterface dialog, int whichButton) {
+    			dialog.dismiss();
+        		Connector o = Main.getConnector();
+        		if (!m_sUsername.equalsIgnoreCase(o.getUsername()))
+        			finish();
+    		}
+        }); 
+        dialog.show();    	
+    }
+    
+    protected void dialogMsg (String sMsg, boolean isFinishOnClose) {
+        AlertDialog dialog = new AlertDialog.Builder(m_actThis).create();
+        dialog.setMessage(sMsg);
+        dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.close), new CustomDialogOnClickListener(isFinishOnClose)); 
+        dialog.show();
+    }
+    
+    protected class CustomDialogOnClickListener implements DialogInterface.OnClickListener {
+    	protected boolean m_isFinishOnClose;
+    	
+    	public CustomDialogOnClickListener (boolean isFinishOnClose) {
+    		m_isFinishOnClose = isFinishOnClose;
+    	}
+		@Override
+		public void onClick(DialogInterface dialog, int whichButton) {			
+			dialog.dismiss();
+			if (m_isFinishOnClose) {
+    			Connector o = Main.getConnector();
+    			if (!m_sUsername.equalsIgnoreCase(o.getUsername()))
+    				finish();
+			}
+		}
+    
+    }
 }

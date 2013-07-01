@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.boonex.oo.Connector;
+import com.boonex.oo.Main;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,15 +67,28 @@ public class MediaFilesAdapter extends BaseAdapter {
 			return m_listViews.get(i);		
 		return null;
 	}
-	
-	public View getViewReal(int i) {
-		Map<String, Object> map = (Map<String, Object>)m_listFiles.get(i);
-		return new ThumbViewMedia(m_context, map, m_sUsername);	
-	}
 
+	public View getViewReal(int i) {
+		if (i >= 0 && i < m_listViews.size())
+			return m_listViews.get(i);
+		Map<String, Object> map = (Map<String, Object>)m_listFiles.get(i);
+		if (isDeleteAllowed())
+			return new ThumbViewMediaEdit(m_context, map, m_sUsername);
+		else
+			return new ThumbViewMedia(m_context, map, m_sUsername);
+	}	
+	
 	public List<Map<String, Object>> getListStorage () {
 		return m_listFiles;
 	}
 	
+	protected boolean isDeleteAllowed () {
+		Connector o = Main.getConnector();
+		// if not owner, don't allow file deletion
+		if (!m_sUsername.equalsIgnoreCase(o.getUsername()))
+			return false;		
+		// allow deletion for API >= 5 only (except Images, see ImagesFilesAdapter)
+		return o.getProtocolVer() >= 5 ? true : false;
+	}
 
 }

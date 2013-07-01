@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ public class MediaFilesActivity extends ListActivityBase {
 	protected boolean m_isAlbumDefault;
 	protected Object m_aFiles[];
 	protected Connector m_oConnector;
+	protected String m_sMethodRemove;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,17 @@ public class MediaFilesActivity extends ListActivityBase {
         reloadRemoteData();
     }
     
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	if (isAddAllowed()) {
+    		MenuInflater inflater = getMenuInflater();
+    		inflater.inflate(R.menu.media, menu);
+    		return true;
+    	} else {
+    		return super.onCreateOptionsMenu(menu);
+    	}
+    }
+	
     protected void reloadRemoteData() {
                
         Object[] aParams = {
@@ -124,11 +138,37 @@ public class MediaFilesActivity extends ListActivityBase {
     }
     
     public void onRemoveFile (String sId) {
+    	if(null == m_sMethodRemove || m_sMethodRemove.isEmpty())
+    		return;
     	
+    	Log.d(TAG, "onRemove: " + sId);
+    	
+        Object[] aParams = {
+        		m_oConnector.getUsername(), 
+        		m_oConnector.getPassword(),
+        		sId
+        };                                    
+        
+        m_oConnector.execAsyncMethod(m_sMethodRemove, aParams, new Connector.Callback() {
+			
+			public void callFinished(Object result) {
+				Log.d(TAG, m_sMethodRemove + " result: " + result.toString());
+				if (result.toString().equals("ok")) {
+					reloadRemoteData();
+					Connector o = Main.getConnector();
+					o.setAlbumsReloadRequired(true);
+				} 
+			}
+        }, this);
+        
     }
     
     public void onViewFile (String sId) {
     	
     }    
-    
+
+	protected boolean isAddAllowed () {
+		// if not owner, don't allow file adding
+		return m_sUsername.equalsIgnoreCase(m_oConnector.getUsername());
+	}
 }

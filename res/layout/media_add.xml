@@ -4,44 +4,49 @@
 	android:orientation="vertical" 
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content">
-<LinearLayout style="@style/OOUniContWholePage">	
+<LinearLayout style="@style/OOUniContWholePage">
 
 		
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textAppearance="@style/MyDefaultTextAppearance"
-		android:text="@string/media_images_caption_image" />
+		android:text="@string/media_file" />
 
-	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content">
-
-	<TableRow android:gravity="center_vertical">
-
-		<ImageView android:id="@+id/media_images_image"
-			android:layout_width="100px"
-			android:layout_height="100px"			
-			android:background="#FFF"/>
-
-		<Button android:id="@+id/media_images_btn_from_camera" 
-	  		android:text="@string/media_images_from_camera"	  		
+	<LinearLayout 
+		android:orientation="horizontal" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+	
+		<ImageView
+		    android:id="@+id/media_file_preview"
+			android:layout_width="160dp"
+			android:layout_height="90dp" 
+			android:background="#000" />
+	    
+		<LinearLayout 
+			android:orientation="vertical" 
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" />
+			android:layout_height="wrap_content">
 			
-		<Button android:id="@+id/media_images_btn_from_gallery" 
-	  		android:text="@string/media_images_from_gallery"	  		
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" />
+			<Button android:id="@+id/media_btn_from_camera" 
+	  			android:text="@string/media_from_camera"	  		
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
 
-	</TableRow>
-
-	</TableLayout>
+			<Button android:id="@+id/media_btn_from_gallery" 
+	  			android:text="@string/media_from_gallery"	  		
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+				
+		</LinearLayout>
+		    
+	</LinearLayout>
 
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textAppearance="@style/MyDefaultTextAppearance"
-		android:text="@string/media_images_caption_title" />
-	<EditText android:id="@+id/media_images_title"
+		android:text="@string/media_caption_title" />
+	<EditText android:id="@+id/media_title"
 		android:singleLine="true" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />
@@ -49,8 +54,8 @@
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textAppearance="@style/MyDefaultTextAppearance"
-		android:text="@string/media_images_caption_tags" />
-	<EditText android:id="@+id/media_images_tags"
+		android:text="@string/media_caption_tags" />
+	<EditText android:id="@+id/media_tags"
 		android:singleLine="true" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />
@@ -58,15 +63,15 @@
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" 
 		android:textAppearance="@style/MyDefaultTextAppearance"
-		android:text="@string/media_images_caption_desc" />
-	<EditText android:id="@+id/media_images_desc"
+		android:text="@string/media_caption_desc" />
+	<EditText android:id="@+id/media_desc"
 		android:singleLine="false"
 		android:gravity="top"		
 		android:layout_width="fill_parent"
 		android:layout_height="200dip" />	
 							
-	<Button android:id="@+id/media_images_submit" 
-	  	android:text="@string/media_images_submit"
+	<Button android:id="@+id/media_submit" 
+	  	android:text="@string/media_submit"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />	
 

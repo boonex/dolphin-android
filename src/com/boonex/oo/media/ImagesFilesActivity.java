@@ -1,7 +1,5 @@
 package com.boonex.oo.media;
 
-
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -9,40 +7,24 @@ import java.util.Map;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.boonex.oo.Connector;
-import com.boonex.oo.Main;
 import com.boonex.oo.R;
 
 public class ImagesFilesActivity extends MediaFilesActivity {
-	private static final String TAG = "ImagesFilesActivity";
 	
 	public ImagesFilesActivity () {
 		super();		
 		m_sMethodXMLRPC = "dolphin.getImagesInAlbum";
+		m_sMethodRemove = "dolphin.removeImage";
 	}
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitleCaption (R.string.title_image_files);
-    }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	if (m_sUsername.equalsIgnoreCase(m_oConnector.getUsername())) {
-    		MenuInflater inflater = getMenuInflater();
-    		inflater.inflate(R.menu.media, menu);
-    		return true;
-    	} else {
-    		return super.onCreateOptionsMenu(menu);
-    	}
     }
 
     @Override
@@ -90,30 +72,6 @@ public class ImagesFilesActivity extends MediaFilesActivity {
 		}
 	}	
 	
-	
-    public void onRemoveFile (String sId) {
-    	Log.d(TAG, "onRemove: " + sId);
-    	
-        Object[] aParams = {
-        		m_oConnector.getUsername(), 
-        		m_oConnector.getPassword(),
-        		sId
-        };                                    
-                               
-        m_oConnector.execAsyncMethod("dolphin.removeImage", aParams, new Connector.Callback() {
-			
-			public void callFinished(Object result) {
-				Log.d(TAG, "dolphin.removeImage result: " + result.toString());
-				if (result.toString().equals("ok")) {
-					reloadRemoteData();
-					Connector o = Main.getConnector();
-					o.setAlbumsReloadRequired(true);
-				} 
-			}
-        }, this);
-        
-    }
-    
     public void onViewFile (String sId) {
     	int i = filesAdapter.getPositionByFileId (sId);
     	if (i >= 0)

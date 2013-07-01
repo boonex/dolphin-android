@@ -17,11 +17,10 @@
 	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-     
-    
-		
-    <uses-feature android:name="android.hardware.camera" android:required="false" />  
-	
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
+
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@style/MyTheme" android:allowBackup="true">
     	    
     	<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
@@ -62,6 +61,7 @@
 		<activity android:name=".media.MediaAV" android:configChanges="orientation|keyboardHidden" />
 		<activity android:name=".media.ImagesGallery" android:configChanges="orientation|keyboardHidden" />
 		<activity android:name=".media.AddImageActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".media.AddVideoActivity" android:configChanges="orientation|keyboardHidden" />
 		<activity android:name=".search.SearchHomeActivity" android:configChanges="orientation|keyboardHidden" />
 		<activity android:name=".search.SearchKeywordActivity" android:configChanges="orientation|keyboardHidden" />
 		<activity android:name=".search.SearchResultsKeywordActivity" android:configChanges="orientation|keyboardHidden" />

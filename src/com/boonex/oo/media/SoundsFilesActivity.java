@@ -10,6 +10,7 @@ public class SoundsFilesActivity extends MediaFilesActivity {
 	public SoundsFilesActivity () {
 		super();
 		m_sMethodXMLRPC = "dolphin.getAudioInAlbum";
+		m_sMethodRemove = "dolphin.removeAudio5";
 	}
 
     @Override
@@ -21,5 +22,8 @@ public class SoundsFilesActivity extends MediaFilesActivity {
     protected MediaFilesAdapter getAdapterInstance (Context context, Object[] aFiles, String sUsername) {    	    	
 		return (MediaFilesAdapter)new SoundsFilesAdapter(context, aFiles, sUsername);
     }
-    
+   
+	protected boolean isAddAllowed () {
+		return false;
+	}    
 }

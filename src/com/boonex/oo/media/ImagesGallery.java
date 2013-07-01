@@ -24,7 +24,6 @@ import com.boonex.oo.Main;
 import com.boonex.oo.R;
 
 public class ImagesGallery extends ActivityBase {
-
 	private static final String TAG = "ImagesGallery";
 	
 	protected LoaderImageView m_viewImageLoader;

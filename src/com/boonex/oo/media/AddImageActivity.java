@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,60 +17,35 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.boonex.oo.ActivityBase;
 import com.boonex.oo.Connector;
 import com.boonex.oo.Main;
 import com.boonex.oo.R;
 
-public class AddImageActivity extends ActivityBase {
+public class AddImageActivity extends AddMediaActivity {
 	private static final String TMP_FILE = "tmp_oo.jpg";
 	private static final int MAX_WIDTH = 1280;
 	private static final int MAX_HEIGHT = 1280;
-	private static final int CAMERA_ACTIVITY = 0;
-	private static final int PICKER_ACTIVITY = 1;
 	private static final String TAG = "AddImageActivity";
-	protected Button m_buttonSubmit;
-	protected Button m_buttonFromCamera;
-	protected Button m_buttonFromGallery;
-	protected EditText m_editTitle;
-	protected EditText m_editTags;
-	protected EditText m_editDesc;
-	protected ImageView m_viewImage;
+	
 	protected Bitmap m_bmpImage;	
-	protected String m_sAlbumName;
-	protected AddImageActivity m_actAddImage;
     
+	public AddImageActivity () {
+		super();
+		sGalleryFilesType = "image/*";
+	}
+	
     @Override
     protected void onCreate(Bundle b) {
-        super.onCreate(b, true, false);  
-                
-        setContentView(R.layout.media_images_add);
-        setTitleCaption (R.string.title_image_add);
-        
+        super.onCreate(b);  
+                        
         Object data = getLastNonConfigurationInstance();
-        if (data != null)
+        if (data != null) 
         	m_bmpImage = (Bitmap)data;         
         
-        m_buttonSubmit = (Button) findViewById(R.id.media_images_submit);
-        m_buttonFromCamera = (Button) findViewById(R.id.media_images_btn_from_camera);
-        m_buttonFromGallery = (Button) findViewById(R.id.media_images_btn_from_gallery);
-        m_editTitle = (EditText) findViewById(R.id.media_images_title);
-        m_editTags = (EditText) findViewById(R.id.media_images_tags);
-        m_editDesc = (EditText) findViewById(R.id.media_images_desc);        
-        m_viewImage = (ImageView) findViewById(R.id.media_images_image);
         if (null != m_bmpImage)
-        	m_viewImage.setImageBitmap(m_bmpImage);
-        
-        m_actAddImage = this;
-        
-        Intent i = getIntent();  
-        m_sAlbumName = i.getStringExtra("album_name");
-        
+        	m_viewFileThumb.setImageBitmap(m_bmpImage); 
+       
         m_buttonFromCamera.setOnClickListener(new View.OnClickListener(){            
             public void onClick(View view) {               
                            	
@@ -84,32 +57,14 @@ public class AddImageActivity extends ActivityBase {
         			startActivityForResult(mIntent, CAMERA_ACTIVITY);
         		
             }
-        });         
-
-        m_buttonFromGallery.setOnClickListener(new View.OnClickListener(){            
-            public void onClick(View view) {               
-    	    	Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            	photoPickerIntent.setType("image/*");            
-            	startActivityForResult(photoPickerIntent, PICKER_ACTIVITY);
-            }
-        });         
-
+        });
         
         m_buttonSubmit.setOnClickListener(new View.OnClickListener(){            
             public void onClick(View view) {               
                 Connector o = Main.getConnector();                
                 
-                if (0 == m_editTitle.getText().length() || 
-                	null == m_bmpImage) {
-                	AlertDialog dialog = new AlertDialog.Builder(m_actAddImage).create();
-                	dialog.setTitle(getString(R.string.media_image_add_popup_error_title));
-                	dialog.setMessage(getString(R.string.media_image_add_form_error)); 
-                	dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.close), new DialogInterface.OnClickListener() {
-                		public void onClick(DialogInterface dialog, int whichButton) {
-                			dialog.dismiss();
-                		}
-                	}); 
-                	dialog.show();
+                if (0 == m_editTitle.getText().length() || null == m_bmpImage) {
+                	showErrorDialog(R.string.media_form_error, false);
                 	return;
                 }
                 
@@ -136,20 +91,7 @@ public class AddImageActivity extends ActivityBase {
         				Log.d(TAG, "dolphin.uploadImage result: " + result.toString());
         				
         				if (!result.toString().equals("ok")) {
-        				        				
-        					String sTitle = getString(R.string.media_image_add_popup_error_title);
-        					String sErrorMsg = getString(R.string.media_image_upload_failed);
-        				        				
-        					AlertDialog dialog = new AlertDialog.Builder(m_actAddImage).create();
-        					dialog.setTitle(sTitle);
-        					dialog.setMessage(sErrorMsg);
-        					dialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.close), new DialogInterface.OnClickListener() {
-        						public void onClick(DialogInterface dialog, int whichButton) {
-                        			dialog.dismiss();
-                        			finish();
-        						}
-        					}); 
-        					dialog.show();
+        					showErrorDialog(R.string.media_upload_failed, true);
         				} else {
         					Connector o = Main.getConnector();
         					o.setImagesReloadRequired(true);
@@ -157,7 +99,7 @@ public class AddImageActivity extends ActivityBase {
         					finish();
         				}
         			}
-                }, m_actAddImage);
+                }, m_actAddMedia);
                                
             }
         });
@@ -181,7 +123,7 @@ public class AddImageActivity extends ActivityBase {
 		super.onActivityResult(requestCode, resultCode, intent);
 				
 		if (resultCode == RESULT_CANCELED) {
-			showToast(getString(R.string.media_images_add_activity_canceled));
+			showToast(getString(R.string.media_activity_canceled));
 			return;
 		}
 				
@@ -254,7 +196,7 @@ public class AddImageActivity extends ActivityBase {
 		        
 				// recreate final bitmap
 				if (m_bmpImage != null) {
-					m_viewImage.setImageBitmap(null);
+					m_viewFileThumb.setImageBitmap(null);
 					m_bmpImage = null;
 				}
 				m_bmpImage = Bitmap.createBitmap(tmpImage, 0, 0, w, h, matrix, true); 
@@ -262,9 +204,9 @@ public class AddImageActivity extends ActivityBase {
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
 					tmpImage.recycle();
 		    					
-				m_viewImage.setImageBitmap(m_bmpImage); // Display image in the View				
+				m_viewFileThumb.setImageBitmap(m_bmpImage); // Display image in the View				
 			
-				sMsg = getString(R.string.media_images_add_image_selected);
+				sMsg = getString(R.string.media_file_selected);
 					
 			}
 			
@@ -272,13 +214,5 @@ public class AddImageActivity extends ActivityBase {
 		}			
 
 	}
-
-	/**
-	 * Utility method for displaying a Toast.
-	 * @param mContext
-	 * @param text
-	 */
-	private void showToast(String s) {
-		Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-	}    
+    
 }

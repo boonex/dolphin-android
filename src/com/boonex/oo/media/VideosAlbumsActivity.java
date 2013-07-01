@@ -18,7 +18,7 @@ public class VideosAlbumsActivity extends MediaAlbumsActivity {
         super.onCreate(savedInstanceState);
         setTitleCaption (R.string.title_video_albums);
     }
-	
+	    
     protected MediaAlbumsAdapter getAdapterInstance (Context context, Object[] aAlbums) {    	
     	return (MediaAlbumsAdapter)new VideosAlbumsAdapter (context, aAlbums);
     }

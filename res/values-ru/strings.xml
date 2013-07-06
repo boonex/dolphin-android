@@ -7,6 +7,7 @@
     <string name="access_denied">Доступ закрыт</string>
     <string name="loading">Работаю...</string>
     <string name="exception">Исключительная ситуация</string>
+    <string name="exception_out_of_memory">Не хватает свободной памяти</string>
     <string name="x_yo">%s лет</string>
     <!-- <string name="x_yo_gender">%s y/o %s</string> -->
     <string name="about_text">Мобильное приложение Dolphin для Андроид устройств v.%s
@@ -134,6 +135,7 @@
     <string name="media_popup_error_title">ОШИБКА</string>
     <string name="media_upload_success_pending_conversion">Файл загружен, но нужно подождать пока он обработается</string>
     <string name="media_error_from_camera_or_gallery">Извините, этот файл не может быть использован</string>
+    <string name="media_error_file_too_big">Файл не умещается в памяти, попробуйте использовать файл поменьше</string>
     <string name="media_images_gallery_next">Вперёд</string>
     <string name="media_images_gallery_prev">Назад</string>
     <string name="media_images_gallery_set_as_avatar">Сделать аватаром</string>    

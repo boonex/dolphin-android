@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.SocketException;
 import java.net.URI;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -59,6 +60,7 @@ public class Connector extends Object implements Serializable {
 	protected boolean m_bImagesReloadRequired;
 	protected boolean m_bAlbumsReloadRequired;	
 	protected Context m_context;
+	protected boolean m_isLoading = false;
 	
 	public Connector (String sUrl, String sUsername, String sPwd, int iMemberId) {
 		m_sUrl = sUrl;
@@ -72,13 +74,22 @@ public class Connector extends Object implements Serializable {
 	
 	protected void setLoadingIndicator (boolean isLoading) {
 		if (null == m_context) 
-			return;
+			return;		
 		if (m_context instanceof ActivityBase)
 			((ActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
 		else if (m_context instanceof ListActivityBase)
 			((ListActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
 		else if (m_context instanceof FragmentActivityBase)
 			((FragmentActivityBase)m_context).getActionBarHelper().setRefreshActionItemState(isLoading);
+		m_isLoading = isLoading;
+	}
+	
+	public boolean isLoading () {
+		return m_isLoading;
+	}
+	
+	public boolean isSameContext(Context activity) {		
+		return activity.getClass().getSimpleName().equals(m_context.getClass().getSimpleName());
 	}
 	
 	public void execAsyncMethod (String sMethod, Object[] aParams, Callback oCallBack, Context context) {
@@ -165,7 +176,13 @@ public class Connector extends Object implements Serializable {
     			
     			} while (isRepeatLoop);
     			
+    		} catch (final SocketException e) {
+    			
+    			Log.e(TAG, "SOCKET ERROR:" + e.toString());
+    			setLoadingIndicator(false);
+    			
     		} catch (final Exception e) {
+    			
     			handler.post(new Runnable() {
     				public void run() {						
     					Log.e(TAG, "Error: " + e.getMessage());
@@ -173,13 +190,31 @@ public class Connector extends Object implements Serializable {
     					
     					if (callBack.callFailed(e)) {
     						Builder builder = new AlertDialog.Builder(m_context);
-    			        	builder.setTitle(m_context.getResources().getString(R.string.exception));
+    			        	builder.setTitle(R.string.exception);
     			        	builder.setMessage(e.getMessage());
-    			        	builder.setNegativeButton("cancel", null);
+    			        	builder.setNegativeButton(R.string.close, null);
+    			        	builder.show();
+    					}
+    				}
+    			});    		
+    			
+    		} catch (final OutOfMemoryError e) {
+    			
+    			handler.post(new Runnable() {
+    				public void run() {						
+    					Log.e(TAG, "Error: " + e.getMessage());
+    					setLoadingIndicator(false);
+    					
+    					if (callBack.callFailed(new Exception(e.getMessage()))) {
+    						Builder builder = new AlertDialog.Builder(m_context);
+    			        	builder.setTitle(R.string.exception_out_of_memory);
+    			        	builder.setMessage(e.getMessage());
+    			        	builder.setNegativeButton(R.string.close, null);
     			        	builder.show();
     					}
     				}
     			});
+    			
     		}
 		}
 		

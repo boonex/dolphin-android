@@ -7,14 +7,15 @@
     <string name="app_id">320473678069992</string>
     
     <!-- Google API Key https://code.google.com/apis/console/ Services "Google Maps Android API v2", "Google Play Android Developer API" -->
-    <!-- <string name="google_maps_key">AIzaSyCxxNY1IbtqKl_8pFjVnJ3HZwSbF-i9IQU</string> --> <!-- release -->
-    <string name="google_maps_key">AIzaSyB9xakFe332Pfs0CL5OSQZwbI9LCJ__T_k</string> <!-- debug -->
+    <string name="google_maps_key">AIzaSyCxxNY1IbtqKl_8pFjVnJ3HZwSbF-i9IQU</string> <!-- release -->
+    <!-- <string name="google_maps_key">AIzaSyB9xakFe332Pfs0CL5OSQZwbI9LCJ__T_k</string> --> <!-- debug -->
     
     <string name="error">Error</string>
     <string name="close">Close</string>
     <string name="access_denied">Access denied</string>    
     <string name="loading">Working...</string>
     <string name="exception">Exception</string>
+    <string name="exception_out_of_memory">There is no enough free memory for the operation</string>
     <string name="x_yo">%s y/o</string>
     <string name="about_text">Dolphin Mobile App for Android  v.%s
 &lt;br /&gt;&lt;br /&gt;
@@ -72,7 +73,7 @@ and mobile apps package from &lt;a href="http://www.boonex.com/"&gt;BoonEx&lt;/a
     <string name="location_undefined">Location is undefined</string>
     <string name="location_not_available">Your current location is not available</string>
     <string name="location_settings_title">Location Settings</string>
-    <string name="location_settings_msg">All location providers aren\'t disable in settings. Do you want to go to settings menu?</string>            
+    <string name="location_settings_msg">All location providers are disabled in settings. Do you want to go to settings menu?</string>            
     <string name="login_site_url">Site URL:</string>
     <string name="login_username">Username:</string>
     <string name="login_password">Password:</string>
@@ -149,6 +150,7 @@ and mobile apps package from &lt;a href="http://www.boonex.com/"&gt;BoonEx&lt;/a
     <string name="media_popup_error_title">ERROR</string>
     <string name="media_upload_success_pending_conversion">File was uploaded, please wait until it is converted</string>
     <string name="media_error_from_camera_or_gallery">Sorry, file retrieving failed</string>
+    <string name="media_error_file_too_big">File is too big to fit into memory, please try smaller file</string>
     <string name="media_images_gallery_set_as_avatar">Set as avatar</string>    
     <string name="media_images_gallery_set_as_avatar_ok">Avatar was set</string>
     <string name="media_images_gallery_set_as_avatar_fail">Avatar set failed</string>    

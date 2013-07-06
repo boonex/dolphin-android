@@ -303,6 +303,7 @@ public class XMLRPCClient {
 	 * @throws Exception
 	 */
 	private Object callXMLRPC(String method, Object[] params) throws Exception {
+		    	
 		// prepare POST body
 		StringWriter bodyWriter = new StringWriter();
 		serializer.setOutput(bodyWriter);
@@ -315,7 +316,7 @@ public class XMLRPCClient {
 			serializer.startTag(null, TAG_PARAMS);
 			for (int i=0; i<params.length; i++) {
 				serializer.startTag(null, TAG_PARAM).startTag(null, XMLRPCSerializer.TAG_VALUE);
-				XMLRPCSerializer.serialize(serializer, params[i]);
+				XMLRPCSerializer.serialize(serializer, params[i]);				
 				serializer.endTag(null, XMLRPCSerializer.TAG_VALUE).endTag(null, TAG_PARAM);
 			}
 			serializer.endTag(null, TAG_PARAMS);

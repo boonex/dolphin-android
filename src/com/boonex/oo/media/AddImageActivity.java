@@ -51,64 +51,62 @@ public class AddImageActivity extends AddMediaActivity {
                            	
             	File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);
             	
-        		Intent mIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);	
-        			//mIntent.putExtra(MediaStore.EXTRA_OUTPUT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString());
-        			mIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        			startActivityForResult(mIntent, CAMERA_ACTIVITY);
-        		
+        		Intent mIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        		mIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        		startActivityForResult(mIntent, CAMERA_ACTIVITY);
             }
         });
-        
-        m_buttonSubmit.setOnClickListener(new View.OnClickListener(){            
-            public void onClick(View view) {               
-                Connector o = Main.getConnector();                
-                
-                if (0 == m_editTitle.getText().length() || null == m_bmpImage) {
-                	showErrorDialog(R.string.media_form_error, false);
-                	return;
-                }
-                
-                ByteArrayOutputStream bao = new ByteArrayOutputStream();
-                m_bmpImage.compress(Bitmap.CompressFormat.JPEG, 75, bao);
-                byte [] ba = bao.toByteArray();
-                
-                
-                Object[] aParams = {
-                		o.getUsername(), 
-                		o.getPassword(),
-                		m_sAlbumName,
-                		ba,
-                		Integer.valueOf(ba.length).toString(),
-                		m_editTitle.getText().toString(),
-                		m_editTags.getText().toString(),
-                		m_editDesc.getText().toString()
-                };                    
-                                
-                o.execAsyncMethod("dolphin.uploadImage", aParams, new Connector.Callback() {
-        			public void callFinished(Object result) {				         				
-        				
-        				
-        				Log.d(TAG, "dolphin.uploadImage result: " + result.toString());
-        				
-        				if (!result.toString().equals("ok")) {
-        					showErrorDialog(R.string.media_upload_failed, true);
-        				} else {
-        					Connector o = Main.getConnector();
-        					o.setImagesReloadRequired(true);
-        					o.setAlbumsReloadRequired(true);
-        					finish();
-        				}
-        			}
-                }, m_actAddMedia);
-                               
-            }
-        });
- 
+         
     }
- 
+    
     @Override
     public Object onRetainNonConfigurationInstance() {
         return m_bmpImage;
+    }
+    
+    @Override
+    protected void actionSubmitFile() {
+        Connector o = Main.getConnector();                
+        
+        if (0 == m_editTitle.getText().length() || null == m_bmpImage) {
+        	showErrorDialog(R.string.media_form_error, false);
+        	return;
+        }
+        
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        m_bmpImage.compress(Bitmap.CompressFormat.JPEG, 75, bao);
+        byte [] ba = bao.toByteArray();
+        
+        if (isFileTooBig(ba.length, true))
+        	return;
+        
+        Object[] aParams = {
+        		o.getUsername(), 
+        		o.getPassword(),
+        		m_sAlbumName,
+        		ba,
+        		Integer.valueOf(ba.length).toString(),
+        		m_editTitle.getText().toString(),
+        		m_editTags.getText().toString(),
+        		m_editDesc.getText().toString()
+        };                    
+                        
+        o.execAsyncMethod("dolphin.uploadImage", aParams, new Connector.Callback() {
+			public void callFinished(Object result) {				         				
+				
+				
+				Log.d(TAG, "dolphin.uploadImage result: " + result.toString());
+				
+				if (!result.toString().equals("ok")) {
+					showErrorDialog(R.string.media_upload_failed, true);
+				} else {
+					Connector o = Main.getConnector();
+					o.setImagesReloadRequired(true);
+					o.setAlbumsReloadRequired(true);
+					finish();
+				}
+			}
+        }, m_actAddMedia); 
     }
     
 	/**

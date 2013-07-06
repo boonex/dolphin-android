@@ -75,7 +75,7 @@ class Base64Coder {
 	 *            an array containing the data bytes to be encoded.
 	 * @return A character array with the Base64 encoded data.
 	 */
-	static char[] encode(byte[] in) {
+	static char[] encode(byte[] in) {		
 		return encode(in, in.length);
 	}
 
@@ -89,7 +89,7 @@ class Base64Coder {
 	 *            number of bytes to process in <code>in</code>.
 	 * @return A character array with the Base64 encoded data.
 	 */
-	static char[] encode(byte[] in, int iLen) {
+	static char[] encode(byte[] in, int iLen) {		
 		int oDataLen = (iLen * 4 + 2) / 3; // output length without padding
 		int oLen = ((iLen + 2) / 3) * 4; // output length including padding
 		char[] out = new char[oLen];

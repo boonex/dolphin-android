@@ -16,6 +16,8 @@
 
 package com.boonex.oo.actionbar;
 
+import com.boonex.oo.Connector;
+import com.boonex.oo.Main;
 import com.boonex.oo.R;
 
 import android.app.Activity;
@@ -61,6 +63,9 @@ public abstract class ActionBarHelper {
      * Action bar helper code to be run in {@link Activity#onCreate(android.os.Bundle)}.
      */
     public void onCreate(Bundle savedInstanceState) {
+    	Connector o = Main.getConnector();
+    	if (null != o && o.isLoading() && o.isSameContext(mActivity)) 
+    		setRefreshActionItemStateAlternate(true);    	
     }
 
     /**
@@ -69,6 +74,11 @@ public abstract class ActionBarHelper {
     public void onPostCreate(Bundle savedInstanceState) {
     }
 
+    protected void onDestroy() {
+    	if (m_dialogProgress != null)
+    		m_dialogProgress.dismiss();
+    }
+    
     /**
      * Action bar helper code to be run in {@link Activity#onCreateOptionsMenu(android.view.Menu)}.
      *
@@ -100,12 +110,20 @@ public abstract class ActionBarHelper {
     }
     
     protected void setRefreshActionItemStateAlternate(boolean refreshing) {
-		if (refreshing) {
-			String sLoading = mActivity.getResources().getString(R.string.loading);	
-			m_dialogProgress = ProgressDialog.show(mActivity, "", sLoading, true, false);
-		} else if (null != m_dialogProgress) { 
-			m_dialogProgress.dismiss();
-			m_dialogProgress = null;
+		if (refreshing && null == m_dialogProgress) {
+	    	if (!mActivity.isFinishing()) {
+	    		String sLoading = mActivity.getResources().getString(R.string.loading);
+				m_dialogProgress = ProgressDialog.show(mActivity, "", sLoading, true, false);
+	    	}
+		} else if (null != m_dialogProgress) {
+			try {
+				m_dialogProgress.dismiss();
+		    } catch (Exception e) {
+		        // nothing, dialog is already hidden
+		    } finally {
+		    	m_dialogProgress = null;
+		    }
 		}    	
     }    
+
 }

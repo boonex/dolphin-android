@@ -88,7 +88,7 @@ class XMLRPCSerializer {
 			serializer.startTag(null, TYPE_DATE_TIME_ISO8601).text(dateStr).endTag(null, TYPE_DATE_TIME_ISO8601);
 		} else
 		if (object instanceof byte[] ){
-			String value = new String(Base64Coder.encode((byte[])object));
+			String value = new String(Base64Coder.encode((byte[])object));			
 			serializer.startTag(null, TYPE_BASE64).text(value).endTag(null, TYPE_BASE64);
 		} else
 		if (object instanceof List) {

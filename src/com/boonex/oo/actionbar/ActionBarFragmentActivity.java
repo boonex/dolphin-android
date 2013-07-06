@@ -36,6 +36,12 @@ public abstract class ActionBarFragmentActivity extends FragmentActivity {
         mActionBarHelper.onPostCreate(savedInstanceState);
     }
 
+    @Override
+	protected void onDestroy() {
+    	mActionBarHelper.onDestroy();
+		super.onDestroy();
+	}
+    
     /**
      * Base action bar-aware implementation for
      * {@link Activity#onCreateOptionsMenu(android.view.Menu)}.

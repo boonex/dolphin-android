@@ -19,7 +19,7 @@ import com.boonex.oo.Main;
 import com.boonex.oo.R;
 
 public class AddVideoActivity extends AddMediaActivity {
-	private static final String TAG = "AddImageActivity";	
+	private static final String TAG = "AddVideoActivity";	
 	private static final String DEFAULT_EXTENSION = "3gp";
 	private static final String DEFAULT_MIMETYPE = "video/3gpp";
 	//private static final String TMP_FILE = "tmp_video";
@@ -47,73 +47,77 @@ public class AddVideoActivity extends AddMediaActivity {
             	/*
             	File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);
             	Uri uri = Uri.fromFile(file);
+            	mIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             	*/
-        		Intent mIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);	
-        			//mIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        			mIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 300);
-        			//mIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0.7);
-        			startActivityForResult(mIntent, CAMERA_ACTIVITY);
+        		Intent mIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);        			
+        		mIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 600);
+        		mIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // 0 - MMS quality, 1 - high quality
+        		startActivityForResult(mIntent, CAMERA_ACTIVITY);
         		
-            }
-        });
-
-        m_buttonSubmit.setOnClickListener(new View.OnClickListener(){            
-            public void onClick(View view) {               
-                Connector o = Main.getConnector();                
-                
-                if (0 == m_editTitle.getText().length() || null == m_uriVideo) {
-                	showErrorDialog(R.string.media_form_error, false);
-                	return;
-                }
-                                                
-                File file = new File(getRealPathFromURI(m_uriVideo));
-                byte[] ba;
-				try {
-					ba = readFile(file);
-				} catch (IOException e) {
-					e.printStackTrace();
-					showToast(e.toString());
-					return;
-				}
-                
-                Object[] aParams = {
-                		o.getUsername(), 
-                		o.getPassword(),
-                		m_sAlbumName,
-                		ba,
-                		Integer.valueOf(ba.length).toString(),
-                		m_editTitle.getText().toString(),
-                		m_editTags.getText().toString(),
-                		m_editDesc.getText().toString(),
-                		getExtFromURI(m_uriVideo)
-                };                    
-                                
-                o.execAsyncMethod("dolphin.uploadVideo", aParams, new Connector.Callback() {
-        			public void callFinished(Object result) {				         				
-        				
-        				
-        				Log.d(TAG, "dolphin.uploadVideo result: " + result.toString());
-        				
-        				if (!result.toString().equals("ok")) {
-        					showErrorDialog(R.string.media_upload_failed, true);
-        				} else {
-        					showToast(R.string.media_upload_success_pending_conversion);
-        					Connector o = Main.getConnector();
-        					o.setImagesReloadRequired(true);
-        					o.setAlbumsReloadRequired(true);
-        					finish();
-        				}
-        			}
-                }, m_actAddMedia);
-                               
             }
         });
  
     }
- 
+    
     @Override
     public Object onRetainNonConfigurationInstance() {    	
         return m_uriVideo;
+    }
+        
+    @Override
+    protected void actionSubmitFile() {
+        Connector o = Main.getConnector();                
+        
+        if (0 == m_editTitle.getText().length() || null == m_uriVideo) {
+        	showErrorDialog(R.string.media_form_error, false);
+        	return;
+        }
+                                                
+        File file = new File(getRealPathFromURI(m_uriVideo));
+        if (isFileTooBig(file.length(), true))
+        	return;
+        
+        byte[] ba;
+		try {
+			ba = readFile(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			showToast(e.toString());
+			return;
+        } catch (OutOfMemoryError e) {
+        	Log.d(TAG, "Out of memory: " + e);
+        	return;
+        } 
+
+        Object[] aParams = {
+        		o.getUsername(), 
+        		o.getPassword(),
+        		m_sAlbumName,
+        		ba,
+        		Integer.valueOf(ba.length).toString(),
+        		m_editTitle.getText().toString(),
+        		m_editTags.getText().toString(),
+        		m_editDesc.getText().toString(),
+        		getExtFromURI(m_uriVideo)
+        };                    
+        
+        o.execAsyncMethod("dolphin.uploadVideo", aParams, new Connector.Callback() {
+			public void callFinished(Object result) {
+				Log.d(TAG, "dolphin.uploadVideo result: " + result.toString());
+				
+				if (!result.toString().equals("ok")) {
+					showErrorDialog(R.string.media_upload_failed, true);
+				} else {
+					showToast(R.string.media_upload_success_pending_conversion);
+					Connector o = Main.getConnector();
+					o.setImagesReloadRequired(true);
+					o.setAlbumsReloadRequired(true);
+					isFileTooBig (0.0, false); // TODO: remove
+					finish();
+				}
+			}
+        }, m_actAddMedia);
+
     }
     
 	/**
@@ -133,15 +137,21 @@ public class AddVideoActivity extends AddMediaActivity {
 		}
 				
 		if (requestCode == CAMERA_ACTIVITY || requestCode == PICKER_ACTIVITY) {
+			System.gc();
+			
 			m_uriVideo = intent.getData();
 
 			Log.i(TAG, "Video URI: " + m_uriVideo); // file:///mnt/sdcard/tmp_video.3gp   |   content://media/external/video/media/5
 			Log.i(TAG, "Video Real Path: " + getRealPathFromURI(m_uriVideo));
-			Log.i(TAG, "Video Type: " + getMimeTypeFromURI(m_uriVideo)); // video/mp4, video/3gpp
- 
+			Log.i(TAG, "Video Type: " + getMimeTypeFromURI(m_uriVideo)); // video/mp4, video/3gpp			
+			
 			if (null != getRealPathFromURI(m_uriVideo)) {
-				this.previewVideo(m_uriVideo);
-				showToast(R.string.media_file_selected);
+				if (!isFileTooBig((new File(getRealPathFromURI(m_uriVideo))).length(), true)) {
+					this.previewVideo(m_uriVideo);
+					showToast(R.string.media_file_selected);
+				} else {
+					m_uriVideo = null;
+				}
 			} else { 
 				showToast(R.string.media_error_from_camera_or_gallery);
 				m_uriVideo = null;
@@ -185,4 +195,9 @@ public class AddVideoActivity extends AddMediaActivity {
 		return getDataFromURI(MediaStore.Images.Media.MIME_TYPE, contentUri);
 	}
 
+    @Override
+	protected void onDestroy() {
+    	System.gc();
+		super.onDestroy();
+	}	
 }

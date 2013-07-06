@@ -51,7 +51,9 @@ public class SearchResultsKeywordActivity extends SearchResultsBaseActivity {
 				m_aProfiles = (Object [])result;
 				
 				Log.d(TAG, "dolphin.getSearchResultsKeyword num: " + m_aProfiles.length); 
-								
+				
+				checkNextButton(m_aProfiles.length == m_iPerPage);
+				
 				adapterSearchResults = new SearchResultsAdapter(m_actThis, m_aProfiles, m_aProfiles.length == m_iPerPage);
 		        setListAdapter(adapterSearchResults);
 			}

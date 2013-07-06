@@ -4,7 +4,7 @@
 	android:orientation="vertical" 
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content">
-<LinearLayout style="@style/OOUniContWholePage">	
+<LinearLayout style="@style/OOUniContWholePage">
 	
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" 
@@ -22,8 +22,6 @@
 	<CheckBox android:id="@+id/with_photos_only"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />
-
-	<Button android:id="@+id/submit" android:text="@string/search_submit" style="@style/OOSubmitBtn" />
 
 </LinearLayout>
 </LinearLayout>

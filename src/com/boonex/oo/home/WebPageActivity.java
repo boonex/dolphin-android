@@ -86,7 +86,7 @@ public class WebPageActivity extends ActivityBase {
     		super();    		
     	}
     	
-    	public void onProgressChanged(WebView view, int progress) {
+    	public void onProgressChanged(WebView view, int progress) {    		
     		getActionBarHelper().setRefreshActionItemState(progress >= 100 ? false : true);
     	}    	
     }
@@ -254,7 +254,7 @@ public class WebPageActivity extends ActivityBase {
         }
         
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            Toast.makeText(m_actWebPage, description, Toast.LENGTH_SHORT).show();
+            Toast.makeText(m_actWebPage, description + " (" + failingUrl + ")", Toast.LENGTH_SHORT).show();
         }        
     }    
 }

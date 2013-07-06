@@ -11,7 +11,7 @@
 		android:textAppearance="@style/MyDefaultTextAppearance"
 		android:text="@string/search_country_row_caption" />
 
-	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<TableLayout
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:stretchColumns="1">
@@ -61,10 +61,6 @@
 	<CheckBox android:id="@+id/with_photos_only"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />
-
-
-	<Button android:id="@+id/submit" android:text="@string/search_submit" style="@style/OOSubmitBtn" />
-
 
 </LinearLayout>
 </LinearLayout>

@@ -33,10 +33,6 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />
 
-
-	<Button android:id="@+id/submit" android:text="@string/search_submit" style="@style/OOSubmitBtn" />
-
-
 </LinearLayout>
 </LinearLayout>
 </ScrollView>

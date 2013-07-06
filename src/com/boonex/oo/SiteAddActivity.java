@@ -5,8 +5,9 @@ import java.net.URI;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.boonex.oo.Connector;
@@ -14,8 +15,7 @@ import com.boonex.oo.Connector;
 
 public class SiteAddActivity extends ActivityBase {
 	private static final String TAG = "OO SiteAddActivity";
-	
-	protected Button m_buttonSubmit;	
+		
 	protected EditText m_editSite;
 	
     @Override
@@ -26,20 +26,6 @@ public class SiteAddActivity extends ActivityBase {
         setTitleCaption (R.string.title_login);
                
         m_editSite = (EditText) findViewById(R.id.site);
-        m_buttonSubmit = (Button) findViewById(R.id.submit);        
-        
-        	
-        View.OnClickListener listener = new View.OnClickListener() {        	
-            public void onClick(View view) {
-            	if (0 == m_editSite.getText().toString().length())
-            		alertError(R.string.msg_url_incorrect);
-            	else
-            		actionAddSite();
-            }          
-        };                
-        m_buttonSubmit.setOnClickListener(listener);
-
-
     }
 	
     protected void actionAddSite() {            			
@@ -79,5 +65,24 @@ public class SiteAddActivity extends ActivityBase {
         
         o.execAsyncMethod(sMethod, aParams, oCallback, m_actThis);        
     }    
-	
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.site_add, menu);
+    	return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.site_add:
+        	if (0 == m_editSite.getText().toString().length())
+        		alertError(R.string.msg_url_incorrect);
+        	else
+        		actionAddSite();
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }    
 }

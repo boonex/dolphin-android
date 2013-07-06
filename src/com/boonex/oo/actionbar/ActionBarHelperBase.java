@@ -104,6 +104,8 @@ public class ActionBarHelperBase extends ActionBarHelper {
     /**{@inheritDoc}*/
     @Override
     public void setRefreshActionItemState(boolean refreshing) {
+    	setRefreshActionItemStateAlternate(refreshing);
+    	/*
         View refreshButton = mActivity.findViewById(R.id.actionbar_compat_item_refresh);
         View refreshIndicator = mActivity.findViewById(R.id.actionbar_compat_item_refresh_progress);
 
@@ -113,6 +115,7 @@ public class ActionBarHelperBase extends ActionBarHelper {
         } else {
         	setRefreshActionItemStateAlternate(refreshing);
         }
+        */
     }
     
     /**
@@ -124,6 +127,9 @@ public class ActionBarHelperBase extends ActionBarHelper {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Hides on-screen action items from the options menu.
         for (Integer id : mActionItemIds) {
+        	MenuItem item = menu.findItem(id);
+        	if (null == item)
+        		continue;
             menu.findItem(id).setVisible(false);
         }
         return true;
@@ -268,8 +274,8 @@ public class ActionBarHelperBase extends ActionBarHelper {
 
                             showAsAction = parser.getAttributeIntValue(MENU_RES_NAMESPACE,
                                     MENU_ATTR_SHOW_AS_ACTION, -1);
-                            if (showAsAction == MenuItem.SHOW_AS_ACTION_ALWAYS ||
-                                    showAsAction == MenuItem.SHOW_AS_ACTION_IF_ROOM) {
+                            if (0 != (showAsAction & MenuItem.SHOW_AS_ACTION_ALWAYS) ||
+                                    0 != (showAsAction & MenuItem.SHOW_AS_ACTION_IF_ROOM)) {
                                 mActionItemIds.add(itemId);
                             }
                             break;

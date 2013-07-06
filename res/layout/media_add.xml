@@ -68,13 +68,7 @@
 		android:singleLine="false"
 		android:gravity="top"		
 		android:layout_width="fill_parent"
-		android:layout_height="200dip" />	
-							
-	<Button android:id="@+id/media_submit" 
-	  	android:text="@string/media_submit"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content" />	
-
+		android:layout_height="200dip" />
 
 </LinearLayout>
 </LinearLayout>

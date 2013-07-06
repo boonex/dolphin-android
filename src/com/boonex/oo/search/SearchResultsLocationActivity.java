@@ -61,6 +61,8 @@ public class SearchResultsLocationActivity extends SearchResultsBaseActivity {
 				
 				Log.d(TAG, "dolphin.getSearchResultsLocation num: " + m_aProfiles.length); 
 								
+				checkNextButton(m_aProfiles.length == m_iPerPage);
+				
 				adapterSearchResults = new SearchResultsAdapter(m_actThis, m_aProfiles, m_aProfiles.length == m_iPerPage);
 		        setListAdapter(adapterSearchResults);
 			}

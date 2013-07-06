@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -37,8 +40,9 @@ public class ProfileActivity extends ListActivityBase {
 	private static final int ACTIVITY_CONTACT=6;
 	private static final int ACTIVITY_WEB_PAGE=7;
 
-	protected ProfileActivity m_actProfile;
 	protected boolean m_isFinishActivityAfterFriendRquest = false;
+	
+	protected Menu m_oMenu;
 	
 	protected String m_sUsername;
 	protected String m_sUserTitle;
@@ -51,8 +55,6 @@ public class ProfileActivity extends ListActivityBase {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.list);
-
-        m_actProfile = this;
         
         Intent i = getIntent();
         m_sUsername = i.getStringExtra("username");
@@ -146,13 +148,14 @@ public class ProfileActivity extends ListActivityBase {
 			    		m_sInfo = (String)mapProfileInfo.get("user_info");
 			    		m_sUserTitle = (String)mapProfileInfo.get("user_title");
 			    	} else {
-				    	m_sInfo = Main.formatUserInfo(mapProfileInfo, m_actProfile);
+				    	m_sInfo = Main.formatUserInfo(mapProfileInfo, m_actThis);
 				    	m_sUserTitle = m_sUsername;
 			    	}
 			    	setTitleCaption (m_sUserTitle);
 			    	m_sThumb = (String)mapProfileInfo.get("thumb");			    	
 					ProfileAdapter adapter = new ProfileAdapter (m_actThis, mapProfileInfo, aMenu, m_sUsername);
 					setListAdapter(adapter);
+					checkAddToFriendButton();
 				}
 			}
         }, this);    	
@@ -201,7 +204,7 @@ public class ProfileActivity extends ListActivityBase {
         		i.putExtra("user_title", m_sUserTitle);
         		i.putExtra("thumb", m_sThumb);
         		i.putExtra("info", m_sInfo);			
-        		startActivityForResult(i, ACTIVITY_PROFILE_INFO);        	
+        		startActivityForResult(i, ACTIVITY_PROFILE_INFO);
         	}
         	break;		
         	case 7:
@@ -261,10 +264,27 @@ public class ProfileActivity extends ListActivityBase {
 				dialogMsg(result.toString(), m_isFinishActivityAfterFriendRquest);
 			}
         }, this);
-        
-        
+               
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	m_oMenu = menu;
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.profile, menu);
+    	return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.profile_add_friend:
+        	onAddFriend();
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
     protected void dialogMsgAddFriend(String sMsg) {
         AlertDialog dialog = new AlertDialog.Builder(m_actThis).create();
         dialog.setMessage(sMsg);
@@ -312,4 +332,17 @@ public class ProfileActivity extends ListActivityBase {
 		}
     
     }
+    
+	protected void checkAddToFriendButton() {
+		ProfileAdapter adapter = (ProfileAdapter)getListAdapter();
+		if (null == adapter || null == m_oMenu)
+			return;
+		Map<String, Object> map = adapter.getMap();
+		if (null == map)
+			return;
+		if (Main.getConnector().getProtocolVer() > 2 && null != map.get("user_friend") && map.get("user_friend").equals("1")) {
+			MenuItem item = m_oMenu.getItem(0);
+			item.setVisible(false);
+		}
+	}    
 }

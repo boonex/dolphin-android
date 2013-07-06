@@ -27,7 +27,7 @@
 			android:password="true" 
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content" />
-    			
+  
 		<Button android:id="@+id/submit" android:text="@string/login_add" style="@style/OOSubmitBtn" />
 
 	</LinearLayout>

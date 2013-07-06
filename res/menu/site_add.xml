@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item android:id="@+id/site_add" 
+	android:title="@string/login_add"
+	android:titleCondensed="@string/login_add"	
+	android:icon="@drawable/ic_menu_ok"
+	android:showAsAction="always|withText" />
+    
+</menu>

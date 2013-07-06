@@ -465,6 +465,8 @@ public class HomeActivity extends ActivityBase {
     protected void updateStatus (String s) {
     	if (null == s)
     		return;
+    	if (null == m_map)
+    		return;
     	m_map.put("status", s);
     	m_sStatus = s;
     }

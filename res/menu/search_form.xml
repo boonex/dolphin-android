@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item android:id="@+id/search_submit" 
+	android:title="@string/search_submit"	
+	android:icon="@drawable/ic_menu_ok"
+	android:showAsAction="always|withText" />
+    
+</menu>

@@ -45,6 +45,8 @@ public class ActionBarHelperHoneycomb extends ActionBarHelper {
 
     @Override
     public void setRefreshActionItemState(boolean refreshing) {
+    	setRefreshActionItemStateAlternate(refreshing);
+    	/*
         // On Honeycomb, we can set the state of the refresh button by giving it a custom
         // action view.
         final MenuItem refreshItem = null == mOptionsMenu ? null : mOptionsMenu.findItem(R.id.menu_refresh);
@@ -61,6 +63,7 @@ public class ActionBarHelperHoneycomb extends ActionBarHelper {
         } else {
         	setRefreshActionItemStateAlternate(refreshing);
         }
+        */
     }
 
     /**

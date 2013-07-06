@@ -129,7 +129,7 @@ public class LoginActivity extends ActivityBase {
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(b);
         
-        setContentView(R.layout.login);        
+        setContentView(R.layout.login);
                        
         m_editUsername = (EditText) findViewById(R.id.username);
         m_editPassword = (EditText) findViewById(R.id.password);        
@@ -144,7 +144,10 @@ public class LoginActivity extends ActivityBase {
         m_editPassword.setText(i.getStringExtra("password"));        	
         m_buttonSubmit.setText(R.string.title_login);
         	                               
-        setTitleCaption (m_sSiteUrl);
+        String sCaption = m_sSiteUrl.replace("http://", "").replace("/xmlrpc", "");
+        if (sCaption.endsWith("/"))
+        	sCaption = sCaption.substring(0, sCaption.length()-1);
+        setTitleCaption (sCaption);
         
         View.OnClickListener listener = new View.OnClickListener() {        	
             public void onClick(View view) {            	
@@ -225,9 +228,9 @@ public class LoginActivity extends ActivityBase {
         	Bundle b = new Bundle();
         	b.putInt("index", m_iIndex);            	           
         	Intent i = new Intent();
-        	i.putExtras(b);        	
+        	i.putExtras(b);
             setResult(RESULT_DELETE, i);
-            finish();            
+            finish();
             break;
         }
         return super.onOptionsItemSelected(item);

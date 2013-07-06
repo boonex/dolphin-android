@@ -20,18 +20,15 @@ public class SearchResultsAdapter extends FriendsBaseAdapter {
 	}
 
 	public int getCount() {		
-		return super.getCount()+ (m_isFullPage ? 1 : 0);
+		return super.getCount();
 	}
 	
 	public View getView(int i, View oldView, ViewGroup arg2) {
 		View view = super.getView(i, oldView, arg2);
 		if (view != null)
 			return view;
-		if (i >= super.getCount()) {
-			return new NextPrevView(m_context); 
-		} else {
-			Map<String, Object> map = m_listProfiles.get(i);
-			return new ThumbView (m_context, map, (String)map.get("Nick"));
-		}
+
+		Map<String, Object> map = m_listProfiles.get(i);
+		return new ThumbView (m_context, map, (String)map.get("Nick"));
 	}	
 }

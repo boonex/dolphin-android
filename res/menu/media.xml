@@ -4,7 +4,7 @@
 	android:title="@string/title_media_add"	
 	android:icon="@drawable/ic_menu_add"
 	android:orderInCategory="0"
-	android:showAsAction="always" />
+	android:showAsAction="always|withText" />
     
 <item android:id="@+id/menu_refresh"
     android:title="@string/menu_refresh"

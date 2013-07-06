@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item android:id="@+id/status_message_update" 
+	android:title="@string/status_message_update"	
+	android:icon="@drawable/ic_menu_ok"
+	android:showAsAction="always|withText" />
+    
+</menu>

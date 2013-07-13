@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.boonex.oo.ActivityBase;
+import com.boonex.oo.Connector;
+import com.boonex.oo.Main;
 import com.boonex.oo.R;
 
 public class SearchBaseActivity extends ActivityBase {
@@ -20,7 +23,7 @@ public class SearchBaseActivity extends ActivityBase {
     protected void actionSearchSubmit() {
     	// Overridden in child classes
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
@@ -36,5 +39,13 @@ public class SearchBaseActivity extends ActivityBase {
             break;
         }
         return super.onOptionsItemSelected(item);
-    }	
+    }
+    
+    protected void checkSearchWithPhotos(View v1, View v2) {
+		Connector o = Main.getConnector();
+		if (!o.getSearchWithPhotos()) {
+			v1.setVisibility(View.GONE);
+			v2.setVisibility(View.GONE);
+		}
+    }
 }

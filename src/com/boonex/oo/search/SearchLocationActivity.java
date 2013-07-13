@@ -36,6 +36,8 @@ public class SearchLocationActivity extends SearchBaseActivity {
         m_cbOnlineOnly = (CheckBox) findViewById(R.id.online_only);
         m_cbWithPhotosOnly = (CheckBox) findViewById(R.id.with_photos_only);
         
+        checkSearchWithPhotos(m_cbWithPhotosOnly, findViewById(R.id.with_photos_only_title));
+        
         Object data = getLastNonConfigurationInstance();
         if (data != null) 
         	m_sCountryCode = (String)data;

@@ -23,6 +23,8 @@ public class SearchKeywordActivity extends SearchBaseActivity {
         m_editKeyword = (EditText) findViewById(R.id.keyword);        
         m_cbOnlineOnly = (CheckBox) findViewById(R.id.online_only);
         m_cbWithPhotosOnly = (CheckBox) findViewById(R.id.with_photos_only);
+        
+        checkSearchWithPhotos(m_cbWithPhotosOnly, findViewById(R.id.with_photos_only_title));
     }
     
     @Override

@@ -57,6 +57,7 @@ public class Connector extends Object implements Serializable {
 	protected int m_iProtocolVer;
 	protected int m_iUnreadLetters;
 	protected int m_iFriendRequests;
+	protected boolean m_bSearchWithPhotos = true;
 	protected boolean m_bImagesReloadRequired;
 	protected boolean m_bAlbumsReloadRequired;	
 	protected Context m_context;
@@ -316,6 +317,14 @@ public class Connector extends Object implements Serializable {
 		return m_bAlbumsReloadRequired;
 	}
 
+	public boolean setSearchWithPhotos(boolean b) {
+		return (m_bSearchWithPhotos = b);
+	}
+	
+	public boolean getSearchWithPhotos() {
+		return m_bSearchWithPhotos;
+	}
+	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject(); 
 	}

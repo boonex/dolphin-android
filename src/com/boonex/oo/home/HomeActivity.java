@@ -325,12 +325,17 @@ public class HomeActivity extends ActivityBase {
 			public void callFinished(Object result) {				 
 				Log.d(TAG, "dolphin.getHomepageInfo("+m_iProtocolVer+") result: " + result.toString());
 				m_map = (Map<String, Object>)result;
+	
+	    		Connector o = Main.getConnector();
+	    		o.setSearchWithPhotos(true);
 				
 		    	m_sThumb = (String)m_map.get("thumb");
 		    	m_sStatus = (String)m_map.get("status");
 		    	if (m_iProtocolVer > 2) {
 		    		m_sInfo = (String)m_map.get("user_info");
 		    		m_sUserTitle = (String)m_map.get("user_title");
+		    		if (null != m_map.get("search_with_photos"))
+		    			o.setSearchWithPhotos(((String)m_map.get("search_with_photos")).equals("1") ? true : false);
 		    	} else {
 			    	m_sInfo = Main.formatUserInfo(m_map, m_actHome);
 			    	m_sUserTitle = m_sUsername;

@@ -4,7 +4,7 @@
       android:versionCode="180"
       android:versionName="1.8.0">
 
-	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" /> 
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" />
 
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
 	  

@@ -15,7 +15,7 @@
     <string name="access_denied">Access denied</string>    
     <string name="loading">Working...</string>
     <string name="exception">Exception</string>
-    <string name="exception_out_of_memory">There is no enough free memory for the operation</string>
+    <string name="exception_out_of_memory">There is not enough free memory for the operation</string>
     <string name="x_yo">%s y/o</string>
     <string name="about_text">Dolphin Mobile App for Android  v.%s
 &lt;br /&gt;&lt;br /&gt;

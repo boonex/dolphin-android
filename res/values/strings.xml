@@ -25,7 +25,7 @@ use them from your Android device.
 You need to be registered at the site you\'re adding. To add your 
 favorite community, tap "Add Site" and enter full site URL and 
 your account details. Once the site is added you can access it 
-from the app homepage.You can add and use multiple 
+from the app homepage. You can add and use multiple 
 Dolphin-based sites.
 &lt;br /&gt;&lt;br /&gt;
 For example, try joining &lt;a href="http://demo.boonex.com"&gt;demo.boonex.com&lt;/a&gt; and use it via this app.
@@ -114,7 +114,7 @@ and mobile apps package from &lt;a href="http://www.boonex.com/"&gt;BoonEx&lt;/a
     <string name="mail_success">SUCCESS</string>    
     <string name="mail_msg_send_failed">Message send failed</string>
     <string name="mail_wait_before_sendin_another_msg">You have to wait before sending another message</string>
-    <string name="mail_you_are_blocked">You are in block list of recipient</string>
+    <string name="mail_you_are_blocked">You are being blocked by this recipient</string>
     <string name="mail_recipient_is_inactive">Recipient profile is not activated</string>
     <string name="mail_unknown_recipient">Unknown recipient</string>
     <string name="mail_membership_dont_allow">Your membership doesn\'t allow you to send messages</string>    

@@ -307,6 +307,8 @@ public class LoginActivity extends ActivityBase {
     		}
         };
         
+        Log.i(TAG, sMethod + ": " + aParams[2]);
+        
         o.execAsyncMethod(sMethod, aParams, oCallback, m_actThis);
     }
     

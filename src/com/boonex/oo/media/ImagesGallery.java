@@ -153,6 +153,8 @@ public class ImagesGallery extends ActivityBase {
     }
     
     protected void checkButtonsVisibility (Menu menu) {
+    	if (null == m_listImages)
+    		return;
     	int n = m_listImages.size();
 		if (null != menu && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			

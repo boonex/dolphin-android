@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>	    
+    <string name="app_name">Dolphin</string>
+    <string name="title">Dolphin</string>
+    <string name="error">Erreur</string>
+    <string name="close">Fermer</string>
+    <string name="access_denied">Accès refusé</string>    
+    <string name="loading">Chargement en cours...</string>
+    <string name="exception">Exception</string>
+    <string name="exception_out_of_memory">Il n\'y a pas assez de mémoire libre pour l\'opération</string>
+    <string name="x_yo">%s ans</string>
+    <string name="about_text">Dolphin Application Mobile pour Android  v.%s
+&lt;br /&gt;&lt;br /&gt;
+Accéder à vos sites communautaires alimentés par BoonEx Dolphin et
+utiliser les depuis de votre appareil Android. 
+&lt;br /&gt;&lt;br /&gt;
+Vous devez être enregistré sur le site que vous ajoutez. Pour ajouter votre 
+communauté préférée, appuyez sur "Ajouter un site" et entrer l\'URL complète du site et 
+vos informations de compte. Une fois que le site est ajouté vous pouvez y accéder 
+depuis la page d\'accueil de l\'application. Vous pouvez ajouter et utiliser plusieurs
+sites basé sur Dolphin.
+&lt;br /&gt;&lt;br /&gt;
+pour un exemple, essayez en adhérant à &lt;a href="http://demo.boonex.com"&gt;demo.boonex.com&lt;/a&gt; et tentez l\'expérience via cette application .
+&lt;br /&gt;&lt;br /&gt;
+Créer votre propre site communautaire et utilisez votre propre application mobile 
+&lt;a href="http://www.boonex.com/dolphin"&gt;Dolphin&lt;/a&gt; - plateforme open source de réseau social 
+et les paquets sources de l\'applications mobiles &lt;a href="http://www.boonex.com/"&gt;BoonEx&lt;/a&gt;.
+</string>
+    <string name="button_cancel">Annuler</string>
+    <string name="button_settings">Paramètres</string>
+    <string name="button_yes">Oui</string>
+    <string name="button_no">Non</string>
+    <string name="dialog_confirm_title">Confirmer</string>
+    <string name="dialog_confirm_msg">Êtes-vous sûr ?</string>
+    <string name="empty">Vide</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_login">S\'identifier</string>
+    <string name="title_picker_user">Sélectionner un utilisateur</string>
+    <string name="title_picker_country">Choisissez un pays</string>
+    <string name="title_about">À propos de l\'Application mobile Dolphin</string>
+    <string name="title_friend_requests">demandes d\'amitié</string>
+    <string name="title_friends">Amis</string>
+    <string name="title_friends_home">Amis</string>
+    <string name="title_location">Localisation</string>
+    <string name="title_mail_compose">Rédiger un message</string>
+    <string name="title_mail_home">Accueil messagerie</string>
+    <string name="title_mail_message">Message</string>
+    <string name="title_mail_messages">Messages</string>
+    <string name="title_media_add">Ajouter un fichier</string>
+    <string name="title_image_albums">Albums Photo</string>
+    <string name="title_image_files">Photos</string>
+    <string name="title_image_gallery"></string>      
+    <string name="title_sound_albums">Albums Musicaux</string>
+    <string name="title_sound_files">Musiques</string>
+    <string name="title_video_albums">Albums Vidéo</string>
+    <string name="title_video_files">Vidéos</string>
+    <string name="title_profile_info">Information du Profil</string>
+    <string name="title_search_home">recherche des profils</string>
+    <string name="title_search_keyword">Chercher par mots clés</string>
+    <string name="title_search_location">Rechercher par Emplacement</string>
+    <string name="title_search_near_me">Recherche près de moi</string>
+    <string name="title_search_results">résultats de recherche</string>
+    <string name="title_status_message">Message du Statut</string>
+    <string name="location_acquiring_current">Acquisition de la position actuelle...</string>
+    <string name="location_undefined">Emplacement indéterminable</string>
+    <string name="location_not_available">Votre position actuelle est indisponible</string>
+    <string name="location_settings_title">Paramètres de localisation</string>
+    <string name="location_settings_msg">Les paramètres de localisation sont désactivés sur votre apareil, souhaitez vous aller dans le menu des paramètres ?</string>            
+    <string name="login_site_url">URL du site :</string>
+    <string name="login_username">Nom d\'utilisateur :</string>
+    <string name="login_password">Mot de passe :</string>
+    <string name="login_remember_password">Se souvenir du mot de passe :</string>
+    <string name="login_add">Ajouter</string>
+    <string name="login_delete_site">Supprimer le site</string>
+    <string name="main_no_sites">Veuillez ajouter au moins un site Dolphin</string>
+    <string name="main_add_site">Ajouter un site</string>
+    <string name="main_about">À propos</string>
+    <string name="home_logout">Se déconnecter</string>
+    <string name="msg_login_incorrect">Identifiant ou mot de passe incorrect</string>
+    <string name="msg_url_incorrect">URL du site incorrecte</string>
+    <string name="menu_item_format">%1$1s (%2$1s)</string>
+    <string name="menu_refresh">Actualiser</string>
+    <string name="status_message_menu">Status</string>
+    <string name="status_message">Message du Statut :</string>
+    <string name="status_message_update">Mettre à jour</string>
+    <string name="location_update">Définir la position actuelle</string>
+    <string name="location_menu">Localisation</string>
+    <string name="location_acquiring">Acquisition de la position actuelle...</string>    
+    <string name="mail_menu">Messages</string>
+    <string name="mail_menu_num">Messages (%s)</string>
+    <string name="mail_menu_inbox">Boîte de réception</string>
+    <string name="mail_menu_inbox_num">Boîte de réception (%s)</string>
+    <string name="mail_menu_sent">Envoyé</string>
+    <string name="mail_menu_compose">Composer</string>
+    <string name="mail_compose_recipient">Destinataires</string>
+    <string name="mail_compose_subject">Sujet</string>
+    <string name="mail_compose_text">Texte</string>
+    <string name="mail_compose_send">Envoyer</string>
+    <string name="mail_compose_select_user">Sélectionner</string>
+    <string name="mail_compose_options_me">Recevoir une copie</string>
+    <string name="mail_compose_options_recipient">Envoyer une copie au destinataire</string>
+    <string name="mail_compose_options_both">Envoyer une copie aux deux</string>
+    <string name="mail_reply">Répondre</string>
+    <string name="mail_new">NOUVEAU</string>
+    <string name="mail_error">ERREUR</string>
+    <string name="mail_success">SUCCÈS</string>    
+    <string name="mail_msg_send_failed">Échec de envoi du message</string>
+    <string name="mail_wait_before_sendin_another_msg">Vous devez attendre avant d\'envoyer un autre message</string>
+    <string name="mail_you_are_blocked">Vous êtes bloqué par ce destinataire</string>
+    <string name="mail_recipient_is_inactive">Le profil du destinataire n\'est pas activée</string>
+    <string name="mail_unknown_recipient">Destinataire inconnu</string>
+    <string name="mail_membership_dont_allow">Votre abonnement ne vous permet pas d\'envoyer des messages</string>
+    <string name="mail_msg_successfully_sent">Message envoyé avec succès</string>
+    <string name="mail_form_error">Le destinataire, le sujet ou le texte sont vide</string>
+    <string name="mail_from_x">De : %s</string>
+    <string name="mail_to_x">à : %s</string>
+    <string name="friends_menu">Amis</string>    
+    <string name="friends_requests_menu">Demandes d\'amitié</string>
+    <string name="friends_requests_menu_num">Demandes d\'amitié (%s)</string>
+
+    <string name="friends_delete">Supprimer</string>
+    <string name="friends_approve">Accepter</string>
+    <string name="friends_reject">Refuser</string>      
+    <string name="friends_view_profile">Afficher</string>
+    <string name="friends_add_friend">Ajouter un ami</string>
+    <string name="images_menu">Photos</string>
+    <string name="media_album_name_num">%1$1s (%2$1s)</string>
+    <string name="media_files_delete">Supprimer</string>
+    <string name="media_files_view">Afficher</string>
+    <string name="media_images_gallery_next">Suivante</string>
+    <string name="media_images_gallery_prev">Précédente</string>
+    <string name="media_from_camera">Appareil photo</string>
+    <string name="media_from_gallery">Galerie</string>
+    <string name="media_file">Fichier</string>
+    <string name="media_caption_title">Titre</string>
+    <string name="media_caption_tags">Mots clés</string>
+    <string name="media_caption_desc">Description</string>
+    <string name="media_submit">Publier</string>
+    <string name="media_activity_canceled">Action annulée</string>
+    <string name="media_file_selected">Le fichier a été sélectionné avec succès</string>
+    <string name="media_form_error">Le titre est vide ou le fichier n\'est pas sélectionnée</string>
+    <string name="media_upload_failed">Le téléchargement a échoué</string>
+    <string name="media_popup_error_title">ERREUR</string>
+    <string name="media_upload_success_pending_conversion">Le fichier a été téléchargé, veuillez attendre jusqu\'à ce qu\'il soit converti</string>
+    <string name="media_error_from_camera_or_gallery">Désolé, la récupération du fichier a échoué</string>
+    <string name="media_error_file_too_big">Le fichier est trop gros pour tenir en mémoire, veuillez essayer un fichier plus petit</string>
+    <string name="media_images_gallery_set_as_avatar">Défini comme Avatar</string>    
+    <string name="media_images_gallery_set_as_avatar_ok">L\'Avatar a été défini</string>
+    <string name="media_images_gallery_set_as_avatar_fail">La définition de l\'avatar a échoué</string>    
+    <string name="videos_menu">Vidéos</string>    
+    <string name="profile_info_menu">Informations</string>
+    <string name="profile_info_contact">Contact</string>    
+    <string name="sounds_menu">Musique</string>    
+    <string name="search_menu">Rechercher</string>
+    <string name="search_keyword">Recherche par mots-clés</string>
+    <string name="search_location">Rechercher par lieu</string>
+    <string name="search_near_me">Recherche près de moi</string>
+    <string name="search_keyword_row_caption">Mots-clés :</string>
+    <string name="search_online_only_row_caption">En ligne seulement :</string>
+    <string name="search_with_photos_only_row_caption">Avec photos seulement :</string>
+    <string name="search_country_row_caption">Pays :</string>
+    <string name="search_city_row_caption">Ville :</string>
+    <string name="search_select_country">Sélectionner</string>
+    <string name="search_submit">Rechercher</string>
+    <string name="search_prev">Précédent</string>
+    <string name="search_next">Suivant</string>
+    <string name="search_country_empty">veuillez indiquer au moins le pays</string>    
+</resources>

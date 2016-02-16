@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" style="@style/OOScreen">
+
+<LinearLayout 
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+
+	<LinearLayout style="@style/OOUniContWholePage">
+        
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="@style/MyDefaultTextAppearance"
+			android:text="@string/login_username" />
+		<EditText android:id="@+id/username"
+			android:singleLine="true" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+    
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:textAppearance="@style/MyDefaultTextAppearance"
+			android:text="@string/login_password" />
+		<EditText android:id="@+id/password"
+			android:singleLine="true"
+			android:password="true" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+  
+		<Button android:id="@+id/submit" android:text="@string/login_add" style="@style/OOSubmitBtn" />
+
+	</LinearLayout>
+		
+	<LinearLayout android:id="@+id/fb_login_button_wrapper" style="@style/OOUniContWholePage" android:visibility="gone">
+    		
+		<com.facebook.login.widget.LoginButton
+            android:id="@+id/fb_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+		        
+	</LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>

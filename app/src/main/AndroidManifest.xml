@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.boonex.oo"
+      android:versionCode="1900"
+      android:versionName="1.9.0">
+
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="18" />
+
+	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
+	  
+	<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />    
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/> 
+    <uses-permission android:name="com.boonex.oo.permission.MAPS_RECEIVE"/>
+    
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@style/MyTheme" android:allowBackup="true" android:largeHeap="true">
+
+
+		<!-- Facebook APP ID http://developers.facebook.com/android/ -->
+    	<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fb212147745792489"/>
+
+		<!-- Google API Key https://code.google.com/apis/console/ Services "Google Maps Android API" -->
+    	<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyCxxNY1IbtqKl_8pFjVnJ3HZwSbF-i9IQU"/> <!-- debug key: AIzaSyB9xakFe332Pfs0CL5OSQZwbI9LCJ__T_k -->
+
+
+		<activity android:name="com.facebook.FacebookActivity"
+			android:configChanges=
+				"keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:label="@string/app_name" />
+    	
+        <activity android:name=".Main" android:label="@string/app_name" android:icon="@drawable/icon" android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>        
+    	<activity android:name="LoginActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".home.HomeActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name="SiteAddActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".home.WebPageActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".UserPickerActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".CountryPickerActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".about.AboutActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".status.StatusMessageActivity" android:configChanges="orientation|keyboardHidden" />		
+		<activity android:name=".location.LocationActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".mail.MailHomeActivity"  android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".mail.MailMessagesActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".mail.MailMessageActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".mail.MailComposeActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".friends.FriendsHomeActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".friends.FriendsActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".friends.FriendRequestsActivity" android:configChanges="orientation|keyboardHidden" />		
+		<activity android:name=".profile.ProfileActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".profile.ProfileInfoActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".media.ImagesAlbumsActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".media.ImagesFilesActivity" android:configChanges="orientation|keyboardHidden" />		
+		<activity android:name=".media.VideosAlbumsActivity" android:configChanges="orientation|keyboardHidden" />		
+		<activity android:name=".media.VideosFilesActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".media.SoundsAlbumsActivity" android:configChanges="orientation|keyboardHidden" />		
+		<activity android:name=".media.SoundsFilesActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".media.ImagesGallery" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".media.AddImageActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".media.AddVideoActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".search.SearchHomeActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".search.SearchKeywordActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".search.SearchResultsKeywordActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".search.SearchNearMeActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".search.SearchResultsNearMeActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".search.SearchLocationActivity" android:configChanges="orientation|keyboardHidden" />
+		<activity android:name=".search.SearchResultsLocationActivity" android:configChanges="orientation|keyboardHidden" />
+    </application>	
+
+</manifest>

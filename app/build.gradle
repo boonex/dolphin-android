@@ -3,12 +3,13 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
     }
-    compileSdkVersion 'Google Inc.:Google APIs:21'
+    compileSdkVersion 'Google Inc.:Google APIs:23'
     buildToolsVersion '21.1.2'
+    useLibrary  'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.boonex.oo"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 23
     }
     buildTypes {
         release {

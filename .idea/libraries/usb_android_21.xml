@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="usb-android-21">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Library/Android/sdk/add-ons/addon-google_apis-google-21/libs/usb.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Android/sdk/add-ons/addon-google_apis-google-23/libs/usb.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

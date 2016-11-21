@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="maps-android-21">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Library/Android/sdk/add-ons/addon-google_apis-google-21/libs/maps.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Android/sdk/add-ons/addon-google_apis-google-23/libs/maps.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

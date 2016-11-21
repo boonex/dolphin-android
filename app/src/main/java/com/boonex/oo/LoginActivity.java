@@ -141,7 +141,9 @@ public class LoginActivity extends ActivityBase {
         m_buttonSubmit = (Button) findViewById(R.id.submit);        
         m_buttonLoginFB = (LoginButton) findViewById(R.id.fb_login_button);
         m_viewLoginButtonWrapperFB = (View) findViewById(R.id.fb_login_button_wrapper);
-        
+
+		m_buttonLoginFB.setReadPermissions("email");
+
         Intent i = getIntent();
         m_sSiteUrl = i.getStringExtra("site");
         m_iIndex = i.getIntExtra("index", 0);

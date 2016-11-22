@@ -50,7 +50,7 @@ public class AddVideoActivity extends AddMediaActivity {
             	mIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             	*/
         		Intent mIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);        			
-        		mIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 600);
+        		mIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 300);
         		mIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // 0 - MMS quality, 1 - high quality
         		startActivityForResult(mIntent, CAMERA_ACTIVITY);
         		

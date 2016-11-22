@@ -2,11 +2,15 @@ package com.boonex.oo.location;
 
 import java.util.Map;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +35,7 @@ public class LocationActivity extends FragmentActivityBase {
 	private GoogleMap m_frMap;
 	private String m_sUsername;
 	private LocationActivity m_actThis;
+	private boolean m_bLocationAccess;
 	
     @Override
     protected void onCreate(Bundle b) {
@@ -46,8 +51,24 @@ public class LocationActivity extends FragmentActivityBase {
 
         m_frMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 
+		m_bLocationAccess = true;
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			m_bLocationAccess = false;
+			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION }, 0);
+		}
+
         reloadRemoteData ();
     }
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		if (requestCode == 0) {
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+					&& grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+				m_bLocationAccess = true;
+			}
+		}
+	}
     
     protected void reloadRemoteData () {
         Connector o = Main.getConnector();
@@ -111,13 +132,15 @@ public class LocationActivity extends FragmentActivityBase {
 		}
 		
 		LatLng latLng = new LatLng(lat, lng);
-		
-		m_frMap.clear();
-		m_frMap.addMarker(new MarkerOptions().position(latLng).title(m_sUsername));
-		m_frMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, fZoom));
-		
-		if (sType.equals("satellite") || sType.equals("hybrid"))
-			m_frMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
+		if (m_frMap != null) {
+			m_frMap.clear();
+			m_frMap.addMarker(new MarkerOptions().position(latLng).title(m_sUsername));
+			m_frMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, fZoom));
+
+			if (sType.equals("satellite") || sType.equals("hybrid"))
+				m_frMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+		}
 
 		Log.i(TAG, "setMapLocation - lat:" + lat + " / lng:" + lng);
 	}
@@ -125,7 +148,10 @@ public class LocationActivity extends FragmentActivityBase {
 	public void setLocation(double fLat, double fLng) {
 
 		setMapLocation(fLat, fLng, ZOOM, "");
-		
+
+		if (m_frMap == null)
+			return;
+
         Connector o = Main.getConnector();
         Object[] aParams = {
         		o.getUsername(), 
@@ -165,6 +191,11 @@ public class LocationActivity extends FragmentActivityBase {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.location_update:
+			if (!m_bLocationAccess) {
+				Toast toast = Toast.makeText(this, getString(R.string.location_not_available), Toast.LENGTH_LONG);
+				toast.show();
+				break;
+			}
     		LocationHelper.LocationResult locationResult = new LocationHelper.LocationResult(){
     		    @Override
     		    public void gotLocation(Location location){

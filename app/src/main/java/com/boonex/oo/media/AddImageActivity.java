@@ -44,21 +44,21 @@ public class AddImageActivity extends AddMediaActivity {
         	m_bmpImage = (Bitmap)data;         
         
         if (null != m_bmpImage)
-        	m_viewFileThumb.setImageBitmap(m_bmpImage); 
-       
-        m_buttonFromCamera.setOnClickListener(new View.OnClickListener(){            
-            public void onClick(View view) {               
+        	m_viewFileThumb.setImageBitmap(m_bmpImage);
+
+		m_buttonFromCamera.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
                            	
-            	File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);
-            	
-        		Intent mIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        		mIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        		startActivityForResult(mIntent, CAMERA_ACTIVITY);
-            }
-        });
+			File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);
+
+			Intent mIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			mIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+			startActivityForResult(mIntent, CAMERA_ACTIVITY);
+			}
+		});
          
     }
-    
+
     @Override
     public Object onRetainNonConfigurationInstance() {
         return m_bmpImage;

@@ -71,11 +71,6 @@ public class AddMediaActivity extends ActivityBase {
             	startActivityForResult(filePickerIntent, PICKER_ACTIVITY);
             }
         });
-
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-			m_buttonFromCamera.setEnabled(false);
-			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
-		}
     }
 
 	@Override

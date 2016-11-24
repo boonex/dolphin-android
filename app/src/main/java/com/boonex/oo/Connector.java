@@ -153,7 +153,8 @@ public class Connector extends Object implements Serializable {
     							if ((result instanceof Map) && null != ((Map<String, String>)result).get("error")) {
     	    						Builder builder = new AlertDialog.Builder(m_context);
     	    			        	builder.setTitle(m_context.getResources().getString(R.string.error));
-    	    			        	builder.setMessage(((Map<String, String>) result).get("error"));
+									if (((Map<String, String>) result).get("error") instanceof String)
+    	    			        		builder.setMessage(((Map<String, String>) result).get("error"));
     	    			        	builder.setNegativeButton(m_context.getResources().getString(R.string.close), null);
     	    			        	builder.show();
     							} else {

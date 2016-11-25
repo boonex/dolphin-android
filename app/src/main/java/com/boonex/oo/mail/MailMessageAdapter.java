@@ -52,7 +52,7 @@ public class MailMessageAdapter extends BaseAdapter {
 					m_viewMessage = (LinearLayout)LayoutInflater.from(m_context).inflate(R.layout.view_text, null, false);
 					m_viewMessage.removeAllViews();
 					WebView webView = new WebView(m_context);										
-					webView.loadData("<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><body>" + m_mapMessage.get("Text") + "</body></html>", "text/html", "utf-8");
+					webView.loadData("<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><body>" + m_mapMessage.get("Text") + "</body></html>", "text/html; charset=utf-8", null);
 					m_viewMessage.addView(webView);
 				}
 				return m_viewMessage;

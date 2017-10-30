@@ -17,22 +17,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import com.boonex.oo.Connector;
 import com.boonex.oo.FragmentActivityBase;
 import com.boonex.oo.Main;
 import com.boonex.oo.R;
 
-public class LocationActivity extends FragmentActivityBase {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class LocationActivity extends FragmentActivityBase implements OnMapReadyCallback {
 	private static final String TAG = "OO LocationActivity";
 	public static final int RESULT_OK = RESULT_FIRST_USER + 1;
 	public static final int ZOOM = 16;
-	private GoogleMap m_frMap;
+	private SupportMapFragment m_frMap;
+	private GoogleMap m_googleMap;
 	private String m_sUsername;
 	private LocationActivity m_actThis;
 	private boolean m_bLocationAccess;
@@ -46,10 +48,11 @@ public class LocationActivity extends FragmentActivityBase {
         setContentView(R.layout.location);
         setTitle(R.string.title_location);
         
-        Intent i = getIntent();        
+        Intent i = getIntent();
         m_sUsername = i.getStringExtra("username");
 
-        m_frMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        m_frMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+		m_frMap.getMapAsync(this);
 
 		m_bLocationAccess = true;
 		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -57,8 +60,14 @@ public class LocationActivity extends FragmentActivityBase {
 			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION }, 0);
 		}
 
-        reloadRemoteData ();
+
     }
+
+	@Override
+	public void onMapReady(GoogleMap map) {
+		m_googleMap = map;
+		reloadRemoteData ();
+	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -133,13 +142,13 @@ public class LocationActivity extends FragmentActivityBase {
 		
 		LatLng latLng = new LatLng(lat, lng);
 
-		if (m_frMap != null) {
-			m_frMap.clear();
-			m_frMap.addMarker(new MarkerOptions().position(latLng).title(m_sUsername));
-			m_frMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, fZoom));
+		if (m_googleMap != null) {
+			m_googleMap.clear();
+			m_googleMap.addMarker(new MarkerOptions().position(latLng).title(m_sUsername));
+			m_googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, fZoom));
 
 			if (sType.equals("satellite") || sType.equals("hybrid"))
-				m_frMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+				m_googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 		}
 
 		Log.i(TAG, "setMapLocation - lat:" + lat + " / lng:" + lng);
@@ -149,7 +158,7 @@ public class LocationActivity extends FragmentActivityBase {
 
 		setMapLocation(fLat, fLng, ZOOM, "");
 
-		if (m_frMap == null)
+		if (m_googleMap == null)
 			return;
 
         Connector o = Main.getConnector();
@@ -159,7 +168,7 @@ public class LocationActivity extends FragmentActivityBase {
         		String.format("%.8f", fLat).replace(",", "."),
         		String.format("%.8f", fLng).replace(",", "."),
         		String.format("%d", ZOOM),
-        		m_frMap.getMapType() == GoogleMap.MAP_TYPE_SATELLITE || m_frMap.getMapType() == GoogleMap.MAP_TYPE_HYBRID ? "hybrid" : "normal"
+				m_googleMap.getMapType() == GoogleMap.MAP_TYPE_SATELLITE || m_googleMap.getMapType() == GoogleMap.MAP_TYPE_HYBRID ? "hybrid" : "normal"
         };        
         o.execAsyncMethod("dolphin.updateUserLocation", aParams, new Connector.Callback() {
 			public void callFinished(Object result) {				 

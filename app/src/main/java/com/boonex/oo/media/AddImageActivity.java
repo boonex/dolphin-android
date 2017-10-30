@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 
@@ -27,13 +28,14 @@ import com.boonex.oo.Main;
 import com.boonex.oo.R;
 
 public class AddImageActivity extends AddMediaActivity {
-	private static final String TMP_FILE = "tmp_oo.jpg";
+	private static final String TMP_FILE = "tmp_image";
 	private static final int MAX_WIDTH = 1280;
 	private static final int MAX_HEIGHT = 1280;
 	private static final String TAG = "AddImageActivity";
 	
 	protected Bitmap m_bmpImage;	
-    
+    protected String m_sTmpFile = null;
+
 	public AddImageActivity () {
 		super();
 		sGalleryFilesType = "image/*";
@@ -52,18 +54,37 @@ public class AddImageActivity extends AddMediaActivity {
 
 		m_buttonFromCamera.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-                           	
-			File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);
+
+			Uri fileURI;
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+				File file = null;
+				try {
+					file = File.createTempFile(TMP_FILE, ".jpg", m_actAddMedia.getFilesDir());
+				} catch (IOException e) {
+					showToast(e.toString());
+					return;
+				}
+
+				m_sTmpFile = file.getName();
+
+				fileURI = FileProvider.getUriForFile(m_actAddMedia,
+						"com.example.android.fileprovider",
+						file);
+			}
+			else {
+				File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE + ".jpg");
+				fileURI = Uri.fromFile(file);
+			}
 
 			Intent mIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			mIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+			mIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI);
 			startActivityForResult(mIntent, CAMERA_ACTIVITY);
 			}
 		});
 
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 			m_buttonFromCamera.setEnabled(false);
-			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA }, 0);
 		}
     }
 
@@ -146,31 +167,40 @@ public class AddImageActivity extends AddMediaActivity {
 					tmpImage = (Bitmap) b.get("data");
 					
 				} else {
-					
-					File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);					
-					tmpImage = BitmapFactory.decodeFile(file.getAbsolutePath());
-					
-					try {
-						
-						ExifInterface exif = new ExifInterface(file.getAbsolutePath());
-						String orientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-						Matrix matrix = new Matrix();
-						if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_90+""))
-							matrix.postRotate(90);
-						else if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_180+""))
-							matrix.postRotate(180);
-						else if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_270+""))
-							matrix.postRotate(270);						
-						tmpImage = Bitmap.createBitmap(tmpImage, 0, 0, tmpImage.getWidth(), tmpImage.getHeight(), matrix, true);
-						
-						
-					} catch (IOException e) {
-						sMsg = e.toString();
-					} catch (IllegalArgumentException e) {
-						sMsg = e.toString();
+
+					File file;
+
+					if (null == m_sTmpFile)
+						file = new File(Environment.getExternalStorageDirectory(), TMP_FILE + ".jpg");
+					else
+						file = new File(m_actAddMedia.getFilesDir(), m_sTmpFile);
+
+
+					if (null == sMsg) {
+
+						tmpImage = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+						try {
+
+							ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+							String orientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+							Matrix matrix = new Matrix();
+							if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_90 + ""))
+								matrix.postRotate(90);
+							else if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_180 + ""))
+								matrix.postRotate(180);
+							else if (orientation.equals(ExifInterface.ORIENTATION_ROTATE_270 + ""))
+								matrix.postRotate(270);
+							tmpImage = Bitmap.createBitmap(tmpImage, 0, 0, tmpImage.getWidth(), tmpImage.getHeight(), matrix, true);
+
+
+						} catch (IOException e) {
+							sMsg = e.toString();
+						} catch (IllegalArgumentException e) {
+							sMsg = e.toString();
+						}
+
 					}
-					
-					
 				}
 			} else { // media library
 				

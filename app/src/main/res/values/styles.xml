@@ -253,14 +253,14 @@
         <item name="android:ellipsize">marquee</item>
     </style>
 
-    <style name="ActionBarCompatTitle" parent="style/ActionBarCompatTitleBase">
+    <style name="ActionBarCompatTitle" parent="@style/ActionBarCompatTitleBase">
         <item name="android:textColor">@color/actionbar_title_color</item>
     </style>
 
-    <style name="ActionBarCompatItem" parent="style/ActionBarCompatItemBase">
+    <style name="ActionBarCompatItem" parent="@style/ActionBarCompatItemBase">
     </style>
 
-    <style name="ActionBarCompatHomeItem" parent="style/ActionBarCompatItemBase">
+    <style name="ActionBarCompatHomeItem" parent="@style/ActionBarCompatItemBase">
         <item name="android:paddingLeft">@dimen/actionbar_compat_button_home_padding_left</item>
     </style>
 

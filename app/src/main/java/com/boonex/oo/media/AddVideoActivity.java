@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 
@@ -26,9 +27,10 @@ public class AddVideoActivity extends AddMediaActivity {
 	private static final String TAG = "AddVideoActivity";	
 	private static final String DEFAULT_EXTENSION = "3gp";
 	private static final String DEFAULT_MIMETYPE = "video/3gpp";
-	//private static final String TMP_FILE = "tmp_video";
+	private static final String TMP_FILE = "tmp_video";
 	
-	protected Uri m_uriVideo;		
+	protected Uri m_uriVideo;
+	protected String m_sTmpFile = null;
     
 	public AddVideoActivity() {
 		super();
@@ -48,14 +50,29 @@ public class AddVideoActivity extends AddMediaActivity {
                 
         m_buttonFromCamera.setOnClickListener(new View.OnClickListener(){            
             public void onClick(View view) {
-            	/*
-            	File file = new File(Environment.getExternalStorageDirectory(), TMP_FILE);
-            	Uri uri = Uri.fromFile(file);
-            	mIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-            	*/
+
         		Intent mIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);        			
         		mIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 300);
         		mIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // 0 - MMS quality, 1 - high quality
+
+				if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+					File file = null;
+					try {
+						file = File.createTempFile(TMP_FILE, ".vid", m_actAddMedia.getFilesDir());
+					} catch (IOException e) {
+						showToast(e.toString());
+						return;
+					}
+
+					m_sTmpFile = file.getName();
+
+					Uri fileURI = FileProvider.getUriForFile(m_actAddMedia,
+							"com.example.android.fileprovider",
+							file);
+
+					mIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI);
+				}
+
         		startActivityForResult(mIntent, CAMERA_ACTIVITY);
         		
             }
@@ -63,10 +80,23 @@ public class AddVideoActivity extends AddMediaActivity {
 
 		if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 			m_buttonFromCamera.setEnabled(false);
+			m_buttonFromGallery.setEnabled(false);
 			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE }, 0);
 		}
     }
-    
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		if (requestCode == 0) {
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				m_buttonFromCamera.setEnabled(true);
+			}
+			if (grantResults.length > 2 && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+				m_buttonFromGallery.setEnabled(true);
+			}
+		}
+	}
+
     @Override
     public Object onRetainNonConfigurationInstance() {    	
         return m_uriVideo;
@@ -150,17 +180,28 @@ public class AddVideoActivity extends AddMediaActivity {
 			m_uriVideo = intent.getData();
 
 			Log.i(TAG, "Video URI: " + m_uriVideo); // file:///mnt/sdcard/tmp_video.3gp   |   content://media/external/video/media/5
-			Log.i(TAG, "Video Real Path: " + getRealPathFromURI(m_uriVideo));
-			Log.i(TAG, "Video Type: " + getMimeTypeFromURI(m_uriVideo)); // video/mp4, video/3gpp			
-			
-			if (null != getRealPathFromURI(m_uriVideo)) {
+
+			if (requestCode == CAMERA_ACTIVITY && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+				File file = new File(m_actAddMedia.getFilesDir(), null == m_sTmpFile ? TMP_FILE + ".vid" : m_sTmpFile);
+				if (!isFileTooBig(file.length(), true)) {
+					m_uriVideo = Uri.fromFile(file);
+					this.previewVideo(m_uriVideo);
+					showToast(R.string.media_file_selected);
+				} else {
+					m_uriVideo = null;
+				}
+			}
+			else if (null != getRealPathFromURI(m_uriVideo)) {
+				Log.i(TAG, "Video Real Path: " + getRealPathFromURI(m_uriVideo));
+				Log.i(TAG, "Video Type: " + getMimeTypeFromURI(m_uriVideo)); // video/mp4, video/3gpp
 				if (!isFileTooBig((new File(getRealPathFromURI(m_uriVideo))).length(), true)) {
 					this.previewVideo(m_uriVideo);
 					showToast(R.string.media_file_selected);
 				} else {
 					m_uriVideo = null;
 				}
-			} else { 
+			}
+			else {
 				showToast(R.string.media_error_from_camera_or_gallery);
 				m_uriVideo = null;
 			}

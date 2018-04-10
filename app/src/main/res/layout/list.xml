@@ -5,7 +5,7 @@
 	android:layout_height="fill_parent"
 	style="@style/OOScreen">
 	
-    <ListView android:id="@+id/android:list" style="@style/OOListView" />	
+    <ListView android:id="@+id/android:list" style="@style/OOListView" />
 
   	<TextView android:id="@+id/android:empty" style="@style/OOUniEmpty" android:text="@string/empty" />
 

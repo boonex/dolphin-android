@@ -3,13 +3,13 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
     }
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '27.0.3'
     useLibrary  'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.boonex.oo"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
     }
     buildTypes {
         release {
@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.facebook.android:facebook-android-sdk:4.+'
-    compile 'com.google.android.gms:play-services-maps:8.4.0' // 11.0.4
-    compile 'com.android.support:support-v4:25.3.1' // https://developer.android.com/topic/libraries/support-library/revisions.html
+    implementation 'com.facebook.android:facebook-android-sdk:4.+'
+    implementation 'com.google.android.gms:play-services-maps:8.4.0' // 11.0.4
+    implementation 'com.android.support:support-v4:26.1.0' // https://developer.android.com/topic/libraries/support-library/revisions.html
 }
